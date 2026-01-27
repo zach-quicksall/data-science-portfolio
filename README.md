@@ -56,6 +56,7 @@ Applies NLP techniques to uncover latent themes and structure in large text corp
 
 **Key themes:** NLP, topic modeling, embeddings, clustering
 
+---
 
 ### Urban Congestion Dynamics
 **Directory:** `urban_congestion_dynamics`
