@@ -38,6 +38,25 @@ Explores how market dynamics converge and diverge over time.
 
 ---
 
+### Marketing Campaign Effectiveness  
+**Directory:** `marketing_campaign_effectiveness`
+
+Analysis of marketing campaign performance and customer conversion behavior.  
+Focuses on diminishing returns, customer fatigue, and tradeoffs between campaign intensity and conversion outcomes.
+
+**Key themes:** customer analytics, causal reasoning, experimentation
+
+---
+
+### Scientific Abstract Topic Modeling  
+**Directory:** `scientific_abstract_topic_modeling`
+
+Unsupervised topic modeling and semantic analysis of scientific paper abstracts.  
+Applies NLP techniques to uncover latent themes and structure in large text corpora.
+
+**Key themes:** NLP, topic modeling, embeddings, clustering
+
+
 ### Urban Congestion Dynamics
 **Directory:** `urban_congestion_dynamics`
 
@@ -45,3 +64,5 @@ Modeling congestion and breakdown regimes in an urban transportation marketplace
 Includes regime detection, simulation-based interventions, and analysis of system stability under supply changes.
 
 **Key themes:** systems modeling, simulation, congestion dynamics
+
+---
