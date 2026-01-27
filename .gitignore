@@ -10,3 +10,4 @@ data/
 .Rprofile
 .Rproj.user
 .renvignore
+_targets/
