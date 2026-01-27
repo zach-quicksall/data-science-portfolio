@@ -1,0 +1,13 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+subject_file|stem|6b14ee53c5ea7d49|f516ec465c621289|2c530c1562a7fbd1|-714053569|data/raw/GTEx_Analysis_v11_Annotations_SubjectPhenotypesDS.txt|t20480.8889880308s|s20292b|20292|file|local|vector|||0||
+count_file|stem|719a65486f56ce76|c0cb9d97461fc38c|2c530c1562a7fbd1|1068398091|data/raw/GTEx_Analysis_2025-08-22_v11_RNASeQCv2.4.3_gene_reads.parquet|t20480.8883630323s|s2179940188b|2179940188|file|local|vector|||0||
+sample_file|stem|eb99f6d52fdcc9a0|4a69fee3b60474e6|2c530c1562a7fbd1|1141903364|data/raw/GTEx_Analysis_v11_Annotations_SampleAttributesDS.txt|t20480.8889317311s|s38497961b|38497961|file|local|vector|||0||
+subjects_raw|stem|8453d7e0386be056|e70d58b847b86544|dd1410a07c219684|-232272769||t20480.8984465774s|s5317b|5317|rds|local|vector|||0.555||
+samples_raw|stem|39ba810ed6c3ba43|869d9aa4ef109b85|3719ee83ea261a07|-1645433262||t20480.8984648943s|s15465521b|15465521|rds|local|vector|||0.285||
+counts_raw|stem|e2afcce91a8ad768|521aad1ba18a567a|6770d733dd7cc7fc|671062403||t20480.9115528258s|s1596544900b|1596544900|rds|local|vector|||1.532||
+subjects_cols|stem|47f467a88a02888a|782e22a8f720dea6|2c530c1562a7fbd1|121140073||t20480.9174585125s|s67b|67|rds|local|vector|||0||
+samples_cols|stem|6e6a9538025a31fe|b8a5b2c63fe595b9|2c530c1562a7fbd1|-648655018||t20480.9174586582s|s92b|92|rds|local|vector|||0||
+counts_sub|stem|9f91c66935a2c5d9|088bbb9108bcd736|2c530c1562a7fbd1|1453408306||t20480.917458852s|s49b|49|rds|local|vector|||0||
+subjects_sub|stem|cb71a6b72dcf079f|77bc38d6389abf52|4f24a983e5394b00|-1786692808||t20480.9174589847s|s4393b|4393|rds|local|vector|||0.006||
+.Random.seed|object|8daa361f29203474
+samples_sub|stem|ae25ab20b02e0834|a48e6cdb34785947|8242bf8d4db5691c|188517189||t20480.9185894397s|s89415b|89415|rds|local|vector|||0.01||

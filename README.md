@@ -67,3 +67,21 @@ Includes regime detection, simulation-based interventions, and analysis of syste
 **Key themes:** systems modeling, simulation, congestion dynamics
 
 ---
+
+### Cross-Tissue Differential Gene Expression
+**Directory:** `tissue_differential_expression`
+
+Coming soon!
+
+**Key themes:** gene expression, differential expression, normalization, cqn
+
+---
+
+### Cross-Tissue Weighted Gene Correlation Network Analysis
+**Directory:** `tissue_wgcna`
+
+Coming soon!
+
+**Key themes:** gene expression, network analysis, eigen genes, gene modules
+
+---
