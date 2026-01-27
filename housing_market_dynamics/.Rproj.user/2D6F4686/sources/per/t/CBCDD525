@@ -1,0 +1,26 @@
+{
+    "id": "CBCDD525",
+    "path": "~/Documents/projects/housing_prices/R/functions.R",
+    "project_path": "R/functions.R",
+    "type": "r_source",
+    "hash": "2043668732",
+    "contents": "",
+    "dirty": false,
+    "created": 1765836029922.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "157,1",
+        "scrollLine": "0"
+    },
+    "folds": "0|35|14|0|\n16|37|53|0|\n58|54|90|0|\n92|49|123|0|\n125|32|157|0|\n",
+    "lastKnownWriteTime": 1766169961,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1766172296817,
+    "read_only": false,
+    "read_only_alternatives": []
+}

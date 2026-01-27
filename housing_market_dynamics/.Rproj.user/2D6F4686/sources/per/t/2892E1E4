@@ -1,0 +1,26 @@
+{
+    "id": "2892E1E4",
+    "path": "~/Documents/projects/housing_prices/_targets.R",
+    "project_path": "_targets.R",
+    "type": "r_source",
+    "hash": "3326237047",
+    "contents": "",
+    "dirty": false,
+    "created": 1765836023303.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "32,40",
+        "scrollLine": "29"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1765919426,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1765919426471,
+    "read_only": false,
+    "read_only_alternatives": []
+}
