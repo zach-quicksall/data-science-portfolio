@@ -11,3 +11,6 @@ data/
 .Rproj.user
 .renvignore
 _targets/
+figures/
+tables/
+report_files/

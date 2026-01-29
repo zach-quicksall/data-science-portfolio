@@ -1,0 +1,154 @@
+---
+title: "Differential Gene Expression in GTEx Brain and Vascular Tissue"
+author: "Zachary S. Quicksall"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+execute:
+  warning: false
+  message: false
+---
+
+## Executive Summary
+
+This analysis investigates brain-specific gene expression using bulk RNA-seq data from the GTEx project. Gene expression levels were modeled using per-gene linear regression, adjusting for known technical and biological covariates including RNA integrity, sequencing batch, sex, and age. Expression data were normalized using Conditional Quantile Normalization (CQN) to account for GC content and gene length biases.
+Differential expression was assessed by testing the tissue effect for brain samples relative to other tissues, with statistical significance determined using false discovery rate (FDR) correction. The resulting gene-level estimates highlight robust brain-associated expression patterns while demonstrating a scalable, transparent statistical workflow for high-dimensional genomics data.
+
+---
+
+## Data & Study Design
+
+Gene expression data were obtained from the GTEx project, which provides bulk RNA-seq measurements across a wide range of human tissues collected from postmortem donors. Each sample represents RNA extracted from a specific tissue region, while multiple tissues may be observed for the same individual.
+
+This analysis focuses on identifying genes whose expression differs systematically in brain tissue relative to other tissues. Only protein-coding genes were retained to simplify interpretation and ensure compatibility with downstream normalization steps.
+
+In addition to expression measurements, the following sample-level covariates were incorporated into the analysis:
+
+- Tissue type (SMTS) – primary variable of interest
+- RNA integrity (SMRIN) – controls for RNA degradation
+- RNA extraction batch (SMNABTCH) – adjust for technical artifacts
+- RNA sequencing batch (SMGEBTCH) – adjust for technical artifacts
+- Sex – biological covariate
+- Age – modeled as a numeric approximation derived from the provided age ranges
+
+This design allows tissue-specific effects to be estimated while controlling for major confounders commonly encountered in bulk RNA-seq studies.
+
+---
+
+## Preprocessing & Normalization
+
+Raw gene expression counts were first filtered to retain protein-coding genes with sufficient expression across samples. To address known technical biases in RNA-seq data, expression values were normalized using **Conditional Quantile Normalization (CQN)**.
+
+CQN corrects for systematic effects related to GC content and gene length, which can otherwise induce spurious differences in measured expression levels. GC content was computed directly from hg38 genomic sequences using gene coordinates, while gene length was approximated by genomic span (end − start + 1). Although exonic length can provide a more precise measure of effective transcript length, genomic span offers a pragmatic and computationally efficient approximation suitable for this analysis.
+
+The effectiveness of CQN normalization was evaluated by examining the relationship between expression levels and GC content / gene length before and after normalization across a random subset of samples. These diagnostics confirm that systematic trends were substantially reduced following normalization.
+
+Normalized expression values were log-transformed and used for all downstream modeling.
+
+---
+
+## Differential Expression Methodology
+
+Differential expression was assessed using per-gene linear models, fit independently for each gene. For a given gene, expression was modeled as:
+
+`expression ~ tissue + RNA integrity + sequencing batch + sex + age`
+
+The primary coefficient of interest corresponds to the brain tissue indicator, capturing the expected change in expression associated with brain samples after adjusting for covariates.
+
+This modeling approach offers several advantages:
+
+- Transparent interpretation of covariate effects
+- Flexibility to include multiple confounders
+- Direct estimation of effect sizes and confidence intervals
+
+For each gene, the tissue coefficient estimate and associated p-value were extracted. Multiple hypothesis testing was addressed using the Benjamini–Hochberg false discovery rate (FDR) procedure.
+
+While specialized frameworks such as empirical Bayes shrinkage are often used in large-scale expression studies, the explicit per-gene linear modeling approach was intentionally retained here to emphasize clarity, interpretability, and reproducibility.
+
+---
+
+## Results
+
+```{r}
+source("R/packages.R")
+source("R/functions.R")
+set.seed(2025)
+
+tar_load(samples_sub)
+tar_load(subjects_sub)
+tar_load(cqn_fit)
+tar_load(log_cqn_plot)
+tar_load(deg_res_annot)
+```
+
+### Sample Diagnostics
+
+```{r}
+tbl1 <- samples_sub %>%
+  group_by(SMTS) %>%
+  count() %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n) * 100)
+
+colnames(tbl1) <- c("Tissue", "Count (N)", "Percentage (%)")
+
+tbl1 %>%
+  knitr::kable() %>%
+  kable_styling()
+```
+
+```{r}
+tbl2 <- samples_sub %>%
+  group_by(SMTS) %>%
+  summarise(
+    n_samples = n(),
+    age_mean  = mean(AGE, na.rm = TRUE),
+    age_sd    = sd(AGE, na.rm = TRUE),
+    pct_female = mean(SEX == 2, na.rm = TRUE) * 100,
+    rin_mean  = mean(SMRIN, na.rm = TRUE)
+  )
+
+colnames(tbl2) <- c("Tissue","Sample Count (N)","Age Mean","Age SD","Percent Female (%)", "RIN Mean")
+
+tbl2 %>%
+  knitr::kable() %>%
+  kable_styling()
+```
+
+```{r}
+# TODO: Batch vs. RIN boxplots?
+```
+
+```{r}
+# TODO: Distributions by tissue (age, RIN)
+```
+
+### Normalization and Bias
+
+```{r}
+
+```
+
+### Volcano Plot
+
+```{r}
+deg_res_annot %>%
+  ggplot(aes(x = estimate, y = -log10(p.value), color = signif)) +
+  geom_point(alpha = 0.4) +
+  scale_color_manual(values = c("grey","dodgerblue")) +
+  labs(x = "Beta", y = "-log10(pvalue)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+### Top DEGs
+
+### Heatmap of top 20?
+
+---
+
+## Discussion & Takeaways
+
+TODO
