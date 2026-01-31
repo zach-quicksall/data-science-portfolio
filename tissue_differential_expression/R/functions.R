@@ -174,15 +174,6 @@ prep_deg <- function(cqn_df, samples_df, subjects_df) {
 
 run_deg <- function(input_df) {
 
-  # Subsample genes for ease of run
-  genes_to_keep <- input_df %>%
-    select(ensg_id) %>%
-    distinct() %>%
-    slice_sample(n = 500)
-
-  input_df <- input_df %>%
-    inner_join(genes_to_keep, by = "ensg_id")
-
   # Run DEG
   deg_results <- input_df %>%
     group_split(ensg_id) %>%

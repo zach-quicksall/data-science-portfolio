@@ -69,7 +69,7 @@ tar_plan(
   # Annotate results
   deg_res_annot = deg_res %>%
     mutate(q.value = p.adjust(p.value, method = "fdr"),
-           signif = ifelse((q.value < 0.05) & (abs(estimate) >= 1.5), TRUE, FALSE)) %>%
+           signif = ifelse((q.value < 0.05) & (abs(estimate) >= 5), TRUE, FALSE)) %>%
     left_join(annot, by = c("ensg_id" = "ensembl_gene_id")),
 
   # Knit report.qmd
