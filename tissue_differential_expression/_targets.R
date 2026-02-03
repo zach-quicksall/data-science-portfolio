@@ -73,6 +73,10 @@ tar_plan(
     left_join(annot, by = c("ensg_id" = "ensembl_gene_id")),
 
   # Knit report.qmd
-  final_report = NA,
-
+  tarchetypes::tar_quarto(
+    final_report,
+    path = "report.qmd",
+    quiet = FALSE
+  )
+  
 )

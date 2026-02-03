@@ -6,6 +6,7 @@ format:
     toc: true
     toc-depth: 3
     code-fold: true
+    embed-resources: true
 execute:
   warning: false
   message: false
@@ -14,7 +15,8 @@ execute:
 ## Executive Summary
 
 This analysis investigates brain-specific gene expression using bulk RNA-seq data from the GTEx project. Gene expression levels were modeled using per-gene linear regression, adjusting for known technical and biological covariates including RNA integrity, sequencing batch, sex, and age. Expression data were normalized using Conditional Quantile Normalization (CQN) to account for GC content and gene length biases.
-Differential expression was assessed by testing the tissue effect for brain samples relative to other tissues, with statistical significance determined using false discovery rate (FDR) correction. The resulting gene-level estimates highlight robust brain-associated expression patterns while demonstrating a scalable, transparent statistical workflow for high-dimensional genomics data.
+
+Differential expression was assessed by testing the tissue effect for brain samples relative to vascular tissue, with statistical significance determined using false discovery rate (FDR) correction. The resulting gene-level estimates highlight robust brain-associated expression patterns while demonstrating a scalable, transparent statistical workflow for high-dimensional genomics data.
 
 ---
 
@@ -53,7 +55,7 @@ Normalized expression values were log-transformed and used for all downstream mo
 
 Differential expression was assessed using per-gene linear models, fit independently for each gene. For a given gene, expression was modeled as:
 
-`expression ~ tissue + RNA integrity + sequencing batch + sex + age`
+`expression ~ tissue + rna_integrity + extraction_batch + sequencing_batch + sex + age`
 
 The primary coefficient of interest corresponds to the brain tissue indicator, capturing the expected change in expression associated with brain samples after adjusting for covariates.
 
@@ -65,7 +67,7 @@ This modeling approach offers several advantages:
 
 For each gene, the tissue coefficient estimate and associated p-value were extracted. Multiple hypothesis testing was addressed using the Benjamini–Hochberg false discovery rate (FDR) procedure.
 
-While specialized frameworks such as empirical Bayes shrinkage are often used in large-scale expression studies, the explicit per-gene linear modeling approach was intentionally retained here to emphasize clarity, interpretability, and reproducibility.
+While specialized frameworks such as empirical Bayes shrinkage are often used in large-scale expression studies, the explicit per-gene linear modeling approach was intentionally used here to emphasize clarity, interpretability, and reproducibility. And to illustrate the utility of CQN normalization, which enables the use of traditional linear models for gene expression data, rather than restricting to the use of count-based modeling strategies.
 
 ---
 
@@ -191,6 +193,8 @@ log_cqn %>%
   theme_minimal() +
   theme(legend.position = "none")
 ```
+
+We will define our cutoff for expressed genes where the density curves begin to converge (approx. x = 2). We then subset our gene pool to only protein-coding genes with a median expression greater than 2, to create a subset of candidate genes for DEG analysis.
 
 #### GC Bias Correction
 
@@ -367,4 +371,16 @@ plot_df %>%
 
 ## Discussion & Takeaways
 
-TODO
+This analysis identified widespread differences in gene expression between brain tissue and vascular tissues in the GTEx dataset. After adjusting for RNA quality, batch effects, sex, and age, a large fraction of protein-coding genes exhibited statistically detectable tissue-associated expression differences. This pattern is consistent with the extensive transcriptional specialization of brain tissue and reflects both strong biological signal and the substantial statistical power afforded by large sample sizes.
+
+Given this high power, statistical significance alone is insufficient for prioritizing biologically meaningful effects. As expected in large-scale studies, many genes achieve extremely small p-values despite modest effect sizes. Accordingly, interpretation throughout this analysis emphasizes effect sizes and false discovery rate (FDR) control rather than raw p-values, aligning statistical conclusions with biological relevance.
+
+Careful preprocessing played a central role in ensuring valid inference. Conditional Quantile Normalization (CQN) substantially reduced systematic biases related to GC content and gene length, as demonstrated by diagnostic plots across multiple samples. By explicitly verifying the removal of these technical trends, the analysis avoids conflating sequencing artifacts with genuine tissue-specific expression differences. Although gene length was approximated using genomic span rather than exonic length, the resulting bias correction was effective for the purposes of this study and provides a pragmatic trade-off between precision and computational complexity.
+
+Differential expression was assessed using per-gene linear models, enabling transparent inclusion of multiple covariates and direct interpretation of tissue-associated coefficients. While more specialized frameworks such as empirical Bayes shrinkage can improve variance estimation in some settings, the explicit modeling approach adopted here prioritizes clarity and reproducibility. The resulting estimates align with known biological expectations for brain tissue while maintaining an interpretable statistical structure.
+
+Several limitations should be noted. First, the analysis treats samples as independent observations, although multiple tissues may originate from the same donor. Incorporating donor-level random effects could further refine inference. Second, tissue-level comparisons aggregate heterogeneous brain regions, potentially masking region-specific expression patterns. Finally, the use of genomic span as a proxy for gene length represents an approximation that could be refined in future work using exon-level annotations.
+
+Despite these limitations, this study demonstrates a robust and extensible workflow for bulk RNA-seq differential expression analysis. The combination of principled normalization, transparent statistical modeling, and targeted diagnostics provides a solid foundation for exploratory and confirmatory analyses in large transcriptomic datasets.
+
+Overall, this analysis illustrates a practical and reproducible approach to identifying tissue-specific transcriptional signatures in large, heterogeneous RNA-seq datasets.

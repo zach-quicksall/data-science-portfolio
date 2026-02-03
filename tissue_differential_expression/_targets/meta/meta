@@ -24,8 +24,8 @@ deg_input|stem|9908f6a1362d657a|01bdf96cd261741d|fe4c355f148c2049|1107643960||t2
 N_CORES|object|18f8c83bc88d6445
 run_deg_limma|function|4e3bdc02e54443c4
 plot_volcano|function|b6100cca68a70212
-final_report|stem|9f91c66935a2c5d9|088bbb9108bcd736|2c530c1562a7fbd1|-98219282||t20482.7809496878s|s49b|49|rds|local|vector|||0.001||
 deg_res|stem|1f4fccbba215b764|723d65cf89f79d0a|1c6ae56053ef40fa|-1601319108||t20483.9178299285s|s626434b|626434|rds|local|vector|||13064.194||
+deg_res_annot|stem|42d3c4d8037a5c15|2fb3c815f6071727|02849d4f87acd493|1066446545||t20484.6109679218s|s960878b|960878|rds|local|vector|||0.015||
 prep_deg|function|b4906f466ff787e5
 clean_samples|function|30d8d37aa645f363
 clean_counts|function|a90a557174d39035
@@ -39,4 +39,4 @@ n_workers|object|befd3de8c7957969
 render_report|function|aa14bdc81a65f8cb
 get_annotations|function|57f17a1b9cec807d
 plot_cqn|function|f140bab93a51983a
-deg_res_annot|stem|42d3c4d8037a5c15|2fb3c815f6071727|02849d4f87acd493|1066446545||t20484.6109679218s|s960878b|960878|rds|local|vector|||0.015||
+final_report|stem|5fe4808c53448e5b|7096d945dec63cb1|cad55e2a72326080|-98219282|report.html*report.qmd|t20487.7920390041s|s4209061b|4209061|file|local|vector|||174.533||
