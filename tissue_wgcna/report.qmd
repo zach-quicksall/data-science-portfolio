@@ -1,0 +1,137 @@
+---
+title: "Weighted Gene Co-expression Network Analysis in GTEx Brain and Vascular Tissue"
+subtitle: "Module discovery and trait association in brain and vascular tissues"
+author: "Zachary S. Quicksall"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+```{r}
+source("R/packages.R")
+source("R/functions.R")
+set.seed(2025)
+
+tar_load(soft_powers_plot)
+tar_load(module_sizes)
+tar_load(eg_cor_heatmap)
+tar_load(eg_trait_cor_heatmap)
+tar_load(eg_boxplot)
+```
+
+## Overview
+
+This report presents a weighted gene co-expression network analysis (WGCNA) conducted on CQN-normalized gene expression data. The primary goals of the analysis were to:
+
+1. Identify modules of co-expressed genes,
+2. Summarize each module using module eigengenes,
+3. Relate module-level expression patterns to biological covariates such as tissue, age, and sex,
+4. Assess potential technical confounding due to batch effects.
+
+Rather than focusing on individual genes, WGCNA enables the identification of higher-order co-expression structure that may reflect shared regulatory programs or biological pathways.
+
+---
+
+## Data and Preprocessing
+
+### Expression Data
+
+Gene expression values were normalized using Conditional Quantile Normalization (CQN) to account for gene length, GC content, and library size effects. The resulting expression matrix contained samples as rows and genes as columns and was used directly as input to WGCNA.
+
+Genes with low or inconsistent expression across samples were filtered prior to network construction to improve numerical stability and reduce noise.
+
+### Sample Covariates
+
+Sample-level metadata included biological covariates (e.g., tissue, age, sex) as well as technical variables related to RNA quality and batch processing. These covariates were used only at the module–trait association stage and were not regressed out prior to network construction in order to preserve biologically meaningful sources of variation.
+
+| Variable     | Common name                    | Description |
+|-------------|--------------------------------|-------------|
+| SAMPID      | Sample ID                      | Unique identifier for each RNA-seq sample. Used for data alignment only; not a biological variable. |
+| SUBJID      | Subject ID                     | Identifier for the individual donor from whom the sample was obtained. Multiple samples may share a subject ID. |
+| SMTS        | Tissue (broad)                 | High-level tissue category from which the sample was collected (e.g., Brain, Blood Vessel). |
+| SMTSD       | Tissue (detailed)              | More granular tissue subtype describing the specific anatomical source of the sample. |
+| SEX         | Sex                             | Biological sex of the donor. Typically encoded as a binary variable for analysis. |
+| AGE         | Age                             | Age of the donor at the time of sample collection (years). |
+| SMRIN       | RNA Integrity Number (RIN)      | Measure of RNA quality for the sample; higher values indicate better RNA integrity. Primarily used as a technical QC covariate. |
+| SMNABTCH    | Nucleic acid extraction batch  | Batch identifier corresponding to nucleic acid isolation and preparation. Used to assess potential technical batch effects. |
+| SMGEBTCH    | Gene expression batch          | Batch identifier corresponding to library preparation and/or sequencing. Used as a technical batch variable. |
+
+## Network Construction and Module Detection
+
+A signed weighted gene co-expression network was constructed using the WGCNA framework. Pairwise gene correlations were transformed into an adjacency matrix using a soft-thresholding power selected to approximate scale-free topology while maintaining adequate connectivity.
+
+Due to the large number of genes, blockwise module detection was employed to ensure computational feasibility and numerical stability. Modules were identified via hierarchical clustering of the topological overlap matrix (TOM), followed by dynamic tree cutting and merging of highly similar modules based on eigengene correlation.
+
+Each module was summarized by its module eigengene, defined as the first principal component of the scaled expression values of genes within the module.
+
+## Module Overview
+
+### Module Sizes
+
+The number of genes assigned to each module varied substantially, reflecting differences in the breadth and coherence of underlying co-expression patterns. Larger modules likely capture broad transcriptional programs, whereas smaller modules may represent more specialized or tightly regulated processes.
+
+```{r}
+module_sizes
+```
+
+### Module Correlations
+
+To assess higher-order relationships among the detected co-expression modules, pairwise correlations between module eigengenes were computed and visualized as a correlation heatmap. Because each module eigengene summarizes the dominant expression pattern of its member genes across samples, correlations between eigengenes reflect similarities in module-level behavior.
+
+The heatmap reveals that while many modules are largely independent, subsets of modules exhibit moderate to strong correlations, indicating shared or partially overlapping expression patterns across samples. Such clustering suggests that some modules may capture related biological programs or reflect common drivers of transcriptional variation, such as tissue context or shared regulatory influences.
+
+```{r}
+grid::grid.newpage()
+grid::grid.draw(eg_cor_heatmap$gtable)
+```
+
+Importantly, the presence of correlated modules does not imply redundancy, but rather highlights hierarchical structure within the co-expression network. This eigengene-level view provides a more interpretable summary of module relationships than gene-level dendrograms, particularly in large networks where individual gene branches are not visually resolvable.
+
+Overall, the eigengene correlation heatmap complements the module–trait analysis by clarifying how modules relate to one another and by identifying groups of modules that may be jointly influenced by biological or technical factors.
+
+## Module-Trait Associations
+
+Module–trait relationships were assessed by correlating module eigengenes with selected biological and technical covariates. Categorical variables were encoded using one-hot representations, and high-cardinality batch variables were summarized using principal components derived from one-hot encoded batch indicators.
+
+The resulting correlations provide a module-level view of how co-expression structure relates to known sample characteristics.
+
+High-cardinality batch variables were summarized using principal component analysis of one-hot encoded batch indicators. Correlations between module eigengenes and the leading batch principal components (PCs 1-3) were examined as a diagnostic for potential technical confounding.
+
+While some modules showed weak associations with batch-related components, these effects were generally smaller than tissue-driven associations, indicating that the identified modules primarily reflect biological rather than technical structure.
+
+```{r}
+eg_trait_cor_heatmap
+```
+
+Several modules exhibit strong associations with tissue, indicating that tissue identity is a dominant driver of co-expression structure in this dataset. In contrast, associations with age and sex were generally more modest and module-specific. Correlations with batch principal components were limited in magnitude, suggesting that major co-expression patterns are not primarily driven by technical artifacts.
+
+## Eigengene Expression by Tissue
+
+Module eigengene expression was visualized across tissue groups using boxplots to aid interpretation of tissue-associated modules identified in the module–trait analysis. Because eigengenes summarize the dominant expression pattern of each module, differences in eigengene distributions across tissues reflect coordinated, module-level shifts rather than changes in individual genes.
+
+```{r width = 6, height = 4}
+eg_boxplot
+```
+
+Several modules exhibit clear tissue-specific expression patterns, characterized by shifts in median eigengene values and, in some cases, changes in variability across tissues. These patterns are consistent with the strong module–tissue associations observed in the module–trait correlation heatmap and help clarify the direction and magnitude of those relationships at the sample level.
+
+Overall, these plots provide an intuitive link between abstract module–trait correlations and concrete expression behavior across tissues, highlighting modules whose co-expression structure is strongly shaped by tissue context.
+
+## Summary and Next Steps
+
+This WGCNA analysis identified multiple modules of co-expressed genes with distinct associations to tissue and other biological covariates. Eigengene-based analyses revealed both broad tissue-driven programs and more nuanced module-specific patterns.
+
+Potential next steps include:
+
+- Functional enrichment analysis of tissue-associated modules
+- Identification of intramodular hub genes
+- Assessment of module preservation across subsets of samples or external datasets
+
+Overall, the results demonstrate that co-expression structure in this dataset is strongly organized by biological context and is not dominated by technical batch effects.
