@@ -8,7 +8,7 @@ tar_plan(
   tar_file(holdings_file, "data/raw/IWM_holdings_mod.csv"),
   holdings_raw = read_csv(holdings_file),
 
-  # Clean raw holdings file and select top N equities
+  # Clean raw holdings file and select top N = 300 equities
   # based on market capitalization as proxy to select
   # equities with reasonable liquidity for trading.
   holdings_clean = clean_holdings(holdings_raw),

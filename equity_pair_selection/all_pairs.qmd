@@ -1,0 +1,117 @@
+---
+title: "Equity Pairs Selection in the Russell 2000"
+subtitle: "Plots of Selected Pairs"
+author: "Zach Quicksall"
+date: today
+format:
+  html:
+    number-sections: true
+    theme: cosmo
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+source("R/packages.R")
+set.seed(2025)
+
+tar_load(log_adj_close_mat)
+tar_load(train_mask_close)
+tar_load(pair_subset)
+```
+
+
+```{r, results='asis', warning=FALSE, message=FALSE}
+pair_rows <- nrow(pair_subset)
+
+for (i in 1:pair_rows) {
+
+    # Select pair row
+    pair_row <- pair_subset[i, ]
+
+    ticker_x <- pair_row$x
+    ticker_y <- pair_row$y
+
+    alpha <- pair_row$alpha_hat
+    beta <- pair_row$beta_hat
+
+    plot_df <- log_adj_close_mat[, c(ticker_x, ticker_y)] %>%
+        as_tibble(rownames = "date") %>%
+        rename(x = !!ticker_x,
+         y = !!ticker_y) %>%
+        mutate(
+            date = as.numeric(date),
+            alpha = alpha,
+            beta = beta,
+            data_set = train_mask_close,
+            data_set = case_when(
+            data_set == TRUE ~ "Train",
+            data_set == FALSE ~ "Test",
+            TRUE ~ NA_character_),
+            spread = x - (alpha + beta * y)
+            )
+
+    # Compute spread mu and sd for zscore
+    spread_mu <- mean(
+        plot_df %>%
+            filter(data_set == "Train") %>%
+            pull(spread),
+    na.rm = TRUE)
+
+    spread_sd <- sd(
+        plot_df %>%
+            filter(data_set == "Train") %>%
+            pull(spread),
+    na.rm = TRUE)
+
+    # Add to plot_df
+plot_df <- plot_df %>%
+  mutate(
+    spread_mu = spread_mu,
+    spread_sd = spread_sd,
+    zscore = (spread - spread_mu) / spread_sd
+    )
+
+    # Pivot to long-form
+    plot_df_long <- plot_df %>%
+    pivot_longer(
+        cols = c(x, y),
+        names_to = "ticker",
+        values_to = "price"
+    ) %>%
+    mutate(ticker = case_when(ticker == "x" ~ ticker_x,
+                                ticker == "y" ~ ticker_y,
+                                TRUE ~ NA_character_))
+
+    # Plot
+    cat("## ", ticker_x, " vs ", ticker_y)
+
+    p <- plot_df_long %>%
+        ggplot(aes(x = date, color = data_set, linetype = ticker)) +
+        geom_line(aes(y = price)) +
+        scale_color_manual(values = c("darkorange","dodgerblue")) +
+        labs(y = "Price (USD)", x = "Date", color = "Data Set", linetype = "Ticker") +
+        theme_minimal()
+
+    plot(p)
+
+    cat("\n\n")
+
+    p <- plot_df %>%
+        ggplot(aes(x = date)) +
+        geom_line(aes(y = zscore, color = data_set)) +
+        scale_color_manual(values = c("darkorange","dodgerblue")) +
+        geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
+        geom_hline(yintercept = c(-2, 2), linetype = "dashed", color = "black") +
+        labs(y = "Z-Score (stdev)", x = "Date", color = "Train Data") +
+        theme_minimal() +
+        theme(legend.position = "bottom")
+
+    plot(p)
+
+    cat("\n\n")
+
+}
+```
