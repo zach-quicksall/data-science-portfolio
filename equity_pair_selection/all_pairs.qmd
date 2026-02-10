@@ -1,6 +1,6 @@
 ---
 title: "Equity Pairs Selection in the Russell 2000"
-subtitle: "Plots of Selected Pairs"
+subtitle: "Pairs that passed all filters"
 author: "Zach Quicksall"
 date: today
 format:
@@ -22,6 +22,13 @@ tar_load(train_mask_close)
 tar_load(pair_subset)
 ```
 
+```{r}
+pair_subset %>%
+  select(x, y, coint_pvalue, half_life, zero_cross, pct_outside_2sd, score) %>%
+  knitr::kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+```
 
 ```{r, results='asis', warning=FALSE, message=FALSE}
 pair_rows <- nrow(pair_subset)
