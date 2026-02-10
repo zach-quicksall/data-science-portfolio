@@ -8,6 +8,17 @@ The projects span domains including healthcare, marketplaces, fraud detection, m
 
 ## Projects
 
+### Equity Pairs Selection (Russell 2000)
+
+**Directory:** `equity_pairs_selection`
+
+A research-focused pipeline for identifying robust equity pairs suitable for statistical arbitrage, using constituents of the Russell 2000. This project emphasizes **pair selection and validation**, rather than backtest optimization or execution, with a strong focus on **out-of-sample stability** and **economic coherence**.
+
+**Key themes:**  
+`time-series` · `statistical arbitrage` · `financial markets` · `mean reversion` · `out-of-sample validation`
+
+---
+
 ### ECG Beat Classification  
 **Directory:** `ecg_beat_classification`
 
