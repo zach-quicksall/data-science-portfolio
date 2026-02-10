@@ -1,0 +1,536 @@
+---
+title: "Equity Pairs Selection in the Russell 2000"
+subtitle: "A Stability-Focused, Industry-Constrained Statistical Arbitrage Pipeline"
+author: "Zach Quicksall"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+source("R/packages.R")
+set.seed(2025)
+
+tar_load(log_adj_close_mat)
+tar_load(train_mask_close)
+tar_load(pair_ranks)
+tar_load(pair_subset)
+```
+
+## Motivation and Objective
+
+Pairs trading strategies rely on identifying asset pairs whose relative price dynamics are stable and mean-reverting. In practice, many statistically appealing pairs fail out-of-sample due to regime shifts, structural breaks, or spurious correlations.
+
+The objective of this analysis is to construct a robust pair selection pipeline for U.S. equities that:
+
+- Emphasizes economic coherence via industry constraints
+- Separates candidate generation from statistical validation
+- Explicitly evaluates out-of-sample stability
+- Prioritizes tradability, not just statistical significance
+
+The focus is deliberately on pair selection, rather than signal generation, execution, or portfolio construction.
+
+## Data and Universe Construction
+
+### Equity Universe
+
+The starting universe consists of equities from the Russell 2000, representing small-capitalization U.S. stocks.
+
+To improve robustness and realism, the universe is filtered to remove:
+
+- Securities with insufficient price history
+- Illiquid or irregularly traded names
+- Symbols with missing or inconsistent adjusted prices
+
+All prices are transformed to log adjusted close prices to stabilize variance and allow linear modeling.
+
+### Industry Classification
+
+Each security is assigned to an industry classification (e.g., GICS). All pair construction and evaluation is performed within industry groups only. This constraint:
+
+- Eliminates spurious cross-industry relationships
+- Enforces economic interpretability
+- Aligns with how relative-value equity strategies are typically deployed
+
+## Train/test Split
+
+To explicitly evaluate stability, the sample is split into:
+
+- Training period: used for estimation and selection
+- Test period (~5 years): used only for validation
+
+All model estimation (hedge ratios, cointegration tests, half-life estimation) is performed only on the training window unless explicitly stated otherwise. No information from the test window is used during candidate generation.
+
+## Candidate Pair Generation
+
+### Return Correlation as Pre-Screen
+
+Candidate pairs are generated using return correlations, computed over the training period. Return correlation is used only to reduce the combinatorial search space, not as evidence of mean reversion.
+
+For each stock:
+
+- Correlations are computed against peers within the same industry
+- Top-N most correlated neighbors are retained
+
+This produces a tractable, economically coherent candidate set while avoiding arbitrary clustering assumptions.
+
+### Refinement of Pairs
+
+After de-duplication of symmetric pairs, the result is a long-form table of candidate pairs which serves as the baseline pair set to all subsequent statistical analysis.
+
+## Pair Diagnostics and Metrics
+
+Each candidate pair is evaluated using a consistent set of diagnostics designed to capture long-run relationship strength, mean-reversion dynamics, and practical tradability. Metrics are computed primarily on the training window, with selected diagnostics recomputed out-of-sample for validation.
+
+### Hedge Ratio Estimation
+
+For each candidate pair, a hedge ratio is estimated using ordinary least squares on log prices over the training window:
+
+$$
+\log P_x = \alpha + \beta \log P_y + \varepsilon_t
+$$
+
+For each candidate pair, a hedge ratio is estimated using ordinary least squares on log prices over the training window:
+
+$$
+s_t = \log P_x - \left(\alpha + \beta \log P_y\right)
+$$
+
+This spread represents the relative mispricing between the two securities under the assumed linear relationship.
+
+In addition to the hedge ratio itself, several fit-quality diagnostics are retained, including the regression R^2 and residual volatility. These metrics help distinguish tightly linked pairs from relationships that are statistically significant but economically loose.
+
+### Cointegration Testing
+
+Evidence of a stable long-run equilibrium relationship is assessed using an Augmented Dickey–Fuller (ADF) test applied to the training-period spread.
+
+$$
+\Delta s_t = \gamma s_{t-1} + \sum_{i=1}^{k} \phi_i \Delta s_{t-i} + \epsilon_t
+$$
+
+$$
+\gamma < 0
+$$
+
+The ADF test evaluates whether the spread is stationary, providing a necessary (but not sufficient) condition for mean reversion. For each pair, both the ADF test statistic and p-value are recorded.
+
+Cointegration is treated as an initial screening signal, not a final decision rule. Many cointegrated pairs exhibit impractically slow or unstable dynamics and are filtered later through additional diagnostics.
+
+### Mean Reversion Speed
+
+To quantify the speed of mean reversion, the training-period spread is approximated using an AR(1) process:
+
+$$
+s_t = \rho s_{t-1} + \epsilon_t
+$$
+
+The implied half-life of mean reversion is computed as:
+
+$$
+\text{Half-life} = -\frac{\log 2}{\log \rho}
+$$
+
+Half-life provides a direct, interpretable measure of how quickly deviations from equilibrium decay. Pairs with extremely long half-lives are penalized, as they imply slow convergence and extended holding periods, while extremely short half-lives are treated cautiously as potential noise-driven artifacts.
+
+### Tradability Proxies
+
+Statistical validity alone is insufficient for practical deployment. Several additional diagnostics are included to proxy real trading behavior:
+
+- Spread volatility (standard deviation and interquartile range)
+- Zero-crossing frequency, measuring how often the spread crosses its mean
+- Excursion frequency, defined as the proportion of time the spread deviates beyond ±2 standard deviations 
+
+These measures help identify spreads that are both active and stable, filtering out relationships that are statistically stationary but rarely generate actionable deviations.
+
+## Out-of-Sample Validation
+
+To assess robustness, key diagnostics are recomputed on a held-out five-year test window, including:
+
+- Cointegration p-values
+- Mean-reversion half-life
+
+Rather than enforcing strict pass/fail rules, out-of-sample behavior is incorporated as a stability signal. Pairs that retain cointegration and similar mean-reversion characteristics out-of-sample are rewarded, while pairs exhibiting large regime-dependent shifts are penalized.
+
+This approach balances robustness with flexibility, avoiding excessive reliance on any single test while still discouraging overfit relationships.
+
+## Pair Ranking Framework
+
+Candidate pairs are ranked using a composite scoring framework that combines:
+
+- Training-period cointegration strength
+- Out-of-sample cointegration confirmation
+- Mean-reversion speed
+- Stability of dynamics across regimes
+- Tradability proxies such as zero-crossings and spread excursions
+
+Each component is normalized within the candidate set and combined using a weighted average. Hard thresholds are applied sparingly to remove clearly unsuitable pairs, while most decisions are handled through continuous scoring to avoid brittle cutoff effects.
+
+The resulting ranked list emphasizes stability, interpretability, and practical relevance rather than in-sample optimization.
+
+```{r}
+pair_ranks %>%
+  select(x, y, coint_pvalue, half_life, zero_cross, pct_outside_2sd, score) %>%
+  knitr::kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+```
+
+## Example Pairs
+
+### NWE vs. POR
+
+```{r}
+# Define pair tickers
+ticker_x <- "NWE"
+ticker_y <- "POR"
+
+# Extract metrics for plotting
+metrics_row <- pair_subset %>%
+  filter(x == ticker_x, y == ticker_y)
+
+alpha <- metrics_row$alpha_hat
+beta <- metrics_row$beta_hat
+
+# Subset price series
+series_mat <- log_adj_close_mat[, c(ticker_x, ticker_y)]
+
+# Create plot df
+plot_df <- series_mat %>%
+  as_tibble(rownames = "date") %>%
+  rename(x = !!ticker_x,
+         y = !!ticker_y) %>%
+  mutate(
+    date = as.numeric(date),
+    alpha = alpha,
+    beta = beta,
+    data_set = train_mask_close,
+    data_set = case_when(
+      data_set == TRUE ~ "Train",
+      data_set == FALSE ~ "Test",
+      TRUE ~ NA_character_),
+    spread = x - (alpha + beta * y)
+    )
+
+# Compute spread mu and sd for zscore
+spread_mu <- mean(
+  plot_df %>%
+    filter(data_set == "Train") %>%
+    pull(spread),
+  na.rm = TRUE)
+
+spread_sd <- sd(
+  plot_df %>%
+    filter(data_set == "Train") %>%
+    pull(spread),
+  na.rm = TRUE)
+
+# Add to plot_df
+plot_df <- plot_df %>%
+  mutate(
+    spread_mu = spread_mu,
+    spread_sd = spread_sd,
+    zscore = (spread - spread_mu) / spread_sd
+    )
+
+# Pivot to long-form
+plot_df_long <- plot_df %>%
+  pivot_longer(
+    cols = c(x, y),
+    names_to = "ticker",
+    values_to = "price"
+  ) %>%
+  mutate(ticker = case_when(ticker == "x" ~ ticker_x,
+                            ticker == "y" ~ ticker_y,
+                            TRUE ~ NA_character_))
+```
+
+```{r}
+# Price series
+plot_df_long %>%
+  ggplot(aes(x = date, color = ticker, linetype = data_set)) +
+  geom_line(aes(y = price)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(y = "Price (USD)", x = "Date", color = "Ticker", linetype = "Data Set") +
+  theme_minimal()
+```
+
+```{r}
+# Paired price points
+plot_df %>%
+  ggplot(aes(x = x, y = y, color = data_set)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  geom_point(alpha = 0.4) +
+  labs(x = ticker_x, y = ticker_y, color = "Data Set") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+plot_df %>%
+  ggplot(aes(x = date, color = data_set)) +
+  geom_line(aes(y = spread)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(y = "Spread (USD)", x = "Date", color = "Train Data") +
+  theme_minimal()
+```
+
+```{r}
+plot_df %>%
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = zscore, color = data_set)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
+  geom_hline(yintercept = c(-2, 2), linetype = "dashed", color = "black") +
+  labs(y = "Z-Score (stdev)", x = "Date", color = "Train Data") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+### MHO vs. IBP
+
+```{r}
+# Define pair tickers
+ticker_x <- "MHO"
+ticker_y <- "IBP"
+
+# Extract metrics for plotting
+metrics_row <- pair_subset %>%
+  filter(x == ticker_x, y == ticker_y)
+
+alpha <- metrics_row$alpha_hat
+beta <- metrics_row$beta_hat
+
+# Subset price series
+series_mat <- log_adj_close_mat[, c(ticker_x, ticker_y)]
+
+# Create plot df
+plot_df <- series_mat %>%
+  as_tibble(rownames = "date") %>%
+  rename(x = !!ticker_x,
+         y = !!ticker_y) %>%
+  mutate(
+    date = as.numeric(date),
+    alpha = alpha,
+    beta = beta,
+    data_set = train_mask_close,
+    data_set = case_when(
+      data_set == TRUE ~ "Train",
+      data_set == FALSE ~ "Test",
+      TRUE ~ NA_character_),
+    spread = x - (alpha + beta * y)
+    )
+
+# Compute spread mu and sd for zscore
+spread_mu <- mean(
+  plot_df %>%
+    filter(data_set == "Train") %>%
+    pull(spread),
+  na.rm = TRUE)
+
+spread_sd <- sd(
+  plot_df %>%
+    filter(data_set == "Train") %>%
+    pull(spread),
+  na.rm = TRUE)
+
+# Add to plot_df
+plot_df <- plot_df %>%
+  mutate(
+    spread_mu = spread_mu,
+    spread_sd = spread_sd,
+    zscore = (spread - spread_mu) / spread_sd
+    )
+
+# Pivot to long-form
+plot_df_long <- plot_df %>%
+  pivot_longer(
+    cols = c(x, y),
+    names_to = "ticker",
+    values_to = "price"
+  ) %>%
+  mutate(ticker = case_when(ticker == "x" ~ ticker_x,
+                            ticker == "y" ~ ticker_y,
+                            TRUE ~ NA_character_))
+```
+
+```{r}
+# Price series
+plot_df_long %>%
+  ggplot(aes(x = date, color = ticker, linetype = data_set)) +
+  geom_line(aes(y = price)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(y = "Price (USD)", x = "Date", color = "Ticker", linetype = "Data Set") +
+  theme_minimal()
+```
+
+```{r}
+# Paired price points
+plot_df %>%
+  ggplot(aes(x = x, y = y, color = data_set)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  geom_point(alpha = 0.4) +
+  labs(x = ticker_x, y = ticker_y, color = "Data Set") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+plot_df %>%
+  ggplot(aes(x = date, color = data_set)) +
+  geom_line(aes(y = spread)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(y = "Spread (USD)", x = "Date", color = "Train Data") +
+  theme_minimal()
+```
+
+```{r}
+plot_df %>%
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = zscore, color = data_set)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
+  geom_hline(yintercept = c(-2, 2), linetype = "dashed", color = "black") +
+  labs(y = "Z-Score (stdev)", x = "Date", color = "Train Data") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+### SLG vs. MAC
+
+```{r}
+# Define pair tickers
+ticker_x <- "SLG"
+ticker_y <- "MAC"
+
+# Extract metrics for plotting
+metrics_row <- pair_subset %>%
+  filter(x == ticker_x, y == ticker_y)
+
+alpha <- metrics_row$alpha_hat
+beta <- metrics_row$beta_hat
+
+# Subset price series
+series_mat <- log_adj_close_mat[, c(ticker_x, ticker_y)]
+
+# Create plot df
+plot_df <- series_mat %>%
+  as_tibble(rownames = "date") %>%
+  rename(x = !!ticker_x,
+         y = !!ticker_y) %>%
+  mutate(
+    date = as.numeric(date),
+    alpha = alpha,
+    beta = beta,
+    data_set = train_mask_close,
+    data_set = case_when(
+      data_set == TRUE ~ "Train",
+      data_set == FALSE ~ "Test",
+      TRUE ~ NA_character_),
+    spread = x - (alpha + beta * y)
+    )
+
+# Compute spread mu and sd for zscore
+spread_mu <- mean(
+  plot_df %>%
+    filter(data_set == "Train") %>%
+    pull(spread),
+  na.rm = TRUE)
+
+spread_sd <- sd(
+  plot_df %>%
+    filter(data_set == "Train") %>%
+    pull(spread),
+  na.rm = TRUE)
+
+# Add to plot_df
+plot_df <- plot_df %>%
+  mutate(
+    spread_mu = spread_mu,
+    spread_sd = spread_sd,
+    zscore = (spread - spread_mu) / spread_sd
+    )
+
+# Pivot to long-form
+plot_df_long <- plot_df %>%
+  pivot_longer(
+    cols = c(x, y),
+    names_to = "ticker",
+    values_to = "price"
+  ) %>%
+  mutate(ticker = case_when(ticker == "x" ~ ticker_x,
+                            ticker == "y" ~ ticker_y,
+                            TRUE ~ NA_character_))
+```
+
+```{r}
+# Price series
+plot_df_long %>%
+  ggplot(aes(x = date, color = ticker, linetype = data_set)) +
+  geom_line(aes(y = price)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(y = "Price (USD)", x = "Date", color = "Ticker", linetype = "Data Set") +
+  theme_minimal()
+```
+
+```{r}
+# Paired price points
+plot_df %>%
+  ggplot(aes(x = x, y = y, color = data_set)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  geom_point(alpha = 0.4) +
+  labs(x = ticker_x, y = ticker_y, color = "Data Set") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+plot_df %>%
+  ggplot(aes(x = date, color = data_set)) +
+  geom_line(aes(y = spread)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(y = "Spread (USD)", x = "Date", color = "Train Data") +
+  theme_minimal()
+```
+
+```{r}
+plot_df %>%
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = zscore, color = data_set)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
+  geom_hline(yintercept = c(-2, 2), linetype = "dashed", color = "black") +
+  labs(y = "Z-Score (stdev)", x = "Date", color = "Train Data") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+## Summary and Next Steps
+
+This analysis presents a disciplined approach to equity pair selection that prioritizes robustness over complexity. By combining industry constraints, lightweight pre-screening, rigorous statistical diagnostics, and explicit out-of-sample validation, the resulting pairs are better aligned with real-world statistical arbitrage constraints.
+
+Future extensions could include rolling-window persistence metrics, hedge ratio stability diagnostics, or integration with execution-aware backtesting frameworks.
+
+## Limitations
+
+This work focuses intentionally on **pair selection** rather than full strategy backtesting or deployment. Several important considerations are therefore out of scope:
+
+- **Transaction costs and market impact:** The analysis does not model bid–ask spreads, slippage, or borrow costs, all of which can materially affect realized performance for small-cap equities.
+
+- **Execution and signal design:** While spreads and z-scores are computed for diagnostics, the report does not define entry/exit rules, position sizing, or portfolio constraints.
+
+- **Structural breaks:** Cointegration and half-life are evaluated on fixed train/test windows, but real-world relationships may shift within regimes. A rolling persistence study would provide a stronger view of temporal stability.
+
+- **Survivorship and data quality risks:** Results depend on the completeness and correctness of the Russell 2000 membership and price data. Corporate actions, symbol changes, and missing observations can bias estimates if not carefully controlled.
+
+- **Multiple hypothesis testing:** Screening many candidate pairs increases the chance of false positives. Out-of-sample evaluation mitigates this risk but does not eliminate it.

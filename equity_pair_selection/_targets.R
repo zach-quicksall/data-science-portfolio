@@ -38,9 +38,35 @@ tar_plan(
   log_return_mat = (diff(log_adj_close_mat))[-1, ],
 
   # Define train/evaluation sets
-  matrix_dates = rownames(log_adj_close_mat),
-  split_date = matrix_dates[ceiling(length(matrix_dates) / 2)],
-  train_mask = matrix_dates < split_date,
-  eval_mask = matrix_dates >= split_date,
+  close_dates = rownames(log_adj_close_mat),
+  return_dates = rownames(log_return_mat),
+
+  split_date_close = close_dates[floor(length(close_dates) / 2)],
+  split_date_ret = return_dates[floor(length(return_dates) / 2)],
+
+  train_mask_close = close_dates < split_date_close,
+  eval_mask_close = close_dates >= split_date_close,
+
+  train_mask_ret = return_dates < split_date_ret,
+  eval_mask_ret = return_dates >= split_date_ret,
+
+  # Reduce universe search space
+  # Tickers must be within the same sector
+  # Correlation >= 0.6
+  # Keep top-20 pairs in each sector
+  candidate_pairs = define_pair_set(log_return_mat, train_mask_ret, universe),
+
+  # Summarise remaining pairs
+  # Computing hedge ratio, cointegration, and other metrics
+  pair_stats = compute_pair_metrics(candidate_pairs, log_adj_close_mat, train_mask_close, eval_mask_close),
+
+  # Rank pairs for evaluation
+  pair_ranks = rank_pairs(pair_stats),
+
+  # Apply filter to reduce congenstion in a single sector
+  # Oftentimes top pairs will recycle the same few tickers
+  # We want to ensure diversity of investments across sectors
+  # to reduce systematic risk
+  pair_subset = limit_pair_overlap(pair_ranks, max_per_ticker = 3, top_n = 50),
 
 )
