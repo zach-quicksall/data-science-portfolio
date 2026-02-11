@@ -149,8 +149,10 @@ define_pair_set <- function(returns, train_mask, universe, min_cor = 0.6) {
   # Keep top N pairs
   pairs <- cor_df %>%
     group_by(sector_x) %>%
-    slice_max(r, n = 20, with_ties = FALSE) %>%
+    slice_max(r, n = 30, with_ties = FALSE) %>%
     ungroup()
+
+  pairs <- cor_df
 
   return(pairs)
 
@@ -365,8 +367,8 @@ rank_pairs <- function(df,
   stopifnot(is.data.frame(df))
 
   # Hard filters
-  d <- df |>
-    dplyr::filter(
+  d <- df %>%
+    filter(
       n_train >= min_train,
       is.finite(coint_pvalue),
       is.finite(half_life),
@@ -450,3 +452,4 @@ limit_pair_overlap <- function(ranked_df, max_per_ticker = 3, top_n = 50) {
   out
 
 }
+

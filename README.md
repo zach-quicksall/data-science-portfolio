@@ -19,6 +19,17 @@ A research-focused pipeline for identifying robust equity pairs suitable for sta
 
 ---
 
+### Equity Pairs Trading (Russell 2000)
+
+**Directory:** `equity_pair_trading`
+
+Building upon the content of `equity_pair_selection`, this simulation provides out-of-sample performance metrics for a simple z-score based trading algorithm.
+
+*Key themes:**  
+`time-series` · `statistical arbitrage` · `financial markets` · `mean reversion` · `out-of-sample validation` · `portfolio construction`
+
+---
+
 ### ECG Beat Classification  
 **Directory:** `ecg_beat_classification`
 

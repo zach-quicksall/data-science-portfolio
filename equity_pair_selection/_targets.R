@@ -53,11 +53,11 @@ tar_plan(
   # Reduce universe search space
   # Tickers must be within the same sector
   # Correlation >= 0.6
-  # Keep top-20 pairs in each sector
+  # Keep top-30 pairs in each sector
   candidate_pairs = define_pair_set(log_return_mat, train_mask_ret, universe),
 
   # Summarise remaining pairs
-  # Computing hedge ratio, cointegration, and other metrics
+  # Compute hedge ratio, cointegration, and other metrics
   pair_stats = compute_pair_metrics(candidate_pairs, log_adj_close_mat, train_mask_close, eval_mask_close),
 
   # Rank pairs for evaluation
