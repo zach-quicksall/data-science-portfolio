@@ -1,0 +1,2838 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zach Quicksall">
+<meta name="dcterms.date" content="2026-02-12">
+
+<title>Equity Pairs Trading: Walk-Forward Simulation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="report_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="report_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="report_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="report_files/libs/quarto-html/popper.min.js"></script>
+<script src="report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="report_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="report_files/libs/bootstrap/bootstrap-a74871fe4945b66d259aafc266475145.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="report_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="report_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a></li>
+  <li><a href="#universe-construction" id="toc-universe-construction" class="nav-link" data-scroll-target="#universe-construction">Universe Construction</a></li>
+  <li><a href="#pair-formation" id="toc-pair-formation" class="nav-link" data-scroll-target="#pair-formation">Pair Formation</a></li>
+  <li><a href="#trading-rules" id="toc-trading-rules" class="nav-link" data-scroll-target="#trading-rules">Trading Rules</a>
+  <ul class="collapse">
+  <li><a href="#entry" id="toc-entry" class="nav-link" data-scroll-target="#entry">Entry</a></li>
+  <li><a href="#exit" id="toc-exit" class="nav-link" data-scroll-target="#exit">Exit</a></li>
+  </ul></li>
+  <li><a href="#risk-controls" id="toc-risk-controls" class="nav-link" data-scroll-target="#risk-controls">Risk Controls</a></li>
+  <li><a href="#walk-forward-framework" id="toc-walk-forward-framework" class="nav-link" data-scroll-target="#walk-forward-framework">Walk-Forward Framework</a></li>
+  <li><a href="#portfolio-aggregation" id="toc-portfolio-aggregation" class="nav-link" data-scroll-target="#portfolio-aggregation">Portfolio Aggregation</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#equity-curve" id="toc-equity-curve" class="nav-link" data-scroll-target="#equity-curve">Equity Curve</a></li>
+  <li><a href="#drawdown" id="toc-drawdown" class="nav-link" data-scroll-target="#drawdown">Drawdown</a></li>
+  <li><a href="#cost-impact" id="toc-cost-impact" class="nav-link" data-scroll-target="#cost-impact">Cost Impact</a></li>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#pair-level-distribution-of-pnl" id="toc-pair-level-distribution-of-pnl" class="nav-link" data-scroll-target="#pair-level-distribution-of-pnl">Pair-Level Distribution of PnL</a></li>
+  <li><a href="#pairs-table" id="toc-pairs-table" class="nav-link" data-scroll-target="#pairs-table">Pairs Table</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Equity Pairs Trading: Walk-Forward Simulation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zach Quicksall </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 12, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="executive-summary" class="level2">
+<h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
+<p>This project implements a fully walk-forward equity pairs trading strategy using U.S. small-cap stocks.</p>
+<p>The objective is to evaluate whether cross-sectional statistical arbitrage signals — selected via formation-period cointegration and mean-reversion diagnostics — generate stable out-of-sample returns after transaction costs and holding constraints.</p>
+<p>Key characteristics of the system:</p>
+<ul>
+<li>Rolling 3-year formation window</li>
+<li>Annual pair re-selection</li>
+<li>Out-of-sample trading only</li>
+<li>Beta-hedged spreads</li>
+<li>Z-score entry/exit rules</li>
+<li>5 bps per leg transaction cost</li>
+<li>Maximum holding constraint (60-days)</li>
+<li>Portfolio-level capital allocation</li>
+</ul>
+</section>
+<section id="universe-construction" class="level2">
+<h2 class="anchored" data-anchor-id="universe-construction">Universe Construction</h2>
+<p>The initial universe is derived from the top 500 holdings of the Russell 2000 ETF (IWM), filtered by:</p>
+<ul>
+<li>≥ 5 years of price history</li>
+<li>Median price ≥ $5</li>
+<li>Median dollar volume ≥ $5M</li>
+<li>Continuous daily trading</li>
+<li>Minimum sector size constraint</li>
+</ul>
+<p>This ensures liquidity and avoids microstructure distortions.</p>
+</section>
+<section id="pair-formation" class="level2">
+<h2 class="anchored" data-anchor-id="pair-formation">Pair Formation</h2>
+<p>For each trade year:</p>
+<ol type="1">
+<li>Use prior 3 years of data</li>
+<li>Compute return correlations</li>
+<li>Restrict to same-sector pairs</li>
+<li>Estimate regression:</li>
+</ol>
+<p><span class="math display">\[
+X_t = \alpha + \beta Y_t + \varepsilon_t
+\]</span></p>
+<p>Compute:</p>
+<ul>
+<li>Cointegration p-value (ADF)</li>
+<li>Half-life of mean reversion</li>
+<li>Spread volatility</li>
+<li>Zero-crossing frequency</li>
+<li>Excursion frequency</li>
+</ul>
+<p>Pairs are ranked via a weighted composite score emphasizing:</p>
+<ul>
+<li>Stronger cointegration</li>
+<li>Half-life near target</li>
+<li>Tradable oscillation behavior</li>
+<li>Stable fit (R²)</li>
+</ul>
+<p>Top-N pairs are selected for trading.</p>
+</section>
+<section id="trading-rules" class="level2">
+<h2 class="anchored" data-anchor-id="trading-rules">Trading Rules</h2>
+<p>Spread definition:</p>
+<p><span class="math display">\[
+S_t = X_t - (\alpha + \beta Y_t)
+\]</span></p>
+<p>Z-score computed via 60-day rolling mean and standard deviation.</p>
+<section id="entry" class="level3">
+<h3 class="anchored" data-anchor-id="entry">Entry</h3>
+<ul>
+<li>Long spread if ( z &lt; -2 )</li>
+<li>Short spread if ( z &gt; 2 )</li>
+</ul>
+</section>
+<section id="exit" class="level3">
+<h3 class="anchored" data-anchor-id="exit">Exit</h3>
+<ul>
+<li>Close when ( |z| &lt; 0.5 )</li>
+</ul>
+</section>
+</section>
+<section id="risk-controls" class="level2">
+<h2 class="anchored" data-anchor-id="risk-controls">Risk Controls</h2>
+<ul>
+<li>Maximum holding period</li>
+<li>5 bps per leg transaction cost</li>
+<li>Dollar-neutral beta sizing</li>
+</ul>
+<p>Execution occurs with one-day lag to prevent lookahead bias.</p>
+</section>
+<section id="walk-forward-framework" class="level2">
+<h2 class="anchored" data-anchor-id="walk-forward-framework">Walk-Forward Framework</h2>
+<p>Each year:</p>
+<ul>
+<li>Formation window: rolling 3-year history</li>
+<li>Trade window: next calendar year</li>
+<li>Pairs reselected annually</li>
+</ul>
+<p>This prevents forward-looking contamination and reflects a real research workflow.</p>
+</section>
+<section id="portfolio-aggregation" class="level2">
+<h2 class="anchored" data-anchor-id="portfolio-aggregation">Portfolio Aggregation</h2>
+<p>Capital allocated per active pair.</p>
+<p>Daily portfolio return:</p>
+<p><span class="math display">\[
+R_t = \frac{\sum \text{Net PnL}_t}{\text{Active Capital}_t}
+\]</span></p>
+<p>Cumulative return computed via log aggregation.</p>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/packages.R"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/functions.R"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(prices_mat)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(returns_mat)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(universe)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define trading years to simulate</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2025</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate trades</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>all_trades <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_dfr</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  years,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">run_single_year_sim</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      prices_mat,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      returns_mat,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      universe,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">trade_year =</span> .x,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">formation_years =</span> <span class="dv">3</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">top_n =</span> <span class="dv">30</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate results</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>portfolio_daily <span class="ot">&lt;-</span> <span class="fu">aggregate_portfolio_daily_net</span>(all_trades, <span class="at">capital_mode =</span> <span class="st">"active_only"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>pair_summary <span class="ot">&lt;-</span> <span class="fu">summarise_pair_performance</span>(all_trades)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>portfolio_metrics <span class="ot">&lt;-</span> <span class="fu">portfolio_metrics</span>(portfolio_daily)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="equity-curve" class="level3">
+<h3 class="anchored" data-anchor-id="equity-curve">Equity Curve</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>portfolio_daily <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(date, cumret)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cumulative Return (Net of Costs)"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Cumulative Return"</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="section" class="level4">
+<h4 class="anchored" data-anchor-id="section">2014 - 2018</h4>
+<p>The strategy struggles early on in a flat/slightly-negative regime. Potential reasons for this behavior include:</p>
+<ul>
+<li>Spreads were not as mean-reverting in this regime</li>
+<li>The pair selection process was weaker in earlier formation windows</li>
+<li>May also reflect lower volatility where z-score excursions were smaller</li>
+</ul>
+<p>This observation supports the general idea that mean-reversion performs poorly in strong directional or low-volatility regimes.</p>
+</section>
+<section id="section-1" class="level4">
+<h4 class="anchored" data-anchor-id="section-1">2020 - 2021</h4>
+<p>This regime showed explosive performance. The market in 2020 showed extreme dispersion, high volatility, and large cross-sectional dislocations. Pairs strategies thrive in crisis environments such as these due to breaks in correlation structure, extreme spread deviations, and an increase in reversion speed which all drive increased opportunities for profit.</p>
+<p>The strategy took advantage of these opportunities.</p>
+</section>
+<section id="section-2" class="level4">
+<h4 class="anchored" data-anchor-id="section-2">2022 - 2024</h4>
+<p>This regime showed a choppy decline in performance during the recovery of the overall market in the years following COVID.</p>
+<p>This pattern of the equity curve moving from plateau to choppy decline, combined with controlled drawdown and no catastrophic collapse, suggests not a breakdown in the strategy, but that the signal during this period is highly noisy.</p>
+<p>The curve oscillates around 0.16, further reinforcing the likelihood of noise over strategy breakdown.</p>
+</section>
+</section>
+<section id="drawdown" class="level3">
+<h3 class="anchored" data-anchor-id="drawdown">Drawdown</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>portfolio_daily <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">running_max =</span> <span class="fu">cummax</span>(equity),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">drawdown =</span> (equity <span class="sc">-</span> running_max) <span class="sc">/</span> running_max</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date, drawdown)) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Portfolio Drawdown"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Drawdown"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The strategy exhibits regime-dependent behavior. Early periods (2014–2018) show sustained underperformance, consistent with lower cross-sectional dispersion and muted mean-reversion dynamics. In contrast, 2020 demonstrates strong convexity to market dislocations, with rapid drawdown recovery and significant cumulative gains. Post-2020 performance stabilizes with reduced drawdown depth, suggesting improved robustness of the walk-forward selection process.</p>
+<p>One potential key driver of this pattern of behaivor is the lack risk mitigation strategies (e.g.&nbsp;stop losses, take profit, etc…) to prevent holding during sharp periods of loss. In its very basic state, the algorithm holds pairs for a maximum of 60-days, regardless of the extent of the win or loss. If the pair happens to revert in that time, profit is made, but if not, heavy losses are incurred.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>portfolio_daily <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">ann_ret =</span> <span class="fu">prod</span>(<span class="dv">1</span> <span class="sc">+</span> ret) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">sharpe =</span> <span class="fu">mean</span>(ret) <span class="sc">/</span> <span class="fu">sd</span>(ret) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">252</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">ann_ret</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">sharpe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">0.0089031</td>
+<td style="text-align: right;">0.2340216</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">-0.0064709</td>
+<td style="text-align: right;">-0.1608354</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">-0.0503966</td>
+<td style="text-align: right;">-0.8085863</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">0.0223493</td>
+<td style="text-align: right;">0.7385403</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">0.0279191</td>
+<td style="text-align: right;">0.6467089</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">0.0658982</td>
+<td style="text-align: right;">1.8413236</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2020</td>
+<td style="text-align: right;">0.2088703</td>
+<td style="text-align: right;">1.3761764</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2021</td>
+<td style="text-align: right;">-0.0045696</td>
+<td style="text-align: right;">-0.0469025</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2022</td>
+<td style="text-align: right;">-0.0881570</td>
+<td style="text-align: right;">-1.7425584</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2023</td>
+<td style="text-align: right;">-0.0130777</td>
+<td style="text-align: right;">-0.1644625</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2024</td>
+<td style="text-align: right;">-0.0093401</td>
+<td style="text-align: right;">-0.1007127</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2025</td>
+<td style="text-align: right;">0.0402703</td>
+<td style="text-align: right;">0.5217608</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Looking at the table above, strategy performance exhibits clear regime dependence.</p>
+<p>The strategy underperforms during low-dispersion and trend-dominated environments (2015–2016, 2022–2024), while demonstrating strong performance during periods of elevated cross-sectional volatility (2017–2019, 2020).</p>
+<p>Importantly, losses during weak regimes remain moderate and do not exhibit structural instability, suggesting the signal degrades cyclically rather than collapsing.</p>
+</section>
+<section id="cost-impact" class="level3">
+<h3 class="anchored" data-anchor-id="cost-impact">Cost Impact</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>all_trades <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gross_pnl =</span> <span class="fu">sum</span>(pnl, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">net_pnl   =</span> <span class="fu">sum</span>(pnl_net, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_cost =</span> <span class="fu">sum</span>(cost, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">gross_pnl</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">net_pnl</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">total_cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">59032.34</td>
+<td style="text-align: right;">43706.45</td>
+<td style="text-align: right;">15325.89</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Transaction costs eat up about 26% of profits. This cost drag is material but not prohibitive. The strategy retains a majority of its gross alpha after applying a realistic assumption of 5 basis points per leg, indicating that performance is not purely driven by microstructure noise. However, the magnitude of costs highlights that turnover is a primary determinant of net performance.</p>
+<p>In practical terms, this suggests:</p>
+<ul>
+<li>The core signal contains genuine predictive structure.</li>
+<li>Execution efficiency and trade frequency are critical to overall profitability.</li>
+</ul>
+<p>Further improvements should focus on reducing churn (e.g., higher entry thresholds, wider exit bands, regime filtering) rather than attempting to increase raw signal aggressiveness.</p>
+<p>Overall, the strategy remains viable after costs, but its economic efficiency is sensitive to trading intensity — a characteristic typical of mean-reversion statistical arbitrage systems.</p>
+</section>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>This project implements a fully walk-forward equity pairs trading framework with realistic execution assumptions, including transaction costs, beta-neutral sizing, and holding constraints. Several key conclusions emerge:</p>
+<ol type="1">
+<li><strong>The strategy exhibits regime-dependent behavior.</strong></li>
+</ol>
+<p>Performance is strongest during periods of elevated cross-sectional dispersion (e.g., 2017–2019, 2020) and weaker during low-dispersion or macro-trending environments (e.g., 2015–2016, 2022–2024). This is consistent with the economic intuition of mean-reversion statistical arbitrage.</p>
+<ol start="2" type="1">
+<li><strong>The signal is structurally valid, not purely noise-driven.</strong></li>
+</ol>
+<p>After applying 5 basis points per leg in transaction costs, the strategy retains approximately 74% of its gross profits. This indicates that alpha is not solely the result of excessive turnover or microstructure effects.</p>
+<ol start="3" type="1">
+<li><strong>Risk is characterized by grind, not tail events.</strong></li>
+</ol>
+<p>Drawdowns are moderate and recoverable. Losses occur in clusters during unfavorable regimes, but the strategy does not exhibit structural collapse or runaway leverage effects.</p>
+<ol start="4" type="1">
+<li><strong>Crisis convexity is present.</strong></li>
+</ol>
+<p>The strategy demonstrates strong performance during dislocation regimes (notably 2020), suggesting it benefits from temporary breakdowns in correlation and elevated volatility.</p>
+<p>Overall, the framework behaves in line with expectations for a cross-sectional mean-reversion system.</p>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<p>Despite encouraging results, several structural limitations remain:</p>
+<ul>
+<li>Annual reformation may be too infrequent.</li>
+<li>Beta is static during the trade window.</li>
+<li>No explicit volatility targeting or capital scaling.</li>
+<li>No regime conditioning (e.g., dispersion filter).</li>
+<li>Sector constraints may limit cross-sectional opportunity.</li>
+<li>Capacity and slippage effects are not modeled beyond fixed bps.</li>
+</ul>
+<p>These limitations provide clear avenues for refinement.</p>
+</section>
+<section id="appendix" class="level2">
+<h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
+<section id="pair-level-distribution-of-pnl" class="level3">
+<h3 class="anchored" data-anchor-id="pair-level-distribution-of-pnl">Pair-Level Distribution of PnL</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pair_summary <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pnl_total)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"dodgerblue"</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Total PnL ($)"</span>, <span class="at">y =</span> <span class="st">"Number of Pairs (N)"</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="pairs-table" class="level3">
+<h3 class="anchored" data-anchor-id="pairs-table">Pairs Table</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pair_summary <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(pair_id, pnl_total, pnl_mean, pnl_sd, active_share) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    knitr<span class="sc">::</span><span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">"300px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">pair_id</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">pnl_total</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">pnl_mean</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">pnl_sd</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">active_share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UCB-VLY</td>
+<td style="text-align: right;">6104.661920</td>
+<td style="text-align: right;">4.8681515</td>
+<td style="text-align: right;">70.46942</td>
+<td style="text-align: right;">0.2073074</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FULT-TCBI</td>
+<td style="text-align: right;">5312.197600</td>
+<td style="text-align: right;">21.0801492</td>
+<td style="text-align: right;">182.62473</td>
+<td style="text-align: right;">0.2845850</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FULT-ABCB</td>
+<td style="text-align: right;">4475.768443</td>
+<td style="text-align: right;">8.9158734</td>
+<td style="text-align: right;">129.99080</td>
+<td style="text-align: right;">0.4087302</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TWST-ADPT</td>
+<td style="text-align: right;">4317.220972</td>
+<td style="text-align: right;">17.2000836</td>
+<td style="text-align: right;">175.42571</td>
+<td style="text-align: right;">0.3214286</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFNC-TCBI</td>
+<td style="text-align: right;">4277.162047</td>
+<td style="text-align: right;">16.9728653</td>
+<td style="text-align: right;">149.46801</td>
+<td style="text-align: right;">0.2569170</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADPT-GH</td>
+<td style="text-align: right;">4248.853851</td>
+<td style="text-align: right;">8.4977077</td>
+<td style="text-align: right;">255.96180</td>
+<td style="text-align: right;">0.4302789</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-UMBF</td>
+<td style="text-align: right;">4209.024443</td>
+<td style="text-align: right;">8.3678418</td>
+<td style="text-align: right;">111.72096</td>
+<td style="text-align: right;">0.2831683</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-SFBS</td>
+<td style="text-align: right;">3233.278029</td>
+<td style="text-align: right;">3.2236072</td>
+<td style="text-align: right;">47.99551</td>
+<td style="text-align: right;">0.2492552</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FULT-UCB</td>
+<td style="text-align: right;">2803.289258</td>
+<td style="text-align: right;">11.1241637</td>
+<td style="text-align: right;">152.46351</td>
+<td style="text-align: right;">0.3083004</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AMBA-SYNA</td>
+<td style="text-align: right;">2727.812032</td>
+<td style="text-align: right;">10.9550684</td>
+<td style="text-align: right;">140.99406</td>
+<td style="text-align: right;">0.3840000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KRG-RHP</td>
+<td style="text-align: right;">2691.444493</td>
+<td style="text-align: right;">5.3828890</td>
+<td style="text-align: right;">93.44644</td>
+<td style="text-align: right;">0.3924303</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-VLY</td>
+<td style="text-align: right;">2256.410038</td>
+<td style="text-align: right;">3.0045407</td>
+<td style="text-align: right;">55.24156</td>
+<td style="text-align: right;">0.3143236</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">APLE-RHP</td>
+<td style="text-align: right;">2094.842115</td>
+<td style="text-align: right;">2.0969391</td>
+<td style="text-align: right;">89.05369</td>
+<td style="text-align: right;">0.2781655</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-TCBI</td>
+<td style="text-align: right;">2074.953947</td>
+<td style="text-align: right;">8.2339442</td>
+<td style="text-align: right;">89.06986</td>
+<td style="text-align: right;">0.1462451</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DIOD-NOVT</td>
+<td style="text-align: right;">2021.239957</td>
+<td style="text-align: right;">4.0424799</td>
+<td style="text-align: right;">87.96641</td>
+<td style="text-align: right;">0.3127490</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASB-TCBI</td>
+<td style="text-align: right;">1949.517996</td>
+<td style="text-align: right;">7.7980720</td>
+<td style="text-align: right;">68.74938</td>
+<td style="text-align: right;">0.2988048</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-ABCB</td>
+<td style="text-align: right;">1948.487127</td>
+<td style="text-align: right;">7.7320918</td>
+<td style="text-align: right;">79.85333</td>
+<td style="text-align: right;">0.1541502</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-ASB</td>
+<td style="text-align: right;">1942.061009</td>
+<td style="text-align: right;">3.8686474</td>
+<td style="text-align: right;">47.17154</td>
+<td style="text-align: right;">0.2936508</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KLIC-SYNA</td>
+<td style="text-align: right;">1896.703989</td>
+<td style="text-align: right;">7.5565896</td>
+<td style="text-align: right;">131.75828</td>
+<td style="text-align: right;">0.3928571</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-SFNC</td>
+<td style="text-align: right;">1892.646375</td>
+<td style="text-align: right;">7.5105015</td>
+<td style="text-align: right;">57.17949</td>
+<td style="text-align: right;">0.2055336</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOMB-PIPR</td>
+<td style="text-align: right;">1759.580050</td>
+<td style="text-align: right;">7.0665865</td>
+<td style="text-align: right;">86.89118</td>
+<td style="text-align: right;">0.2360000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HNI-GATX</td>
+<td style="text-align: right;">1748.683747</td>
+<td style="text-align: right;">6.9668675</td>
+<td style="text-align: right;">51.86745</td>
+<td style="text-align: right;">0.2817460</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCBI-ONB</td>
+<td style="text-align: right;">1740.282150</td>
+<td style="text-align: right;">6.9611286</td>
+<td style="text-align: right;">93.50683</td>
+<td style="text-align: right;">0.5099602</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TEX-FLR</td>
+<td style="text-align: right;">1708.458204</td>
+<td style="text-align: right;">6.8066064</td>
+<td style="text-align: right;">105.19532</td>
+<td style="text-align: right;">0.1825397</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ENVA-HWC</td>
+<td style="text-align: right;">1693.955653</td>
+<td style="text-align: right;">6.8030348</td>
+<td style="text-align: right;">81.25160</td>
+<td style="text-align: right;">0.2720000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PJT-MC</td>
+<td style="text-align: right;">1669.115209</td>
+<td style="text-align: right;">6.7032739</td>
+<td style="text-align: right;">57.93132</td>
+<td style="text-align: right;">0.2080000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-BKU</td>
+<td style="text-align: right;">1614.247209</td>
+<td style="text-align: right;">6.4057429</td>
+<td style="text-align: right;">98.35374</td>
+<td style="text-align: right;">0.3636364</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADPT-VCYT</td>
+<td style="text-align: right;">1558.283895</td>
+<td style="text-align: right;">6.2083024</td>
+<td style="text-align: right;">138.41137</td>
+<td style="text-align: right;">0.4007937</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FULT-HWC</td>
+<td style="text-align: right;">1416.088156</td>
+<td style="text-align: right;">5.6193974</td>
+<td style="text-align: right;">191.68185</td>
+<td style="text-align: right;">0.3122530</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HWC-UMBF</td>
+<td style="text-align: right;">1374.632268</td>
+<td style="text-align: right;">1.8304025</td>
+<td style="text-align: right;">54.55513</td>
+<td style="text-align: right;">0.3090186</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFBS-ASB</td>
+<td style="text-align: right;">1365.604366</td>
+<td style="text-align: right;">5.4406548</td>
+<td style="text-align: right;">35.97060</td>
+<td style="text-align: right;">0.2460317</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CDP-KRG</td>
+<td style="text-align: right;">1321.769034</td>
+<td style="text-align: right;">5.3083094</td>
+<td style="text-align: right;">46.99363</td>
+<td style="text-align: right;">0.2520000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-SFNC</td>
+<td style="text-align: right;">1318.380385</td>
+<td style="text-align: right;">5.2525115</td>
+<td style="text-align: right;">28.21699</td>
+<td style="text-align: right;">0.2182540</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ABCB-VLY</td>
+<td style="text-align: right;">1288.641539</td>
+<td style="text-align: right;">5.1340300</td>
+<td style="text-align: right;">55.87869</td>
+<td style="text-align: right;">0.1825397</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-CATY</td>
+<td style="text-align: right;">1242.130144</td>
+<td style="text-align: right;">4.9290879</td>
+<td style="text-align: right;">63.70235</td>
+<td style="text-align: right;">0.1897233</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRMK-FULT</td>
+<td style="text-align: right;">1228.437886</td>
+<td style="text-align: right;">2.4519718</td>
+<td style="text-align: right;">31.15436</td>
+<td style="text-align: right;">0.2504970</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HWC-GBCI</td>
+<td style="text-align: right;">1217.297316</td>
+<td style="text-align: right;">4.8497901</td>
+<td style="text-align: right;">43.94122</td>
+<td style="text-align: right;">0.2936508</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UE-CDP</td>
+<td style="text-align: right;">1207.947739</td>
+<td style="text-align: right;">4.8511957</td>
+<td style="text-align: right;">27.18026</td>
+<td style="text-align: right;">0.2000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-HWC</td>
+<td style="text-align: right;">1200.609039</td>
+<td style="text-align: right;">4.7643216</td>
+<td style="text-align: right;">103.29140</td>
+<td style="text-align: right;">0.2332016</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SFNC-CBU</td>
+<td style="text-align: right;">1197.746654</td>
+<td style="text-align: right;">4.8102275</td>
+<td style="text-align: right;">48.38232</td>
+<td style="text-align: right;">0.3280000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFNC-BOH</td>
+<td style="text-align: right;">1192.811441</td>
+<td style="text-align: right;">4.7522368</td>
+<td style="text-align: right;">62.92311</td>
+<td style="text-align: right;">0.3333333</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MC-AX</td>
+<td style="text-align: right;">1136.961071</td>
+<td style="text-align: right;">4.5661087</td>
+<td style="text-align: right;">51.85069</td>
+<td style="text-align: right;">0.3440000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-HOMB</td>
+<td style="text-align: right;">1129.058324</td>
+<td style="text-align: right;">4.4982403</td>
+<td style="text-align: right;">35.34332</td>
+<td style="text-align: right;">0.2539683</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RDN-ESNT</td>
+<td style="text-align: right;">1097.072198</td>
+<td style="text-align: right;">2.1810580</td>
+<td style="text-align: right;">57.37067</td>
+<td style="text-align: right;">0.2019802</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SSRM-CDE</td>
+<td style="text-align: right;">1089.067225</td>
+<td style="text-align: right;">4.3562689</td>
+<td style="text-align: right;">61.84357</td>
+<td style="text-align: right;">0.3665339</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SFNC-UMBF</td>
+<td style="text-align: right;">1077.867979</td>
+<td style="text-align: right;">4.2942947</td>
+<td style="text-align: right;">63.83400</td>
+<td style="text-align: right;">0.3055556</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-ABCB</td>
+<td style="text-align: right;">1073.478272</td>
+<td style="text-align: right;">4.2768059</td>
+<td style="text-align: right;">28.57428</td>
+<td style="text-align: right;">0.1825397</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MC-PIPR</td>
+<td style="text-align: right;">1061.307965</td>
+<td style="text-align: right;">4.2622810</td>
+<td style="text-align: right;">111.19973</td>
+<td style="text-align: right;">0.3240000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SYNA-AEIS</td>
+<td style="text-align: right;">1036.838170</td>
+<td style="text-align: right;">4.1640087</td>
+<td style="text-align: right;">89.65114</td>
+<td style="text-align: right;">0.3400000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BKH-POR</td>
+<td style="text-align: right;">1022.570145</td>
+<td style="text-align: right;">2.0451403</td>
+<td style="text-align: right;">24.59224</td>
+<td style="text-align: right;">0.2609562</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-UMBF</td>
+<td style="text-align: right;">992.686125</td>
+<td style="text-align: right;">3.9866913</td>
+<td style="text-align: right;">65.58275</td>
+<td style="text-align: right;">0.2560000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CAKE-EAT</td>
+<td style="text-align: right;">989.614909</td>
+<td style="text-align: right;">1.9792298</td>
+<td style="text-align: right;">97.65008</td>
+<td style="text-align: right;">0.4243028</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CWK-NMRK</td>
+<td style="text-align: right;">983.713517</td>
+<td style="text-align: right;">3.9506567</td>
+<td style="text-align: right;">81.09676</td>
+<td style="text-align: right;">0.4000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HGV-RRR</td>
+<td style="text-align: right;">973.201944</td>
+<td style="text-align: right;">1.9464039</td>
+<td style="text-align: right;">61.41806</td>
+<td style="text-align: right;">0.2928287</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KMT-HRI</td>
+<td style="text-align: right;">967.980035</td>
+<td style="text-align: right;">3.8874700</td>
+<td style="text-align: right;">147.78048</td>
+<td style="text-align: right;">0.2480000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AKR-KRG</td>
+<td style="text-align: right;">961.439795</td>
+<td style="text-align: right;">1.9190415</td>
+<td style="text-align: right;">42.08038</td>
+<td style="text-align: right;">0.3936382</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FULT-SIGI</td>
+<td style="text-align: right;">951.985611</td>
+<td style="text-align: right;">3.7927714</td>
+<td style="text-align: right;">39.92335</td>
+<td style="text-align: right;">0.2460317</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-UCB</td>
+<td style="text-align: right;">941.941103</td>
+<td style="text-align: right;">1.8801220</td>
+<td style="text-align: right;">30.77058</td>
+<td style="text-align: right;">0.2624254</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BEAM-ADPT</td>
+<td style="text-align: right;">937.791974</td>
+<td style="text-align: right;">3.7662328</td>
+<td style="text-align: right;">181.54346</td>
+<td style="text-align: right;">0.4320000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OGS-SR</td>
+<td style="text-align: right;">915.952840</td>
+<td style="text-align: right;">1.8282492</td>
+<td style="text-align: right;">18.08471</td>
+<td style="text-align: right;">0.3220676</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HE-AVA</td>
+<td style="text-align: right;">914.139261</td>
+<td style="text-align: right;">3.6565570</td>
+<td style="text-align: right;">35.47668</td>
+<td style="text-align: right;">0.2868526</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FULT-FFIN</td>
+<td style="text-align: right;">902.665586</td>
+<td style="text-align: right;">3.5962772</td>
+<td style="text-align: right;">39.14251</td>
+<td style="text-align: right;">0.3015873</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FULT-VLY</td>
+<td style="text-align: right;">863.409460</td>
+<td style="text-align: right;">1.7165198</td>
+<td style="text-align: right;">56.54531</td>
+<td style="text-align: right;">0.3584158</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BCC-UFPI</td>
+<td style="text-align: right;">842.628831</td>
+<td style="text-align: right;">3.3840515</td>
+<td style="text-align: right;">25.30010</td>
+<td style="text-align: right;">0.1880000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CATY-ASB</td>
+<td style="text-align: right;">838.562400</td>
+<td style="text-align: right;">1.1136287</td>
+<td style="text-align: right;">33.57861</td>
+<td style="text-align: right;">0.3756614</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-FULT</td>
+<td style="text-align: right;">837.558857</td>
+<td style="text-align: right;">1.1152581</td>
+<td style="text-align: right;">42.50318</td>
+<td style="text-align: right;">0.3726790</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VLY-UMBF</td>
+<td style="text-align: right;">834.945334</td>
+<td style="text-align: right;">3.3264754</td>
+<td style="text-align: right;">118.67085</td>
+<td style="text-align: right;">0.3769841</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UCTT-AEIS</td>
+<td style="text-align: right;">804.453112</td>
+<td style="text-align: right;">3.2049925</td>
+<td style="text-align: right;">95.14219</td>
+<td style="text-align: right;">0.3174603</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AVA-TXNM</td>
+<td style="text-align: right;">778.595058</td>
+<td style="text-align: right;">3.1143802</td>
+<td style="text-align: right;">24.30785</td>
+<td style="text-align: right;">0.2031873</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-VLY</td>
+<td style="text-align: right;">776.728113</td>
+<td style="text-align: right;">3.1069125</td>
+<td style="text-align: right;">44.83343</td>
+<td style="text-align: right;">0.3864542</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UE-AKR</td>
+<td style="text-align: right;">765.234980</td>
+<td style="text-align: right;">3.0487449</td>
+<td style="text-align: right;">32.48800</td>
+<td style="text-align: right;">0.2380952</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SFNC-BKU</td>
+<td style="text-align: right;">763.875385</td>
+<td style="text-align: right;">3.0555015</td>
+<td style="text-align: right;">44.89730</td>
+<td style="text-align: right;">0.3306773</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ENVA-HOMB</td>
+<td style="text-align: right;">759.941452</td>
+<td style="text-align: right;">3.0519737</td>
+<td style="text-align: right;">67.63625</td>
+<td style="text-align: right;">0.3000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCBI-UMBF</td>
+<td style="text-align: right;">756.176846</td>
+<td style="text-align: right;">1.0028871</td>
+<td style="text-align: right;">60.67515</td>
+<td style="text-align: right;">0.3064729</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LXP-TRNO</td>
+<td style="text-align: right;">755.859123</td>
+<td style="text-align: right;">3.0113909</td>
+<td style="text-align: right;">31.18576</td>
+<td style="text-align: right;">0.2896825</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AMR-HCC</td>
+<td style="text-align: right;">752.873780</td>
+<td style="text-align: right;">2.9994971</td>
+<td style="text-align: right;">146.40207</td>
+<td style="text-align: right;">0.4404762</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BOH-VLY</td>
+<td style="text-align: right;">739.636873</td>
+<td style="text-align: right;">2.9467605</td>
+<td style="text-align: right;">69.68388</td>
+<td style="text-align: right;">0.3690476</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CATY-ENVA</td>
+<td style="text-align: right;">685.194519</td>
+<td style="text-align: right;">2.7407781</td>
+<td style="text-align: right;">47.27637</td>
+<td style="text-align: right;">0.1992032</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NWE-OGS</td>
+<td style="text-align: right;">675.289640</td>
+<td style="text-align: right;">1.3478835</td>
+<td style="text-align: right;">33.44939</td>
+<td style="text-align: right;">0.3419483</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FULT-GBCI</td>
+<td style="text-align: right;">643.346721</td>
+<td style="text-align: right;">1.2815672</td>
+<td style="text-align: right;">47.36431</td>
+<td style="text-align: right;">0.2757937</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFNC-ASB</td>
+<td style="text-align: right;">632.800966</td>
+<td style="text-align: right;">1.2580536</td>
+<td style="text-align: right;">32.61447</td>
+<td style="text-align: right;">0.2792079</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVA-NWE</td>
+<td style="text-align: right;">625.610759</td>
+<td style="text-align: right;">0.8341477</td>
+<td style="text-align: right;">34.64747</td>
+<td style="text-align: right;">0.3492696</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-CNO</td>
+<td style="text-align: right;">612.927934</td>
+<td style="text-align: right;">2.4419440</td>
+<td style="text-align: right;">54.72953</td>
+<td style="text-align: right;">0.4960317</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FULT-SFBS</td>
+<td style="text-align: right;">598.352400</td>
+<td style="text-align: right;">2.3744143</td>
+<td style="text-align: right;">236.30670</td>
+<td style="text-align: right;">0.4426877</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SWX-POR</td>
+<td style="text-align: right;">588.951478</td>
+<td style="text-align: right;">1.1779030</td>
+<td style="text-align: right;">25.60994</td>
+<td style="text-align: right;">0.2629482</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-BOH</td>
+<td style="text-align: right;">578.347406</td>
+<td style="text-align: right;">2.3041729</td>
+<td style="text-align: right;">36.26963</td>
+<td style="text-align: right;">0.3373016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KRG-EPRT</td>
+<td style="text-align: right;">567.098731</td>
+<td style="text-align: right;">1.1341975</td>
+<td style="text-align: right;">38.75859</td>
+<td style="text-align: right;">0.3087649</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VLY-GBCI</td>
+<td style="text-align: right;">560.617550</td>
+<td style="text-align: right;">2.2424702</td>
+<td style="text-align: right;">52.05711</td>
+<td style="text-align: right;">0.4063745</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ENVA-ASB</td>
+<td style="text-align: right;">551.565901</td>
+<td style="text-align: right;">2.2151241</td>
+<td style="text-align: right;">88.05927</td>
+<td style="text-align: right;">0.3080000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANR-CVBF</td>
+<td style="text-align: right;">531.825979</td>
+<td style="text-align: right;">2.1188286</td>
+<td style="text-align: right;">52.82300</td>
+<td style="text-align: right;">0.3412698</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SR-BKH</td>
+<td style="text-align: right;">531.315497</td>
+<td style="text-align: right;">1.0626310</td>
+<td style="text-align: right;">31.05517</td>
+<td style="text-align: right;">0.2549801</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BOH-CATY</td>
+<td style="text-align: right;">521.309098</td>
+<td style="text-align: right;">0.6923096</td>
+<td style="text-align: right;">31.00105</td>
+<td style="text-align: right;">0.2896825</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CDP-SBRA</td>
+<td style="text-align: right;">511.013824</td>
+<td style="text-align: right;">2.0359117</td>
+<td style="text-align: right;">28.41545</td>
+<td style="text-align: right;">0.1746032</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CBU-AX</td>
+<td style="text-align: right;">508.747664</td>
+<td style="text-align: right;">2.0431633</td>
+<td style="text-align: right;">64.73604</td>
+<td style="text-align: right;">0.3200000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DIOD-SLAB</td>
+<td style="text-align: right;">506.680634</td>
+<td style="text-align: right;">2.0348620</td>
+<td style="text-align: right;">71.22479</td>
+<td style="text-align: right;">0.3160000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRMK-GBCI</td>
+<td style="text-align: right;">495.312188</td>
+<td style="text-align: right;">0.6586598</td>
+<td style="text-align: right;">34.46733</td>
+<td style="text-align: right;">0.2715232</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PTEN-HP</td>
+<td style="text-align: right;">494.694877</td>
+<td style="text-align: right;">0.6587149</td>
+<td style="text-align: right;">63.43651</td>
+<td style="text-align: right;">0.2175066</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UCB-ABCB</td>
+<td style="text-align: right;">464.591152</td>
+<td style="text-align: right;">1.8509608</td>
+<td style="text-align: right;">30.44699</td>
+<td style="text-align: right;">0.1984127</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCBI-VLY</td>
+<td style="text-align: right;">458.735097</td>
+<td style="text-align: right;">1.8276299</td>
+<td style="text-align: right;">83.24347</td>
+<td style="text-align: right;">0.4404762</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FFIN-GBCI</td>
+<td style="text-align: right;">450.529032</td>
+<td style="text-align: right;">1.8021161</td>
+<td style="text-align: right;">25.73984</td>
+<td style="text-align: right;">0.2749004</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-VLY</td>
+<td style="text-align: right;">431.144185</td>
+<td style="text-align: right;">1.7177059</td>
+<td style="text-align: right;">91.59171</td>
+<td style="text-align: right;">0.5674603</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ENVA-VLY</td>
+<td style="text-align: right;">421.652503</td>
+<td style="text-align: right;">0.8449950</td>
+<td style="text-align: right;">122.55558</td>
+<td style="text-align: right;">0.3333333</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BOH-ABCB</td>
+<td style="text-align: right;">418.348560</td>
+<td style="text-align: right;">1.6667273</td>
+<td style="text-align: right;">21.55875</td>
+<td style="text-align: right;">0.2539683</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-GBCI</td>
+<td style="text-align: right;">410.908190</td>
+<td style="text-align: right;">0.5464205</td>
+<td style="text-align: right;">25.77228</td>
+<td style="text-align: right;">0.2993377</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-WAFD</td>
+<td style="text-align: right;">394.454789</td>
+<td style="text-align: right;">0.7889096</td>
+<td style="text-align: right;">35.13567</td>
+<td style="text-align: right;">0.2928287</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANR-VLY</td>
+<td style="text-align: right;">362.931836</td>
+<td style="text-align: right;">1.4517273</td>
+<td style="text-align: right;">65.03319</td>
+<td style="text-align: right;">0.4023904</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-UMBF</td>
+<td style="text-align: right;">352.664374</td>
+<td style="text-align: right;">0.4689686</td>
+<td style="text-align: right;">45.54099</td>
+<td style="text-align: right;">0.3298013</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-ONB</td>
+<td style="text-align: right;">347.395375</td>
+<td style="text-align: right;">1.3840453</td>
+<td style="text-align: right;">45.45973</td>
+<td style="text-align: right;">0.3373016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OGS-POR</td>
+<td style="text-align: right;">343.334742</td>
+<td style="text-align: right;">0.6852989</td>
+<td style="text-align: right;">29.56534</td>
+<td style="text-align: right;">0.3101392</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CATY-CNO</td>
+<td style="text-align: right;">339.957642</td>
+<td style="text-align: right;">0.6772065</td>
+<td style="text-align: right;">35.95680</td>
+<td style="text-align: right;">0.3630952</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFNC-SFBS</td>
+<td style="text-align: right;">338.923535</td>
+<td style="text-align: right;">0.6738042</td>
+<td style="text-align: right;">80.12481</td>
+<td style="text-align: right;">0.3821782</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FCPT-CTRE</td>
+<td style="text-align: right;">337.143846</td>
+<td style="text-align: right;">1.3485754</td>
+<td style="text-align: right;">43.06192</td>
+<td style="text-align: right;">0.2788845</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BXMT-RDN</td>
+<td style="text-align: right;">330.432720</td>
+<td style="text-align: right;">1.3217309</td>
+<td style="text-align: right;">45.24143</td>
+<td style="text-align: right;">0.2868526</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MC-HOMB</td>
+<td style="text-align: right;">295.247682</td>
+<td style="text-align: right;">1.1857337</td>
+<td style="text-align: right;">46.46903</td>
+<td style="text-align: right;">0.2480000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-ONB</td>
+<td style="text-align: right;">288.415834</td>
+<td style="text-align: right;">0.5745335</td>
+<td style="text-align: right;">22.45612</td>
+<td style="text-align: right;">0.2142857</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRMK-CNO</td>
+<td style="text-align: right;">275.974254</td>
+<td style="text-align: right;">1.0994990</td>
+<td style="text-align: right;">18.49623</td>
+<td style="text-align: right;">0.1031746</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-CVBF</td>
+<td style="text-align: right;">272.198656</td>
+<td style="text-align: right;">1.0844568</td>
+<td style="text-align: right;">23.29077</td>
+<td style="text-align: right;">0.3015873</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MTX-CMC</td>
+<td style="text-align: right;">258.058833</td>
+<td style="text-align: right;">1.0281228</td>
+<td style="text-align: right;">81.75309</td>
+<td style="text-align: right;">0.3531746</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UCB-ASB</td>
+<td style="text-align: right;">256.906223</td>
+<td style="text-align: right;">1.0276249</td>
+<td style="text-align: right;">31.99239</td>
+<td style="text-align: right;">0.3266932</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANR-BOH</td>
+<td style="text-align: right;">237.020042</td>
+<td style="text-align: right;">0.9443030</td>
+<td style="text-align: right;">23.12873</td>
+<td style="text-align: right;">0.2658730</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WAFD-FFIN</td>
+<td style="text-align: right;">223.684816</td>
+<td style="text-align: right;">0.8947393</td>
+<td style="text-align: right;">31.85184</td>
+<td style="text-align: right;">0.2868526</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NHI-KRG</td>
+<td style="text-align: right;">219.258283</td>
+<td style="text-align: right;">0.4367695</td>
+<td style="text-align: right;">55.86113</td>
+<td style="text-align: right;">0.3412698</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AVA-BKH</td>
+<td style="text-align: right;">216.240370</td>
+<td style="text-align: right;">0.8649615</td>
+<td style="text-align: right;">53.63043</td>
+<td style="text-align: right;">0.2669323</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRMK-WAFD</td>
+<td style="text-align: right;">214.844924</td>
+<td style="text-align: right;">0.8559559</td>
+<td style="text-align: right;">34.02174</td>
+<td style="text-align: right;">0.3015873</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CWK-AKR</td>
+<td style="text-align: right;">207.287732</td>
+<td style="text-align: right;">0.8258475</td>
+<td style="text-align: right;">57.83188</td>
+<td style="text-align: right;">0.1785714</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BOH-UCB</td>
+<td style="text-align: right;">205.388581</td>
+<td style="text-align: right;">0.8182812</td>
+<td style="text-align: right;">37.52526</td>
+<td style="text-align: right;">0.3214286</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-UCB</td>
+<td style="text-align: right;">195.645043</td>
+<td style="text-align: right;">0.7794623</td>
+<td style="text-align: right;">37.07605</td>
+<td style="text-align: right;">0.4325397</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CDP-CTRE</td>
+<td style="text-align: right;">194.418637</td>
+<td style="text-align: right;">0.7807977</td>
+<td style="text-align: right;">53.37958</td>
+<td style="text-align: right;">0.3760000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-UCB</td>
+<td style="text-align: right;">193.881142</td>
+<td style="text-align: right;">0.7724348</td>
+<td style="text-align: right;">24.76872</td>
+<td style="text-align: right;">0.3015873</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NMIH-RDN</td>
+<td style="text-align: right;">174.921607</td>
+<td style="text-align: right;">0.6968988</td>
+<td style="text-align: right;">28.10825</td>
+<td style="text-align: right;">0.2619048</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BOH-FLG</td>
+<td style="text-align: right;">140.008349</td>
+<td style="text-align: right;">0.2789011</td>
+<td style="text-align: right;">31.04972</td>
+<td style="text-align: right;">0.4484127</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CBU-ONB</td>
+<td style="text-align: right;">136.423729</td>
+<td style="text-align: right;">0.5435208</td>
+<td style="text-align: right;">61.88255</td>
+<td style="text-align: right;">0.3412698</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CATY-SFBS</td>
+<td style="text-align: right;">125.420666</td>
+<td style="text-align: right;">0.2493453</td>
+<td style="text-align: right;">53.17824</td>
+<td style="text-align: right;">0.3029703</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MTH-IBP</td>
+<td style="text-align: right;">120.895870</td>
+<td style="text-align: right;">0.4816569</td>
+<td style="text-align: right;">36.13635</td>
+<td style="text-align: right;">0.1785714</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">APLE-CDP</td>
+<td style="text-align: right;">116.543796</td>
+<td style="text-align: right;">0.4680474</td>
+<td style="text-align: right;">36.41175</td>
+<td style="text-align: right;">0.2720000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRMK-SIGI</td>
+<td style="text-align: right;">112.270301</td>
+<td style="text-align: right;">0.2236460</td>
+<td style="text-align: right;">45.39993</td>
+<td style="text-align: right;">0.3055556</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WAFD-CBU</td>
+<td style="text-align: right;">110.097839</td>
+<td style="text-align: right;">0.1464067</td>
+<td style="text-align: right;">28.21094</td>
+<td style="text-align: right;">0.3311258</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BKU-RDN</td>
+<td style="text-align: right;">104.064664</td>
+<td style="text-align: right;">0.4179304</td>
+<td style="text-align: right;">62.94618</td>
+<td style="text-align: right;">0.3840000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-SIGI</td>
+<td style="text-align: right;">98.739435</td>
+<td style="text-align: right;">0.3933842</td>
+<td style="text-align: right;">40.36021</td>
+<td style="text-align: right;">0.2222222</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SKT-KRG</td>
+<td style="text-align: right;">93.867487</td>
+<td style="text-align: right;">0.3769779</td>
+<td style="text-align: right;">31.92818</td>
+<td style="text-align: right;">0.3360000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CATY-GBCI</td>
+<td style="text-align: right;">88.422079</td>
+<td style="text-align: right;">0.1175826</td>
+<td style="text-align: right;">26.89814</td>
+<td style="text-align: right;">0.3112583</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVA-POR</td>
+<td style="text-align: right;">69.058679</td>
+<td style="text-align: right;">0.2773441</td>
+<td style="text-align: right;">31.39932</td>
+<td style="text-align: right;">0.4720000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BOH-SFBS</td>
+<td style="text-align: right;">64.440380</td>
+<td style="text-align: right;">0.0858061</td>
+<td style="text-align: right;">26.02060</td>
+<td style="text-align: right;">0.2732095</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NOG-SM</td>
+<td style="text-align: right;">56.824487</td>
+<td style="text-align: right;">0.2282108</td>
+<td style="text-align: right;">40.06306</td>
+<td style="text-align: right;">0.2880000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BKU-UMBF</td>
+<td style="text-align: right;">56.335141</td>
+<td style="text-align: right;">0.2244428</td>
+<td style="text-align: right;">41.58723</td>
+<td style="text-align: right;">0.3134921</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LCII-CVCO</td>
+<td style="text-align: right;">49.883362</td>
+<td style="text-align: right;">0.2003348</td>
+<td style="text-align: right;">134.73208</td>
+<td style="text-align: right;">0.4600000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-HOMB</td>
+<td style="text-align: right;">10.571896</td>
+<td style="text-align: right;">0.0211016</td>
+<td style="text-align: right;">44.66377</td>
+<td style="text-align: right;">0.3697813</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NOG-MUR</td>
+<td style="text-align: right;">9.651103</td>
+<td style="text-align: right;">0.0386044</td>
+<td style="text-align: right;">90.43204</td>
+<td style="text-align: right;">0.4621514</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NJR-TXNM</td>
+<td style="text-align: right;">-9.769439</td>
+<td style="text-align: right;">-0.0390778</td>
+<td style="text-align: right;">25.88681</td>
+<td style="text-align: right;">0.3067729</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">APLE-SLG</td>
+<td style="text-align: right;">-12.003742</td>
+<td style="text-align: right;">-0.0480150</td>
+<td style="text-align: right;">102.88623</td>
+<td style="text-align: right;">0.4900398</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SR-TXNM</td>
+<td style="text-align: right;">-12.026636</td>
+<td style="text-align: right;">-0.0239098</td>
+<td style="text-align: right;">37.26412</td>
+<td style="text-align: right;">0.2752475</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FBP-HWC</td>
+<td style="text-align: right;">-17.741090</td>
+<td style="text-align: right;">-0.0709644</td>
+<td style="text-align: right;">95.92583</td>
+<td style="text-align: right;">0.4422311</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFNC-CATY</td>
+<td style="text-align: right;">-42.119935</td>
+<td style="text-align: right;">-0.0842399</td>
+<td style="text-align: right;">32.78683</td>
+<td style="text-align: right;">0.3645418</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MTX-SXT</td>
+<td style="text-align: right;">-72.391135</td>
+<td style="text-align: right;">-0.2884109</td>
+<td style="text-align: right;">41.20878</td>
+<td style="text-align: right;">0.4325397</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-ABCB</td>
+<td style="text-align: right;">-78.740059</td>
+<td style="text-align: right;">-0.3149602</td>
+<td style="text-align: right;">40.43084</td>
+<td style="text-align: right;">0.4342629</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NWE-SR</td>
+<td style="text-align: right;">-88.631116</td>
+<td style="text-align: right;">-0.1181748</td>
+<td style="text-align: right;">33.45041</td>
+<td style="text-align: right;">0.3864542</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-ASB</td>
+<td style="text-align: right;">-91.586984</td>
+<td style="text-align: right;">-0.3663479</td>
+<td style="text-align: right;">32.63999</td>
+<td style="text-align: right;">0.2709163</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BOH-UMBF</td>
+<td style="text-align: right;">-112.367356</td>
+<td style="text-align: right;">-0.2242861</td>
+<td style="text-align: right;">28.39162</td>
+<td style="text-align: right;">0.3697813</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NOG-CRC</td>
+<td style="text-align: right;">-127.229182</td>
+<td style="text-align: right;">-0.5109606</td>
+<td style="text-align: right;">81.19645</td>
+<td style="text-align: right;">0.3440000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRMK-HOMB</td>
+<td style="text-align: right;">-131.819679</td>
+<td style="text-align: right;">-0.5251780</td>
+<td style="text-align: right;">50.34736</td>
+<td style="text-align: right;">0.3849206</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NJR-POR</td>
+<td style="text-align: right;">-154.131140</td>
+<td style="text-align: right;">-0.6140683</td>
+<td style="text-align: right;">32.42658</td>
+<td style="text-align: right;">0.5436508</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRMK-BOH</td>
+<td style="text-align: right;">-159.266298</td>
+<td style="text-align: right;">-0.6345271</td>
+<td style="text-align: right;">26.45371</td>
+<td style="text-align: right;">0.1706349</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFBS-UMBF</td>
+<td style="text-align: right;">-169.353260</td>
+<td style="text-align: right;">-0.2252038</td>
+<td style="text-align: right;">49.81562</td>
+<td style="text-align: right;">0.3509934</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CATY-HWC</td>
+<td style="text-align: right;">-169.879407</td>
+<td style="text-align: right;">-0.6822466</td>
+<td style="text-align: right;">51.07205</td>
+<td style="text-align: right;">0.4440000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WAFD-CATY</td>
+<td style="text-align: right;">-171.610491</td>
+<td style="text-align: right;">-0.3418536</td>
+<td style="text-align: right;">27.41417</td>
+<td style="text-align: right;">0.3928571</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASB-ONB</td>
+<td style="text-align: right;">-175.667587</td>
+<td style="text-align: right;">-0.7026703</td>
+<td style="text-align: right;">29.16064</td>
+<td style="text-align: right;">0.4223108</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SKT-NHI</td>
+<td style="text-align: right;">-185.280131</td>
+<td style="text-align: right;">-0.7381679</td>
+<td style="text-align: right;">41.85627</td>
+<td style="text-align: right;">0.4166667</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FULT-ONB</td>
+<td style="text-align: right;">-187.829398</td>
+<td style="text-align: right;">-0.7483243</td>
+<td style="text-align: right;">26.36485</td>
+<td style="text-align: right;">0.5039683</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CATY-FULT</td>
+<td style="text-align: right;">-196.045410</td>
+<td style="text-align: right;">-0.3905287</td>
+<td style="text-align: right;">64.33218</td>
+<td style="text-align: right;">0.4444444</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FULT-FLG</td>
+<td style="text-align: right;">-199.127687</td>
+<td style="text-align: right;">-0.7933374</td>
+<td style="text-align: right;">49.80059</td>
+<td style="text-align: right;">0.3452381</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OGS-NJR</td>
+<td style="text-align: right;">-204.429164</td>
+<td style="text-align: right;">-0.8144588</td>
+<td style="text-align: right;">28.16557</td>
+<td style="text-align: right;">0.3412698</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DIOD-FORM</td>
+<td style="text-align: right;">-241.897878</td>
+<td style="text-align: right;">-0.9637366</td>
+<td style="text-align: right;">44.48841</td>
+<td style="text-align: right;">0.2698413</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NWE-NJR</td>
+<td style="text-align: right;">-244.653034</td>
+<td style="text-align: right;">-0.9786121</td>
+<td style="text-align: right;">27.16056</td>
+<td style="text-align: right;">0.3665339</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UE-SLG</td>
+<td style="text-align: right;">-281.668570</td>
+<td style="text-align: right;">-0.5610928</td>
+<td style="text-align: right;">64.77714</td>
+<td style="text-align: right;">0.3789683</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SR-POR</td>
+<td style="text-align: right;">-283.751924</td>
+<td style="text-align: right;">-1.1304858</td>
+<td style="text-align: right;">29.89698</td>
+<td style="text-align: right;">0.3452381</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AKR-SKT</td>
+<td style="text-align: right;">-307.337720</td>
+<td style="text-align: right;">-1.2244531</td>
+<td style="text-align: right;">22.26707</td>
+<td style="text-align: right;">0.4206349</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOMB-UMBF</td>
+<td style="text-align: right;">-329.142127</td>
+<td style="text-align: right;">-1.3113232</td>
+<td style="text-align: right;">51.95782</td>
+<td style="text-align: right;">0.4246032</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VSH-AEIS</td>
+<td style="text-align: right;">-343.698362</td>
+<td style="text-align: right;">-1.3693162</td>
+<td style="text-align: right;">107.31331</td>
+<td style="text-align: right;">0.4523810</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KBH-IBP</td>
+<td style="text-align: right;">-343.860032</td>
+<td style="text-align: right;">-1.3699603</td>
+<td style="text-align: right;">60.20607</td>
+<td style="text-align: right;">0.2619048</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCBI-ABCB</td>
+<td style="text-align: right;">-354.658120</td>
+<td style="text-align: right;">-1.4129806</td>
+<td style="text-align: right;">42.80394</td>
+<td style="text-align: right;">0.4365079</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-FLG</td>
+<td style="text-align: right;">-367.122252</td>
+<td style="text-align: right;">-1.4626385</td>
+<td style="text-align: right;">45.76307</td>
+<td style="text-align: right;">0.3174603</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASB-VLY</td>
+<td style="text-align: right;">-381.035352</td>
+<td style="text-align: right;">-1.5180691</td>
+<td style="text-align: right;">46.66779</td>
+<td style="text-align: right;">0.4642857</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-FULT</td>
+<td style="text-align: right;">-402.127941</td>
+<td style="text-align: right;">-1.6085118</td>
+<td style="text-align: right;">24.88918</td>
+<td style="text-align: right;">0.3067729</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-UMBF</td>
+<td style="text-align: right;">-416.756721</td>
+<td style="text-align: right;">-1.6603853</td>
+<td style="text-align: right;">46.06050</td>
+<td style="text-align: right;">0.4801587</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FFIN-HOMB</td>
+<td style="text-align: right;">-422.481057</td>
+<td style="text-align: right;">-1.6765121</td>
+<td style="text-align: right;">59.59191</td>
+<td style="text-align: right;">0.2529644</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FULT-ASB</td>
+<td style="text-align: right;">-433.590393</td>
+<td style="text-align: right;">-0.5773507</td>
+<td style="text-align: right;">35.26731</td>
+<td style="text-align: right;">0.4602122</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BANR-WAFD</td>
+<td style="text-align: right;">-463.121881</td>
+<td style="text-align: right;">-1.8451071</td>
+<td style="text-align: right;">57.22602</td>
+<td style="text-align: right;">0.4484127</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-GBCI</td>
+<td style="text-align: right;">-468.065750</td>
+<td style="text-align: right;">-1.8722630</td>
+<td style="text-align: right;">31.05473</td>
+<td style="text-align: right;">0.4382470</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFBS-ABCB</td>
+<td style="text-align: right;">-484.749592</td>
+<td style="text-align: right;">-1.9389984</td>
+<td style="text-align: right;">49.32028</td>
+<td style="text-align: right;">0.3346614</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HWC-UBSI</td>
+<td style="text-align: right;">-504.748128</td>
+<td style="text-align: right;">-2.0109487</td>
+<td style="text-align: right;">32.29394</td>
+<td style="text-align: right;">0.4444444</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WAFD-SFBS</td>
+<td style="text-align: right;">-521.318633</td>
+<td style="text-align: right;">-2.0852745</td>
+<td style="text-align: right;">36.94769</td>
+<td style="text-align: right;">0.4501992</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ENVA-MC</td>
+<td style="text-align: right;">-522.329747</td>
+<td style="text-align: right;">-2.0977098</td>
+<td style="text-align: right;">78.09867</td>
+<td style="text-align: right;">0.3760000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-GBCI</td>
+<td style="text-align: right;">-526.818981</td>
+<td style="text-align: right;">-2.0988804</td>
+<td style="text-align: right;">24.41260</td>
+<td style="text-align: right;">0.4523810</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MAC-KRG</td>
+<td style="text-align: right;">-530.166761</td>
+<td style="text-align: right;">-2.1206670</td>
+<td style="text-align: right;">62.34350</td>
+<td style="text-align: right;">0.4501992</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MHO-MTH</td>
+<td style="text-align: right;">-535.286310</td>
+<td style="text-align: right;">-2.1326148</td>
+<td style="text-align: right;">56.79581</td>
+<td style="text-align: right;">0.4087302</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-UCB</td>
+<td style="text-align: right;">-541.875171</td>
+<td style="text-align: right;">-2.1675007</td>
+<td style="text-align: right;">36.87701</td>
+<td style="text-align: right;">0.5418327</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NHI-SBRA</td>
+<td style="text-align: right;">-548.966051</td>
+<td style="text-align: right;">-1.1001324</td>
+<td style="text-align: right;">68.88258</td>
+<td style="text-align: right;">0.2854291</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CVBF-CBU</td>
+<td style="text-align: right;">-556.773565</td>
+<td style="text-align: right;">-2.2270943</td>
+<td style="text-align: right;">73.43614</td>
+<td style="text-align: right;">0.4581673</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AEO-URBN</td>
+<td style="text-align: right;">-567.361674</td>
+<td style="text-align: right;">-2.2785609</td>
+<td style="text-align: right;">94.56440</td>
+<td style="text-align: right;">0.4400000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASB-UMBF</td>
+<td style="text-align: right;">-570.132584</td>
+<td style="text-align: right;">-1.1334644</td>
+<td style="text-align: right;">105.74068</td>
+<td style="text-align: right;">0.3346535</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">POWI-KLIC</td>
+<td style="text-align: right;">-578.488279</td>
+<td style="text-align: right;">-1.1569766</td>
+<td style="text-align: right;">72.93152</td>
+<td style="text-align: right;">0.3067729</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BKU-CNO</td>
+<td style="text-align: right;">-582.826643</td>
+<td style="text-align: right;">-2.3313066</td>
+<td style="text-align: right;">54.24756</td>
+<td style="text-align: right;">0.5498008</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FULT-HOMB</td>
+<td style="text-align: right;">-597.284183</td>
+<td style="text-align: right;">-1.1874437</td>
+<td style="text-align: right;">149.31213</td>
+<td style="text-align: right;">0.4138614</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-ABCB</td>
+<td style="text-align: right;">-600.024936</td>
+<td style="text-align: right;">-2.4000997</td>
+<td style="text-align: right;">48.95480</td>
+<td style="text-align: right;">0.5737052</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BOH-FULT</td>
+<td style="text-align: right;">-602.473482</td>
+<td style="text-align: right;">-2.4002928</td>
+<td style="text-align: right;">50.14266</td>
+<td style="text-align: right;">0.4563492</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TWST-VCYT</td>
+<td style="text-align: right;">-603.101069</td>
+<td style="text-align: right;">-2.4124043</td>
+<td style="text-align: right;">241.20365</td>
+<td style="text-align: right;">0.3466135</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CDP-OUT</td>
+<td style="text-align: right;">-603.935136</td>
+<td style="text-align: right;">-2.4254423</td>
+<td style="text-align: right;">54.96220</td>
+<td style="text-align: right;">0.2680000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TDW-HP</td>
+<td style="text-align: right;">-616.352686</td>
+<td style="text-align: right;">-2.4654107</td>
+<td style="text-align: right;">86.72764</td>
+<td style="text-align: right;">0.2430279</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CATY-UCB</td>
+<td style="text-align: right;">-618.071586</td>
+<td style="text-align: right;">-2.4624366</td>
+<td style="text-align: right;">36.04560</td>
+<td style="text-align: right;">0.5039683</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CNO-GBCI</td>
+<td style="text-align: right;">-633.734042</td>
+<td style="text-align: right;">-2.5248368</td>
+<td style="text-align: right;">57.93251</td>
+<td style="text-align: right;">0.4484127</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCBI-AX</td>
+<td style="text-align: right;">-636.000049</td>
+<td style="text-align: right;">-2.5338647</td>
+<td style="text-align: right;">69.88583</td>
+<td style="text-align: right;">0.3373016</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANR-ASB</td>
+<td style="text-align: right;">-639.942321</td>
+<td style="text-align: right;">-2.5597693</td>
+<td style="text-align: right;">70.68825</td>
+<td style="text-align: right;">0.3705179</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BANR-UCB</td>
+<td style="text-align: right;">-648.529917</td>
+<td style="text-align: right;">-2.5837845</td>
+<td style="text-align: right;">34.07584</td>
+<td style="text-align: right;">0.2896825</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BKU-SFBS</td>
+<td style="text-align: right;">-651.309687</td>
+<td style="text-align: right;">-2.6157016</td>
+<td style="text-align: right;">66.15305</td>
+<td style="text-align: right;">0.4600000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRMK-FFIN</td>
+<td style="text-align: right;">-668.947476</td>
+<td style="text-align: right;">-1.3325647</td>
+<td style="text-align: right;">35.38016</td>
+<td style="text-align: right;">0.3234127</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BOH-TCBI</td>
+<td style="text-align: right;">-741.437709</td>
+<td style="text-align: right;">-1.4828754</td>
+<td style="text-align: right;">51.08911</td>
+<td style="text-align: right;">0.3167331</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AKR-MAC</td>
+<td style="text-align: right;">-753.501609</td>
+<td style="text-align: right;">-3.0140064</td>
+<td style="text-align: right;">41.28067</td>
+<td style="text-align: right;">0.4541833</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SFNC-FBP</td>
+<td style="text-align: right;">-756.256918</td>
+<td style="text-align: right;">-3.0250277</td>
+<td style="text-align: right;">68.56173</td>
+<td style="text-align: right;">0.2988048</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOMB-AX</td>
+<td style="text-align: right;">-774.137526</td>
+<td style="text-align: right;">-3.0842133</td>
+<td style="text-align: right;">66.66854</td>
+<td style="text-align: right;">0.3809524</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-HOMB</td>
+<td style="text-align: right;">-827.021956</td>
+<td style="text-align: right;">-3.2949082</td>
+<td style="text-align: right;">32.90078</td>
+<td style="text-align: right;">0.5515873</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BANR-TCBI</td>
+<td style="text-align: right;">-886.017523</td>
+<td style="text-align: right;">-3.5440701</td>
+<td style="text-align: right;">51.08886</td>
+<td style="text-align: right;">0.4262948</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANR-ESNT</td>
+<td style="text-align: right;">-887.926767</td>
+<td style="text-align: right;">-3.5375568</td>
+<td style="text-align: right;">60.91440</td>
+<td style="text-align: right;">0.4246032</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFNC-EBC</td>
+<td style="text-align: right;">-908.429206</td>
+<td style="text-align: right;">-3.6483101</td>
+<td style="text-align: right;">43.63327</td>
+<td style="text-align: right;">0.2640000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BOH-GBCI</td>
+<td style="text-align: right;">-912.624959</td>
+<td style="text-align: right;">-1.8179780</td>
+<td style="text-align: right;">19.30052</td>
+<td style="text-align: right;">0.2896825</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BOH-CBU</td>
+<td style="text-align: right;">-915.097429</td>
+<td style="text-align: right;">-1.8265418</td>
+<td style="text-align: right;">28.84670</td>
+<td style="text-align: right;">0.4572565</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FLR-JBTM</td>
+<td style="text-align: right;">-946.581960</td>
+<td style="text-align: right;">-3.7712429</td>
+<td style="text-align: right;">47.42086</td>
+<td style="text-align: right;">0.3690476</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCBI-HOMB</td>
+<td style="text-align: right;">-987.104759</td>
+<td style="text-align: right;">-3.9326883</td>
+<td style="text-align: right;">98.84647</td>
+<td style="text-align: right;">0.3809524</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UCB-ONB</td>
+<td style="text-align: right;">-1019.028552</td>
+<td style="text-align: right;">-2.0339891</td>
+<td style="text-align: right;">48.42236</td>
+<td style="text-align: right;">0.3936382</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AKR-SLG</td>
+<td style="text-align: right;">-1030.942922</td>
+<td style="text-align: right;">-4.1073423</td>
+<td style="text-align: right;">51.50796</td>
+<td style="text-align: right;">0.3134921</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BKU-VLY</td>
+<td style="text-align: right;">-1078.941156</td>
+<td style="text-align: right;">-2.1492852</td>
+<td style="text-align: right;">89.50941</td>
+<td style="text-align: right;">0.3988095</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOMB-GBCI</td>
+<td style="text-align: right;">-1086.862811</td>
+<td style="text-align: right;">-2.1607611</td>
+<td style="text-align: right;">62.22976</td>
+<td style="text-align: right;">0.3623762</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANR-SIGI</td>
+<td style="text-align: right;">-1087.104920</td>
+<td style="text-align: right;">-4.3658832</td>
+<td style="text-align: right;">75.81166</td>
+<td style="text-align: right;">0.2600000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TEX-GVA</td>
+<td style="text-align: right;">-1091.144826</td>
+<td style="text-align: right;">-4.3821077</td>
+<td style="text-align: right;">83.45136</td>
+<td style="text-align: right;">0.2880000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FFIN-EBC</td>
+<td style="text-align: right;">-1097.137232</td>
+<td style="text-align: right;">-4.4061736</td>
+<td style="text-align: right;">57.17547</td>
+<td style="text-align: right;">0.4200000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SFNC-VLY</td>
+<td style="text-align: right;">-1118.146245</td>
+<td style="text-align: right;">-4.4547659</td>
+<td style="text-align: right;">56.28688</td>
+<td style="text-align: right;">0.2698413</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">APLE-KRG</td>
+<td style="text-align: right;">-1151.279970</td>
+<td style="text-align: right;">-2.3025599</td>
+<td style="text-align: right;">53.65915</td>
+<td style="text-align: right;">0.4362550</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CVBF-ONB</td>
+<td style="text-align: right;">-1187.663981</td>
+<td style="text-align: right;">-4.7317290</td>
+<td style="text-align: right;">42.62345</td>
+<td style="text-align: right;">0.5277778</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">KLIC-SLAB</td>
+<td style="text-align: right;">-1193.806638</td>
+<td style="text-align: right;">-4.7944042</td>
+<td style="text-align: right;">100.39070</td>
+<td style="text-align: right;">0.3280000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CWK-UE</td>
+<td style="text-align: right;">-1223.418921</td>
+<td style="text-align: right;">-4.8936757</td>
+<td style="text-align: right;">55.58676</td>
+<td style="text-align: right;">0.2390438</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASB-HWC</td>
+<td style="text-align: right;">-1293.239960</td>
+<td style="text-align: right;">-2.5864799</td>
+<td style="text-align: right;">58.57126</td>
+<td style="text-align: right;">0.4143426</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KBH-MTH</td>
+<td style="text-align: right;">-1301.668181</td>
+<td style="text-align: right;">-5.1859290</td>
+<td style="text-align: right;">82.42464</td>
+<td style="text-align: right;">0.4960317</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAFD-ASB</td>
+<td style="text-align: right;">-1324.331742</td>
+<td style="text-align: right;">-5.2762221</td>
+<td style="text-align: right;">45.39711</td>
+<td style="text-align: right;">0.4722222</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOMB-ONB</td>
+<td style="text-align: right;">-1373.451098</td>
+<td style="text-align: right;">-2.7359584</td>
+<td style="text-align: right;">48.45657</td>
+<td style="text-align: right;">0.4424603</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WERN-HUBG</td>
+<td style="text-align: right;">-1444.673887</td>
+<td style="text-align: right;">-5.7556729</td>
+<td style="text-align: right;">54.11534</td>
+<td style="text-align: right;">0.6071429</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WAFD-HWC</td>
+<td style="text-align: right;">-1478.425977</td>
+<td style="text-align: right;">-2.9450717</td>
+<td style="text-align: right;">51.12089</td>
+<td style="text-align: right;">0.4801587</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WERN-GATX</td>
+<td style="text-align: right;">-1571.250288</td>
+<td style="text-align: right;">-6.2599613</td>
+<td style="text-align: right;">49.29229</td>
+<td style="text-align: right;">0.4126984</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FBP-ASB</td>
+<td style="text-align: right;">-1577.089088</td>
+<td style="text-align: right;">-6.3083564</td>
+<td style="text-align: right;">66.51293</td>
+<td style="text-align: right;">0.5378486</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">KMT-NPO</td>
+<td style="text-align: right;">-1624.023892</td>
+<td style="text-align: right;">-6.4702147</td>
+<td style="text-align: right;">64.13108</td>
+<td style="text-align: right;">0.4087302</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HP-RIG</td>
+<td style="text-align: right;">-1642.413136</td>
+<td style="text-align: right;">-6.5696525</td>
+<td style="text-align: right;">182.10814</td>
+<td style="text-align: right;">0.3187251</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TPH-TMHC</td>
+<td style="text-align: right;">-1649.983980</td>
+<td style="text-align: right;">-6.5999359</td>
+<td style="text-align: right;">56.71643</td>
+<td style="text-align: right;">0.6055777</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CBU-CNO</td>
+<td style="text-align: right;">-1736.804285</td>
+<td style="text-align: right;">-6.9195390</td>
+<td style="text-align: right;">57.30099</td>
+<td style="text-align: right;">0.4126984</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANR-ONB</td>
+<td style="text-align: right;">-1751.712182</td>
+<td style="text-align: right;">-1.7429972</td>
+<td style="text-align: right;">52.12578</td>
+<td style="text-align: right;">0.3121903</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BOH-ONB</td>
+<td style="text-align: right;">-1830.975952</td>
+<td style="text-align: right;">-7.2947249</td>
+<td style="text-align: right;">64.44317</td>
+<td style="text-align: right;">0.3888889</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FELE-RUSHA</td>
+<td style="text-align: right;">-1996.606800</td>
+<td style="text-align: right;">-7.9864272</td>
+<td style="text-align: right;">89.59947</td>
+<td style="text-align: right;">0.5258964</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CWK-SLG</td>
+<td style="text-align: right;">-2020.013042</td>
+<td style="text-align: right;">-4.0400261</td>
+<td style="text-align: right;">116.52677</td>
+<td style="text-align: right;">0.3924303</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NOVT-AEIS</td>
+<td style="text-align: right;">-2438.049555</td>
+<td style="text-align: right;">-9.7913637</td>
+<td style="text-align: right;">94.97234</td>
+<td style="text-align: right;">0.5960000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SLG-RHP</td>
+<td style="text-align: right;">-2784.020753</td>
+<td style="text-align: right;">-11.1360830</td>
+<td style="text-align: right;">87.87592</td>
+<td style="text-align: right;">0.4820717</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SLG-OUT</td>
+<td style="text-align: right;">-3094.977002</td>
+<td style="text-align: right;">-12.4296265</td>
+<td style="text-align: right;">116.34506</td>
+<td style="text-align: right;">0.4040000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RUN-BE</td>
+<td style="text-align: right;">-7513.924899</td>
+<td style="text-align: right;">-29.9359558</td>
+<td style="text-align: right;">361.97839</td>
+<td style="text-align: right;">0.4047619</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

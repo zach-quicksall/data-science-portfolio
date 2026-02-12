@@ -2,6 +2,7 @@ library(targets)
 library(tarchetypes)
 library(quantmod)
 library(slider)
+library(kableExtra)
 library(conflicted)
 library(tidyverse)
 

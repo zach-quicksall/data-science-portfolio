@@ -8,13 +8,13 @@ tar_plan(
   tar_file(holdings_file, "data/raw/IWM_holdings_mod.csv"),
   holdings_raw = read_csv(holdings_file),
 
-  # Clean raw holdings file and select top N = 300 equities
+  # Clean raw holdings file and select top N = 500 equities
   # based on market capitalization as proxy to select
   # equities with reasonable liquidity for trading.
-  holdings_clean = clean_holdings(holdings_raw, n_keep = 300),
+  holdings_clean = clean_holdings(holdings_raw, n_keep = 500),
 
   # Pull OHLCV from Yahoo finance
-  start_date = "2016-01-01",
+  start_date = "2010-01-01",
   tickers = holdings_clean %>% pull(ticker),
   series_raw = map_dfr(tickers, ~{
     Sys.sleep(0.1)
@@ -50,36 +50,32 @@ tar_plan(
   candidate_pairs = generate_candidate_pairs(returns_mat, universe),
 
   # Compute pair metrics
-  pair_metrics = compute_pair_metrics(candidate_pairs, prices_mat[5:1265, ]),
+  #pair_metrics = compute_pair_metrics(candidate_pairs, prices_mat[5:1265, ]),
 
   # Rank pairs based on metrics
-  pair_ranks = rank_pairs(pair_metrics),
+  #pair_ranks = rank_pairs(pair_metrics),
 
   # Pick top N pairs for trading
-  top_pairs = select_top_n_pairs(pair_ranks,
-                                 diversify_by = "sector",
-                                ),
+  #top_pairs = select_top_n_pairs(pair_ranks, diversify_by = "sector"),
 
   # Get price series
-  top_pair_prices = join_pair_prices(prices_mat, top_pairs),
+  #top_pair_prices = join_pair_prices(prices_mat, top_pairs),
 
   # Compute spreads
-  top_pair_spreads = compute_spread(top_pair_prices, top_pairs),
+  #top_pair_spreads = compute_spread(top_pair_prices, top_pairs),
   
   # Compute z-scores
-  top_pair_zscores = compute_zscore_roll(top_pair_spreads),
+  #top_pair_zscores = compute_zscore_roll(top_pair_spreads),
 
   # Generate buy/sell signals from z-scores
-  top_pair_signals = generate_signals(top_pair_zscores),
+  #top_pair_signals = generate_signals(top_pair_zscores),
 
   # Simulate trades
-  top_pair_trades = simulate_pair_pnl(top_pair_signals),
+  #top_pair_trades = simulate_pair_pnl(top_pair_signals),
 
   # Summarise trades
-  top_pair_daily_summary = aggregate_portfolio_daily(top_pair_trades),
+  #top_pair_daily_summary = aggregate_portfolio_daily(top_pair_trades),
 
-  top_pair_performance = summarise_pair_performance(top_pair_trades),
-
+  #top_pair_performance = summarise_pair_performance(top_pair_trades),
   
-
 )

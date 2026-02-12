@@ -29,4 +29,4 @@ portfolio_daily_net <- aggregate_portfolio_daily_net(all_trades, capital_mode = 
 
 pair_summary <- summarise_pair_performance(all_trades)
 
-portfolio_metrics <- portfolio_metrics(portfolio_daily)
+portfolio_metrics <- portfolio_metrics(portfolio_daily_net)

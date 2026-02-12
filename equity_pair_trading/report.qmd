@@ -1,0 +1,316 @@
+---
+title: "Equity Pairs Trading: Walk-Forward Simulation"
+author: "Zach Quicksall"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Executive Summary
+
+This project implements a fully walk-forward equity pairs trading strategy using U.S. small-cap stocks.  
+
+The objective is to evaluate whether cross-sectional statistical arbitrage signals — selected via formation-period cointegration and mean-reversion diagnostics — generate stable out-of-sample returns after transaction costs and holding constraints.
+
+Key characteristics of the system:
+
+- Rolling 3-year formation window
+- Annual pair re-selection
+- Out-of-sample trading only
+- Beta-hedged spreads
+- Z-score entry/exit rules
+- 5 bps per leg transaction cost
+- Maximum holding constraint (60-days)
+- Portfolio-level capital allocation
+
+## Universe Construction
+
+The initial universe is derived from the top 500 holdings of the Russell 2000 ETF (IWM), filtered by:
+
+- ≥ 5 years of price history
+- Median price ≥ $5
+- Median dollar volume ≥ $5M
+- Continuous daily trading
+- Minimum sector size constraint
+
+This ensures liquidity and avoids microstructure distortions.
+
+## Pair Formation
+
+For each trade year:
+
+1. Use prior 3 years of data
+2. Compute return correlations
+3. Restrict to same-sector pairs
+4. Estimate regression:
+
+$$
+X_t = \alpha + \beta Y_t + \varepsilon_t
+$$
+
+Compute:
+
+- Cointegration p-value (ADF)
+- Half-life of mean reversion
+- Spread volatility
+- Zero-crossing frequency
+- Excursion frequency
+
+Pairs are ranked via a weighted composite score emphasizing:
+
+- Stronger cointegration
+- Half-life near target
+- Tradable oscillation behavior
+- Stable fit (R²)
+
+Top-N pairs are selected for trading.
+
+## Trading Rules
+
+Spread definition:
+
+$$
+S_t = X_t - (\alpha + \beta Y_t)
+$$
+
+Z-score computed via 60-day rolling mean and standard deviation.
+
+### Entry
+
+- Long spread if \( z < -2 \)
+- Short spread if \( z > 2 \)
+
+### Exit
+
+- Close when \( |z| < 0.5 \)
+
+## Risk Controls
+
+- Maximum holding period
+- 5 bps per leg transaction cost
+- Dollar-neutral beta sizing
+
+Execution occurs with one-day lag to prevent lookahead bias.
+
+## Walk-Forward Framework
+
+Each year:
+
+- Formation window: rolling 3-year history
+- Trade window: next calendar year
+- Pairs reselected annually
+
+This prevents forward-looking contamination and reflects a real research workflow.
+
+## Portfolio Aggregation
+
+Capital allocated per active pair.
+
+Daily portfolio return:
+
+$$
+R_t = \frac{\sum \text{Net PnL}_t}{\text{Active Capital}_t}
+$$
+
+Cumulative return computed via log aggregation.
+
+## Results
+
+```{r}
+source("R/packages.R")
+source("R/functions.R")
+set.seed(2025)
+
+tar_load(prices_mat)
+tar_load(returns_mat)
+tar_load(universe)
+```
+
+```{r}
+# Define trading years to simulate
+years <- 2014:2025
+
+# Simulate trades
+all_trades <- purrr::map_dfr(
+  years,
+  ~ run_single_year_sim(
+      prices_mat,
+      returns_mat,
+      universe,
+      trade_year = .x,
+      formation_years = 3,
+      top_n = 30
+    )
+)
+
+# Aggregate results
+portfolio_daily <- aggregate_portfolio_daily_net(all_trades, capital_mode = "active_only")
+
+pair_summary <- summarise_pair_performance(all_trades)
+
+portfolio_metrics <- portfolio_metrics(portfolio_daily)
+```
+
+### Equity Curve
+
+```{r}
+portfolio_daily %>%
+    ggplot(aes(date, cumret)) +
+    geom_line() +
+    labs(title = "Cumulative Return (Net of Costs)",
+        x = "Date",
+        y = "Cumulative Return") +
+    theme_minimal()
+```
+
+#### 2014 - 2018
+
+The strategy struggles early on in a flat/slightly-negative regime. Potential reasons for this behavior include:
+
+- Spreads were not as mean-reverting in this regime
+- The pair selection process was weaker in earlier formation windows
+- May also reflect lower volatility where z-score excursions were smaller
+
+This observation supports the general idea that mean-reversion performs poorly in strong directional or low-volatility regimes.
+
+#### 2020 - 2021
+
+This regime showed explosive performance. The market in 2020 showed extreme dispersion, high volatility, and large cross-sectional dislocations. Pairs strategies thrive in crisis environments such as these due to breaks in correlation structure, extreme spread deviations, and an increase in reversion speed which all drive increased opportunities for profit.
+
+The strategy took advantage of these opportunities.
+
+#### 2022 - 2024
+
+This regime showed a choppy decline in performance during the recovery of the overall market in the years following COVID.
+
+This pattern of the equity curve moving from plateau to choppy decline, combined with controlled drawdown and no catastrophic collapse, suggests not a breakdown in the strategy, but that the signal during this period is highly noisy.
+
+The curve oscillates around 0.16, further reinforcing the likelihood of noise over strategy breakdown.
+
+### Drawdown
+
+```{r}
+portfolio_daily %>%
+  mutate(
+    running_max = cummax(equity),
+    drawdown = (equity - running_max) / running_max
+  ) %>%
+  ggplot(aes(date, drawdown)) +
+  geom_line(color = "darkred") +
+  labs(title = "Portfolio Drawdown",
+       y = "Drawdown",
+       x = "Date") +
+  theme_minimal()
+```
+
+The strategy exhibits regime-dependent behavior. Early periods (2014–2018) show sustained underperformance, consistent with lower cross-sectional dispersion and muted mean-reversion dynamics. In contrast, 2020 demonstrates strong convexity to market dislocations, with rapid drawdown recovery and significant cumulative gains. Post-2020 performance stabilizes with reduced drawdown depth, suggesting improved robustness of the walk-forward selection process.
+
+One potential key driver of this pattern of behaivor is the lack risk mitigation strategies (e.g. stop losses, take profit, etc...) to prevent holding during sharp periods of loss. In its very basic state, the algorithm holds pairs for a maximum of 60-days, regardless of the extent of the win or loss. If the pair happens to revert in that time, profit is made, but if not, heavy losses are incurred.
+
+```{r}
+portfolio_daily %>%
+    mutate(year = lubridate::year(date)) %>%
+    group_by(year) %>%
+    summarise(
+      ann_ret = prod(1 + ret) - 1,
+      sharpe = mean(ret) / sd(ret) * sqrt(252)
+    ) %>%
+    kable() %>%
+    kable_styling()
+```
+
+Looking at the table above, strategy performance exhibits clear regime dependence.
+
+The strategy underperforms during low-dispersion and trend-dominated environments (2015–2016, 2022–2024), while demonstrating strong performance during periods of elevated cross-sectional volatility (2017–2019, 2020).
+
+Importantly, losses during weak regimes remain moderate and do not exhibit structural instability, suggesting the signal degrades cyclically rather than collapsing.
+
+### Cost Impact
+
+```{r}
+all_trades %>%
+  summarise(
+    gross_pnl = sum(pnl, na.rm = TRUE),
+    net_pnl   = sum(pnl_net, na.rm = TRUE),
+    total_cost = sum(cost, na.rm = TRUE)
+  ) %>%
+    kable() %>%
+    kable_styling()
+```
+
+Transaction costs eat up about 26% of profits. This cost drag is material but not prohibitive. The strategy retains a majority of its gross alpha after applying a realistic assumption of 5 basis points per leg, indicating that performance is not purely driven by microstructure noise. However, the magnitude of costs highlights that turnover is a primary determinant of net performance.
+
+In practical terms, this suggests:
+
+- The core signal contains genuine predictive structure.
+- Execution efficiency and trade frequency are critical to overall profitability.
+
+Further improvements should focus on reducing churn (e.g., higher entry thresholds, wider exit bands, regime filtering) rather than attempting to increase raw signal aggressiveness.
+
+Overall, the strategy remains viable after costs, but its economic efficiency is sensitive to trading intensity — a characteristic typical of mean-reversion statistical arbitrage systems.
+
+## Conclusions
+
+This project implements a fully walk-forward equity pairs trading framework with realistic execution assumptions, including transaction costs, beta-neutral sizing, and holding constraints. Several key conclusions emerge:
+
+1. **The strategy exhibits regime-dependent behavior.**
+
+Performance is strongest during periods of elevated cross-sectional dispersion (e.g., 2017–2019, 2020) and weaker during low-dispersion or macro-trending environments (e.g., 2015–2016, 2022–2024). This is consistent with the economic intuition of mean-reversion statistical arbitrage.
+
+2. **The signal is structurally valid, not purely noise-driven.**
+
+After applying 5 basis points per leg in transaction costs, the strategy retains approximately 74% of its gross profits. This indicates that alpha is not solely the result of excessive turnover or microstructure effects.
+
+3. **Risk is characterized by grind, not tail events.**
+
+Drawdowns are moderate and recoverable. Losses occur in clusters during unfavorable regimes, but the strategy does not exhibit structural collapse or runaway leverage effects.
+
+4. **Crisis convexity is present.**
+
+The strategy demonstrates strong performance during dislocation regimes (notably 2020), suggesting it benefits from temporary breakdowns in correlation and elevated volatility.
+
+Overall, the framework behaves in line with expectations for a cross-sectional mean-reversion system.
+
+## Limitations
+
+Despite encouraging results, several structural limitations remain:
+
+- Annual reformation may be too infrequent.
+- Beta is static during the trade window.
+- No explicit volatility targeting or capital scaling.
+- No regime conditioning (e.g., dispersion filter).
+- Sector constraints may limit cross-sectional opportunity.
+- Capacity and slippage effects are not modeled beyond fixed bps.
+
+These limitations provide clear avenues for refinement.
+
+## Appendix
+
+### Pair-Level Distribution of PnL
+
+```{r}
+pair_summary %>%
+    ggplot(aes(x = pnl_total)) +
+    geom_histogram() +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "dodgerblue") +
+    labs(x = "Total PnL ($)", y = "Number of Pairs (N)") +
+    theme_minimal()
+```
+
+### Pairs Table
+
+```{r}
+pair_summary %>%
+    select(pair_id, pnl_total, pnl_mean, pnl_sd, active_share) %>%
+    knitr::kable() %>%
+    kable_styling() %>%
+    scroll_box(height = "300px")
+```
