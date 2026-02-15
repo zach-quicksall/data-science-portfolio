@@ -8,6 +8,7 @@ format:
     toc-depth: 3
     theme: cosmo
     code-fold: true
+    embed-resources: true
 execute:
   echo: true
   warning: false
