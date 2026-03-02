@@ -4,6 +4,7 @@ author: "Zach Quicksall"
 date: today
 format:
   html:
+    math: mathjax
     toc: true
     toc-depth: 3
     theme: cosmo
