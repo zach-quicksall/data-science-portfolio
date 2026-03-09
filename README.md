@@ -25,7 +25,7 @@ A research-focused pipeline for identifying robust equity pairs suitable for sta
 
 Building upon the content of `equity_pair_selection`, this simulation provides out-of-sample performance metrics for a simple z-score based trading algorithm.
 
-*Key themes:**  
+**Key themes:**  
 `time-series` · `statistical arbitrage` · `financial markets` · `mean reversion` · `out-of-sample validation` · `portfolio construction`
 
 ---
@@ -38,6 +38,17 @@ This project focuses on feature engineering for biomedical signals, handling cla
 
 **Key themes:**  
 `time-series` · `machine learning` · `healthcare data` · `class imbalance` · `model evaluation`
+
+---
+
+### ECG Beat Classification via Deep Learning
+**Directory:** `ecg_beat_deep_learning`
+
+Supervised classification of ECG heartbeats using time-series signal data.  
+This project focuses on transformation of 1-dimensional ECG waveforms and training deep learning architectures including convolutional neural networks and and transformer models.
+
+**Key themes:**  
+`time-series` · `deep learning` · `CNN` · `transformers` · `healthcare data` · `class imbalance` · `model evaluation`
 
 ---
 
@@ -96,7 +107,7 @@ Includes regime detection, simulation-based intervention strategies, and analysi
 
 ---
 
-### Cross-Tissue Differential Gene Expression  
+### Cross-Tissue Differential Gene Expression
 **Directory:** `tissue_differential_expression`
 
 This project investigates differential gene expression patterns across human tissues using RNA-seq data, with an emphasis on robust normalization and cross-tissue comparability. Expression values are normalized using Conditional Quantile Normalization (CQN) to account for gene length, GC content, and library size effects prior to differential expression analysis.
@@ -108,7 +119,7 @@ The analysis focuses on identifying tissue-driven expression differences, evalua
 
 ---
 
-### Cross-Tissue Weighted Gene Co-expression Network Analysis  
+### Cross-Tissue Weighted Gene Co-expression Network Analysis
 **Directory:** `tissue_wgcna`
 
 This project applies Weighted Gene Co-expression Network Analysis (WGCNA) to CQN-normalized RNA-seq data to identify modules of co-expressed genes across tissues. Rather than focusing on individual genes, the analysis emphasizes module-level structure, eigengene summaries, and relationships between co-expression patterns and biological covariates such as tissue, age, and sex.
@@ -117,5 +128,15 @@ The workflow includes network construction, module detection, eigengene-based ch
 
 **Key themes:**  
 `gene expression` · `network analysis` · `WGCNA` · `RNA-seq` · `gene modules` · `module eigengenes`
+
+---
+
+### Single-Cell / Single-Nucleus RNA Sequencing
+**Directory:** `single_cell_rnaseq`
+
+Coming soon!
+
+**Key themes:**  
+`gene expression` · `network analysis` · `scRNA-Seq` · `clustering` · `marker genes`
 
 ---
