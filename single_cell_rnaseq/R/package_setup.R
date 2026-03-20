@@ -2,6 +2,19 @@
 # and dependencies used in packages.R by default)
 renv::init()
 
+# Install Bioconductor and associated packages
+install.packages("BiocManager")
+
+BiocManager::install(c(
+  "BSgenome.Hsapiens.UCSC.hg38",
+  "EnsDb.Hsapiens.v86",
+  "GenomeInfoDb",
+  "GenomicRanges",
+  "glmGamPoi",
+  "JASPAR2020",
+  "TFBSTools"
+))
+
 # Install other lab-developed packages that enhance speed of Seurat
 setRepositories(ind = 1:3, addURLs = c('https://satijalab.r-universe.dev', 'https://bnprks.r-universe.dev/'))
 renv::install(c("BPCells", "presto", "glmGamPoi"))
@@ -14,3 +27,6 @@ renv::install(c("satijalab/seurat-data","satijalab/azimuth","satijalab/seurat-wr
 
 # Freeze packages 
 renv::snapshot()
+
+# Install dataset for illustration
+SeuratData::InstallData("pbmcsca")

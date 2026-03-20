@@ -9,24 +9,6 @@
     ]
   },
   "Packages": {
-    "BH": {
-      "Package": "BH",
-      "Version": "1.90.0-1",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Boost C++ Header Files",
-      "Date": "2025-12-13",
-      "Authors@R": "c(person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\", comment = c(ORCID = \"0000-0001-6419-907X\")), person(\"John W.\", \"Emerson\", role = \"aut\"),  person(\"Michael J.\", \"Kane\", role = \"aut\",  comment = c(ORCID = \"0000-0003-1899-6662\")))",
-      "Description": "Boost provides free peer-reviewed portable C++ source  libraries.  A large part of Boost is provided as C++ template code which is resolved entirely at compile-time without linking.  This  package aims to provide the most useful subset of Boost libraries  for template use among CRAN packages. By placing these libraries in  this package, we offer a more efficient distribution system for CRAN  as replication of this code in the sources of other packages is  avoided. As of release 1.84.0-0, the following Boost libraries are included: 'accumulators' 'algorithm' 'align' 'any' 'atomic' 'beast' 'bimap' 'bind' 'circular_buffer' 'compute' 'concept' 'config' 'container' 'date_time' 'detail' 'dynamic_bitset' 'exception' 'flyweight' 'foreach' 'functional' 'fusion' 'geometry' 'graph' 'heap' 'icl' 'integer' 'interprocess' 'intrusive' 'io' 'iostreams' 'iterator' 'lambda2' 'math' 'move' 'mp11' 'mpl' 'multiprecision' 'numeric' 'pending' 'phoenix' 'polygon' 'preprocessor' 'process' 'propery_tree' 'qvm' 'random' 'range' 'scope_exit' 'smart_ptr' 'sort' 'spirit' 'tuple' 'type_traits' 'typeof' 'unordered' 'url' 'utility' 'uuid'.",
-      "License": "BSL-1.0",
-      "URL": "https://github.com/eddelbuettel/bh, https://dirk.eddelbuettel.com/code/bh.html",
-      "BugReports": "https://github.com/eddelbuettel/bh/issues",
-      "NeedsCompilation": "no",
-      "Author": "Dirk Eddelbuettel [aut, cre] (ORCID: <https://orcid.org/0000-0001-6419-907X>), John W. Emerson [aut], Michael J. Kane [aut] (ORCID: <https://orcid.org/0000-0003-1899-6662>)",
-      "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Encoding": "UTF-8"
-    },
     "DBI": {
       "Package": "DBI",
       "Version": "1.2.3",
@@ -76,87 +58,42 @@
       "Maintainer": "Kirill Müller <kirill@cynkra.com>",
       "Repository": "RSPM"
     },
-    "FNN": {
-      "Package": "FNN",
-      "Version": "1.1.4.1",
+    "DT": {
+      "Package": "DT",
+      "Version": "0.34.0",
       "Source": "Repository",
-      "Date": "2023-12-31",
-      "Title": "Fast Nearest Neighbor Search Algorithms and Applications",
-      "Authors@R": "c(person(\"Alina\", \"Beygelzimer\", role = \"aut\", comment = \"cover tree library\"), person(\"Sham\", \"Kakadet\", role = \"aut\", comment = \"cover tree library\"), person(\"John\", \"Langford\", role = \"aut\", comment = \"cover tree library\"),  person(\"Sunil\", \"Arya\", role = \"aut\", comment = \"ANN library 1.1.2 for the kd-tree approach\"), person(\"David\", \"Mount\", role = \"aut\", comment = \"ANN library 1.1.2 for the kd-tree approach\"), person(\"Shengqiao\", \"Li\", role = c(\"aut\", \"cre\"), email = \"lishengqiao@yahoo.com\"))",
-      "Copyright": "ANN Copyright (c) 1997-2010 University of Maryland and Sunil Arya and David Mount. All Rights Reserved.",
-      "Depends": [
-        "R (>= 4.0.0)"
-      ],
-      "Suggests": [
-        "chemometrics",
-        "mvtnorm"
-      ],
-      "Description": "Cover-tree and kd-tree fast k-nearest neighbor search algorithms and related applications including KNN classification, regression and information measures are implemented.",
-      "License": "GPL (>= 2)",
-      "NeedsCompilation": "yes",
-      "Repository": "CRAN",
-      "Author": "Alina Beygelzimer [aut] (cover tree library), Sham Kakadet [aut] (cover tree library), John Langford [aut] (cover tree library), Sunil Arya [aut] (ANN library 1.1.2 for the kd-tree approach), David Mount [aut] (ANN library 1.1.2 for the kd-tree approach), Shengqiao Li [aut, cre]",
-      "Maintainer": "Shengqiao Li <lishengqiao@yahoo.com>"
-    },
-    "KernSmooth": {
-      "Package": "KernSmooth",
-      "Version": "2.23-26",
-      "Source": "Repository",
-      "Priority": "recommended",
-      "Date": "2024-12-10",
-      "Title": "Functions for Kernel Smoothing Supporting Wand & Jones (1995)",
-      "Authors@R": "c(person(\"Matt\", \"Wand\", role = \"aut\", email = \"Matt.Wand@uts.edu.au\"), person(\"Cleve\", \"Moler\", role = \"ctb\", comment = \"LINPACK routines in src/d*\"), person(\"Brian\", \"Ripley\", role = c(\"trl\", \"cre\", \"ctb\"), email = \"Brian.Ripley@R-project.org\", comment = \"R port and updates\"))",
-      "Note": "Maintainers are not available to give advice on using a package they did not author.",
-      "Depends": [
-        "R (>= 2.5.0)",
-        "stats"
-      ],
-      "Suggests": [
-        "MASS",
-        "carData"
-      ],
-      "Description": "Functions for kernel smoothing (and density estimation) corresponding to the book:  Wand, M.P. and Jones, M.C. (1995) \"Kernel Smoothing\".",
-      "License": "Unlimited",
-      "ByteCompile": "yes",
-      "NeedsCompilation": "yes",
-      "Author": "Matt Wand [aut], Cleve Moler [ctb] (LINPACK routines in src/d*), Brian Ripley [trl, cre, ctb] (R port and updates)",
-      "Maintainer": "Brian Ripley <Brian.Ripley@R-project.org>",
-      "Repository": "CRAN"
-    },
-    "MASS": {
-      "Package": "MASS",
-      "Version": "7.3-65",
-      "Source": "Repository",
-      "Priority": "recommended",
-      "Date": "2025-02-19",
-      "Revision": "$Rev: 3681 $",
-      "Depends": [
-        "R (>= 4.4.0)",
-        "grDevices",
-        "graphics",
-        "stats",
-        "utils"
-      ],
+      "Type": "Package",
+      "Title": "A Wrapper of the JavaScript Library 'DataTables'",
+      "Authors@R": "c( person(\"Yihui\", \"Xie\", role = \"aut\"), person(\"Joe\", \"Cheng\", , \"joe@posit.co\", role = \"aut\"), person(\"Xianying\", \"Tan\", role = \"aut\"), person(\"Garrick\", \"Aden-Buie\", , \"garrick@posit.co\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-7111-0077\")), person(\"JJ\", \"Allaire\", role = \"ctb\"), person(\"Maximilian\", \"Girlich\", role = \"ctb\"), person(\"Greg\", \"Freedman Ellis\", role = \"ctb\"), person(\"Johannes\", \"Rauh\", role = \"ctb\"), person(\"SpryMedia Limited\", role = c(\"ctb\", \"cph\"), comment = \"DataTables in htmlwidgets/lib\"), person(\"Brian\", \"Reavis\", role = c(\"ctb\", \"cph\"), comment = \"selectize.js in htmlwidgets/lib\"), person(\"Leon\", \"Gersen\", role = c(\"ctb\", \"cph\"), comment = \"noUiSlider in htmlwidgets/lib\"), person(\"Bartek\", \"Szopka\", role = c(\"ctb\", \"cph\"), comment = \"jquery.highlight.js in htmlwidgets/lib\"), person(\"Alex\", \"Pickering\", role = \"ctb\"), person(\"William\", \"Holmes\", role = \"ctb\"), person(\"Mikko\", \"Marttila\", role = \"ctb\"), person(\"Andres\", \"Quintero\", role = \"ctb\"), person(\"Stéphane\", \"Laurent\", role = \"ctb\"), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
+      "Description": "Data objects in R can be rendered as HTML tables using the JavaScript library 'DataTables' (typically via R Markdown or Shiny). The 'DataTables' library has been included in this R package. The package name 'DT' is an abbreviation of 'DataTables'.",
+      "License": "MIT + file LICENSE",
+      "URL": "https://github.com/rstudio/DT",
+      "BugReports": "https://github.com/rstudio/DT/issues",
       "Imports": [
-        "methods"
+        "crosstalk",
+        "htmltools (>= 0.3.6)",
+        "htmlwidgets (>= 1.3)",
+        "jquerylib",
+        "jsonlite (>= 0.9.16)",
+        "magrittr",
+        "promises"
       ],
       "Suggests": [
-        "lattice",
-        "nlme",
-        "nnet",
-        "survival"
+        "bslib",
+        "future",
+        "httpuv",
+        "knitr (>= 1.8)",
+        "rmarkdown",
+        "shiny (>= 1.6)",
+        "testit",
+        "tibble"
       ],
-      "Authors@R": "c(person(\"Brian\", \"Ripley\", role = c(\"aut\", \"cre\", \"cph\"), email = \"Brian.Ripley@R-project.org\"), person(\"Bill\", \"Venables\", role = c(\"aut\", \"cph\")), person(c(\"Douglas\", \"M.\"), \"Bates\", role = \"ctb\"), person(\"Kurt\", \"Hornik\", role = \"trl\", comment = \"partial port ca 1998\"), person(\"Albrecht\", \"Gebhardt\", role = \"trl\", comment = \"partial port ca 1998\"), person(\"David\", \"Firth\", role = \"ctb\", comment = \"support functions for polr\"))",
-      "Description": "Functions and datasets to support Venables and Ripley, \"Modern Applied Statistics with S\" (4th edition, 2002).",
-      "Title": "Support Functions and Datasets for Venables and Ripley's MASS",
-      "LazyData": "yes",
-      "ByteCompile": "yes",
-      "License": "GPL-2 | GPL-3",
-      "URL": "http://www.stats.ox.ac.uk/pub/MASS4/",
-      "Contact": "<MASS@stats.ox.ac.uk>",
-      "NeedsCompilation": "yes",
-      "Author": "Brian Ripley [aut, cre, cph], Bill Venables [aut, cph], Douglas M. Bates [ctb], Kurt Hornik [trl] (partial port ca 1998), Albrecht Gebhardt [trl] (partial port ca 1998), David Firth [ctb] (support functions for polr)",
-      "Maintainer": "Brian Ripley <Brian.Ripley@R-project.org>",
+      "VignetteBuilder": "knitr",
+      "Encoding": "UTF-8",
+      "RoxygenNote": "7.3.2",
+      "NeedsCompilation": "no",
+      "Author": "Yihui Xie [aut], Joe Cheng [aut], Xianying Tan [aut], Garrick Aden-Buie [aut, cre] (ORCID: <https://orcid.org/0000-0002-7111-0077>), JJ Allaire [ctb], Maximilian Girlich [ctb], Greg Freedman Ellis [ctb], Johannes Rauh [ctb], SpryMedia Limited [ctb, cph] (DataTables in htmlwidgets/lib), Brian Reavis [ctb, cph] (selectize.js in htmlwidgets/lib), Leon Gersen [ctb, cph] (noUiSlider in htmlwidgets/lib), Bartek Szopka [ctb, cph] (jquery.highlight.js in htmlwidgets/lib), Alex Pickering [ctb], William Holmes [ctb], Mikko Marttila [ctb], Andres Quintero [ctb], Stéphane Laurent [ctb], Posit Software, PBC [cph, fnd]",
+      "Maintainer": "Garrick Aden-Buie <garrick@posit.co>",
       "Repository": "CRAN"
     },
     "Matrix": {
@@ -230,26 +167,6 @@
       "Maintainer": "Winston Chang <winston@posit.co>",
       "Repository": "RSPM"
     },
-    "RANN": {
-      "Package": "RANN",
-      "Version": "2.6.2",
-      "Source": "Repository",
-      "Title": "Fast Nearest Neighbour Search (Wraps ANN Library) Using L2 Metric",
-      "Authors@R": "c( person(\"Gregory\",\"Jefferis\", email=\"jefferis@gmail.com\",  role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-0587-9355\")), person(given = c(\"Samuel\", \"E.\"), family = \"Kemp\", role = \"aut\"), person(given = \"Kirill\", family = \"M\\u00fcller\", role = \"ctb\", comment = c(ORCID = \"0000-0002-1416-3412\")), person(\"Sunil\",\"Arya\", role=c(\"aut\", \"cph\"), comment = c(ORCID = \"0000-0003-0939-4192\")), person(\"David\",\"Mount\", role=c(\"aut\", \"cph\"),  comment = c(ORCID = \"0000-0002-3290-8932\")), person(\"University of Maryland\", role=\"cph\", comment = \"ANN library is copyright University of Maryland and Sunil Arya and David Mount. See file COPYRIGHT for details\") )",
-      "Description": "Finds the k nearest neighbours for every point in a given dataset in O(N log N) time using Arya and Mount's ANN library (v1.1.3). There is support for approximate as well as exact searches, fixed radius searches and 'bd' as well as 'kd' trees. The distance is computed using the L2 (Euclidean) metric. Please see package 'RANN.L1' for the same functionality using the L1 (Manhattan, taxicab) metric.",
-      "License": "GPL (>= 3)",
-      "URL": "https://github.com/jefferislab/RANN, https://jefferislab.github.io/RANN/",
-      "BugReports": "https://github.com/jefferislab/RANN/issues",
-      "Suggests": [
-        "testthat"
-      ],
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.2",
-      "NeedsCompilation": "yes",
-      "Author": "Gregory Jefferis [aut, cre] (<https://orcid.org/0000-0002-0587-9355>), Samuel E. Kemp [aut], Kirill Müller [ctb] (<https://orcid.org/0000-0002-1416-3412>), Sunil Arya [aut, cph] (<https://orcid.org/0000-0003-0939-4192>), David Mount [aut, cph] (<https://orcid.org/0000-0002-3290-8932>), University of Maryland [cph] (ANN library is copyright University of Maryland and Sunil Arya and David Mount. See file COPYRIGHT for details)",
-      "Maintainer": "Gregory Jefferis <jefferis@gmail.com>",
-      "Repository": "CRAN"
-    },
     "RColorBrewer": {
       "Package": "RColorBrewer",
       "Version": "1.1-3",
@@ -267,75 +184,6 @@
       "NeedsCompilation": "no",
       "Repository": "RSPM",
       "Encoding": "UTF-8"
-    },
-    "ROCR": {
-      "Package": "ROCR",
-      "Version": "1.0-12",
-      "Source": "Repository",
-      "Authors@R": "c(person(\"Tobias\",\"Sing\", email = \"tobias.sing@gmail.com\",role=\"aut\"), person(\"Oliver\",\"Sander\", email = \"osander@gmail.com\",role=\"aut\"), person(\"Niko\",\"Beerenwinkel\", role=\"aut\"), person(\"Thomas\",\"Lengauer\", role=\"aut\"), person(\"Thomas\",\"Unterthiner\", role=\"ctb\"), person(\"Felix G.M.\",\"Ernst\", email = \"felix.gm.ernst@outlook.com\",role=\"cre\", comment = c(ORCID = \"0000-0001-5064-0928\")))",
-      "Date": "2026-01-22",
-      "Title": "Visualizing the Performance of Scoring Classifiers",
-      "Description": "ROC graphs, sensitivity/specificity curves, lift charts, and precision/recall plots are popular examples of trade-off visualizations for specific pairs of performance measures. ROCR is a flexible tool for creating cutoff-parameterized 2D performance curves by freely combining two from over 25 performance measures (new performance measures can be added using a standard interface). Curves from different cross-validation or bootstrapping runs can be averaged by different methods, and standard deviations, standard errors or box plots can be used to visualize the variability across the runs. The parameterization can be visualized by printing cutoff values at the corresponding curve positions, or by coloring the curve according to cutoff. All components of a performance plot can be quickly adjusted using a flexible parameter dispatching mechanism. Despite its flexibility, ROCR is easy to use, with only three commands and reasonable default values for all optional parameters.",
-      "Encoding": "UTF-8",
-      "License": "GPL (>= 2)",
-      "NeedsCompilation": "no",
-      "Depends": [
-        "R (>= 3.6)"
-      ],
-      "Imports": [
-        "methods",
-        "graphics",
-        "grDevices",
-        "gplots",
-        "stats"
-      ],
-      "Suggests": [
-        "testthat",
-        "knitr",
-        "rmarkdown"
-      ],
-      "URL": "https://ipa-tys.github.io/ROCR/",
-      "BugReports": "https://github.com/ipa-tys/ROCR/issues",
-      "RoxygenNote": "7.3.3",
-      "VignetteBuilder": "knitr",
-      "Author": "Tobias Sing [aut], Oliver Sander [aut], Niko Beerenwinkel [aut], Thomas Lengauer [aut], Thomas Unterthiner [ctb], Felix G.M. Ernst [cre] (ORCID: <https://orcid.org/0000-0001-5064-0928>)",
-      "Maintainer": "Felix G.M. Ernst <felix.gm.ernst@outlook.com>",
-      "Repository": "CRAN"
-    },
-    "RSpectra": {
-      "Package": "RSpectra",
-      "Version": "0.16-2",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Solvers for Large-Scale Eigenvalue and SVD Problems",
-      "Date": "2024-07-18",
-      "Authors@R": "c( person(\"Yixuan\", \"Qiu\", , \"yixuan.qiu@cos.name\", c(\"aut\", \"cre\")), person(\"Jiali\", \"Mei\", , \"vermouthmjl@gmail.com\", \"aut\", comment = \"Function interface of matrix operation\"), person(\"Gael\", \"Guennebaud\", , \"gael.guennebaud@inria.fr\", \"ctb\", comment = \"Eigenvalue solvers from the 'Eigen' library\"), person(\"Jitse\", \"Niesen\", , \"jitse@maths.leeds.ac.uk\", \"ctb\", comment = \"Eigenvalue solvers from the 'Eigen' library\") )",
-      "Description": "R interface to the 'Spectra' library <https://spectralib.org/> for large-scale eigenvalue and SVD problems. It is typically used to compute a few eigenvalues/vectors of an n by n matrix, e.g., the k largest eigenvalues, which is usually more efficient than eigen() if k << n. This package provides the 'eigs()' function that does the similar job as in 'Matlab', 'Octave', 'Python SciPy' and 'Julia'. It also provides the 'svds()' function to calculate the largest k singular values and corresponding singular vectors of a real matrix. The matrix to be computed on can be dense, sparse, or in the form of an operator defined by the user.",
-      "License": "MPL (>= 2)",
-      "URL": "https://github.com/yixuan/RSpectra",
-      "BugReports": "https://github.com/yixuan/RSpectra/issues",
-      "Depends": [
-        "R (>= 3.0.2)"
-      ],
-      "Imports": [
-        "Matrix (>= 1.1-0)",
-        "Rcpp (>= 0.11.5)"
-      ],
-      "Suggests": [
-        "knitr",
-        "rmarkdown",
-        "prettydoc"
-      ],
-      "LinkingTo": [
-        "Rcpp",
-        "RcppEigen (>= 0.3.3.3.0)"
-      ],
-      "VignetteBuilder": "knitr, rmarkdown",
-      "RoxygenNote": "7.1.2",
-      "NeedsCompilation": "yes",
-      "Author": "Yixuan Qiu [aut, cre], Jiali Mei [aut] (Function interface of matrix operation), Gael Guennebaud [ctb] (Eigenvalue solvers from the 'Eigen' library), Jitse Niesen [ctb] (Eigenvalue solvers from the 'Eigen' library)",
-      "Maintainer": "Yixuan Qiu <yixuan.qiu@cos.name>",
-      "Repository": "CRAN"
     },
     "Rcpp": {
       "Package": "Rcpp",
@@ -369,227 +217,6 @@
       "Author": "Dirk Eddelbuettel [aut, cre] (ORCID: <https://orcid.org/0000-0001-6419-907X>), Romain Francois [aut] (ORCID: <https://orcid.org/0000-0002-2444-4226>), JJ Allaire [aut] (ORCID: <https://orcid.org/0000-0003-0174-9868>), Kevin Ushey [aut] (ORCID: <https://orcid.org/0000-0003-2880-7407>), Qiang Kou [aut] (ORCID: <https://orcid.org/0000-0001-6786-5453>), Nathan Russell [aut], Iñaki Ucar [aut] (ORCID: <https://orcid.org/0000-0001-6403-5550>), Doug Bates [aut] (ORCID: <https://orcid.org/0000-0001-8316-9503>), John Chambers [aut]",
       "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "RcppAnnoy": {
-      "Package": "RcppAnnoy",
-      "Version": "0.0.23",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "'Rcpp' Bindings for 'Annoy', a Library for Approximate Nearest Neighbors",
-      "Date": "2026-01-12",
-      "Authors@R": "c(person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\", comment = c(ORCID = \"0000-0001-6419-907X\")), person(\"Erik\", \"Bernhardsson\", role = c(\"aut\"), comment = \"Principal author of Annoy\"))",
-      "Description": "'Annoy' is a small C++ library for Approximate Nearest Neighbors  written for efficient memory usage as well an ability to load from / save to disk. This package provides an R interface by relying on the 'Rcpp' package, exposing the same interface as the original Python wrapper to 'Annoy'. See <https://github.com/spotify/annoy> for more on 'Annoy'. 'Annoy' is released under Version 2.0 of the Apache License. Also included is a small Windows port of 'mmap' which is released under the MIT license.",
-      "License": "GPL (>= 2)",
-      "Depends": [
-        "R (>= 3.1)"
-      ],
-      "Imports": [
-        "methods",
-        "Rcpp"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Suggests": [
-        "tinytest"
-      ],
-      "URL": "https://github.com/eddelbuettel/rcppannoy, https://dirk.eddelbuettel.com/code/rcpp.annoy.html",
-      "BugReports": "https://github.com/eddelbuettel/rcppannoy/issues",
-      "NeedsCompilation": "yes",
-      "RoxygenNote": "7.3.2",
-      "Encoding": "UTF-8",
-      "VignetteBuilder": "Rcpp",
-      "Author": "Dirk Eddelbuettel [aut, cre] (ORCID: <https://orcid.org/0000-0001-6419-907X>), Erik Bernhardsson [aut] (Principal author of Annoy)",
-      "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "CRAN"
-    },
-    "RcppArmadillo": {
-      "Package": "RcppArmadillo",
-      "Version": "15.2.3-1",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "'Rcpp' Integration for the 'Armadillo' Templated Linear Algebra Library",
-      "Date": "2025-12-16",
-      "Authors@R": "c(person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\", comment = c(ORCID = \"0000-0001-6419-907X\")), person(\"Romain\", \"Francois\", role = \"aut\", comment = c(ORCID = \"0000-0002-2444-4226\")), person(\"Doug\", \"Bates\", role = \"aut\", comment = c(ORCID = \"0000-0001-8316-9503\")), person(\"Binxiang\", \"Ni\", role = \"aut\"), person(\"Conrad\", \"Sanderson\", role = \"aut\", comment = c(ORCID = \"0000-0002-0049-4501\")))",
-      "Description": "'Armadillo' is a templated C++ linear algebra library aiming towards a good balance between speed and ease of use. It provides high-level syntax and functionality deliberately similar to Matlab. It is useful for algorithm development directly in C++, or quick conversion of research code into production environments. It provides efficient classes for vectors, matrices and cubes where dense and sparse matrices are supported. Integer, floating point and complex numbers are supported. A sophisticated expression evaluator (based on template meta-programming) automatically combines several operations to increase speed and efficiency. Dynamic evaluation automatically chooses optimal code paths based on detected matrix structures. Matrix decompositions are provided through integration with LAPACK, or one of its high performance drop-in replacements (such as 'MKL' or 'OpenBLAS'). It can automatically use 'OpenMP' multi-threading (parallelisation) to speed up computationally expensive operations. . The 'RcppArmadillo' package includes the header files from the 'Armadillo' library; users do not need to install 'Armadillo' itself in order to use 'RcppArmadillo'. Starting from release 15.0.0, the minimum compilation standard is C++14 so 'Armadillo' version 14.6.3 is included as a fallback when an R package forces the C++11 standard. Package authors should set a '#define' to select the 'current' version, or select the 'legacy' version (also chosen as default) if they must. See 'GitHub issue #475' for details. . Since release 7.800.0, 'Armadillo' is licensed under Apache License 2; previous releases were under licensed as MPL 2.0 from version 3.800.0 onwards and LGPL-3 prior to that; 'RcppArmadillo' (the 'Rcpp' bindings/bridge to Armadillo) is licensed under the GNU GPL version 2 or later, as is the rest of 'Rcpp'.",
-      "License": "GPL (>= 2)",
-      "LazyLoad": "yes",
-      "Depends": [
-        "R (>= 3.3.0)"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Imports": [
-        "Rcpp (>= 1.0.12)",
-        "stats",
-        "utils",
-        "methods"
-      ],
-      "Suggests": [
-        "tinytest",
-        "Matrix (>= 1.3.0)",
-        "pkgKitten",
-        "reticulate",
-        "slam"
-      ],
-      "URL": "https://github.com/RcppCore/RcppArmadillo, https://dirk.eddelbuettel.com/code/rcpp.armadillo.html",
-      "BugReports": "https://github.com/RcppCore/RcppArmadillo/issues",
-      "RoxygenNote": "6.0.1",
-      "NeedsCompilation": "yes",
-      "Author": "Dirk Eddelbuettel [aut, cre] (ORCID: <https://orcid.org/0000-0001-6419-907X>), Romain Francois [aut] (ORCID: <https://orcid.org/0000-0002-2444-4226>), Doug Bates [aut] (ORCID: <https://orcid.org/0000-0001-8316-9503>), Binxiang Ni [aut], Conrad Sanderson [aut] (ORCID: <https://orcid.org/0000-0002-0049-4501>)",
-      "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Encoding": "UTF-8"
-    },
-    "RcppEigen": {
-      "Package": "RcppEigen",
-      "Version": "0.3.4.0.2",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "'Rcpp' Integration for the 'Eigen' Templated Linear Algebra Library",
-      "Date": "2024-08-23",
-      "Authors@R": "c(person(\"Doug\", \"Bates\", role = \"aut\", comment = c(ORCID = \"0000-0001-8316-9503\")), person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\", comment = c(ORCID = \"0000-0001-6419-907X\")), person(\"Romain\", \"Francois\", role = \"aut\", comment = c(ORCID = \"0000-0002-2444-4226\")), person(\"Yixuan\", \"Qiu\", role = \"aut\", comment = c(ORCID = \"0000-0003-0109-6692\")), person(\"Authors of\", \"Eigen\", role = \"cph\", comment = \"Authorship and copyright in included Eigen library as detailed in inst/COPYRIGHTS\"))",
-      "Copyright": "See the file COPYRIGHTS for various Eigen copyright details",
-      "Description": "R and 'Eigen' integration using 'Rcpp'. 'Eigen' is a C++ template library for linear algebra: matrices, vectors, numerical solvers and related algorithms.  It supports dense and sparse matrices on integer, floating point and complex numbers, decompositions of such matrices, and solutions of linear systems. Its performance on many algorithms is comparable with some of the best implementations based on 'Lapack' and level-3 'BLAS'. The 'RcppEigen' package includes the header files from the 'Eigen' C++ template library. Thus users do not need to install 'Eigen' itself in order to use 'RcppEigen'. Since version 3.1.1, 'Eigen' is licensed under the Mozilla Public License (version 2); earlier version were licensed under the GNU LGPL version 3 or later. 'RcppEigen' (the 'Rcpp' bindings/bridge to 'Eigen') is licensed under the GNU GPL version 2 or later, as is the rest of 'Rcpp'.",
-      "License": "GPL (>= 2) | file LICENSE",
-      "LazyLoad": "yes",
-      "Depends": [
-        "R (>= 3.6.0)"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Imports": [
-        "Rcpp (>= 0.11.0)",
-        "stats",
-        "utils"
-      ],
-      "Suggests": [
-        "Matrix",
-        "inline",
-        "tinytest",
-        "pkgKitten",
-        "microbenchmark"
-      ],
-      "URL": "https://github.com/RcppCore/RcppEigen, https://dirk.eddelbuettel.com/code/rcpp.eigen.html",
-      "BugReports": "https://github.com/RcppCore/RcppEigen/issues",
-      "NeedsCompilation": "yes",
-      "Author": "Doug Bates [aut] (<https://orcid.org/0000-0001-8316-9503>), Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>), Romain Francois [aut] (<https://orcid.org/0000-0002-2444-4226>), Yixuan Qiu [aut] (<https://orcid.org/0000-0003-0109-6692>), Authors of Eigen [cph] (Authorship and copyright in included Eigen library as detailed in inst/COPYRIGHTS)",
-      "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "CRAN"
-    },
-    "RcppHNSW": {
-      "Package": "RcppHNSW",
-      "Version": "0.6.0",
-      "Source": "Repository",
-      "Title": "'Rcpp' Bindings for 'hnswlib', a Library for Approximate Nearest Neighbors",
-      "Authors@R": "c( person(\"James\", \"Melville\", , \"jlmelville@gmail.com\", role = c(\"aut\", \"cre\", \"cph\")), person(\"Aaron\", \"Lun\", role = \"ctb\"), person(\"Samuel\", \"Granjeaud\", role = \"ctb\"), person(\"Dmitriy\", \"Selivanov\", role = \"ctb\"), person(\"Yuxing\", \"Liao\", role = \"ctb\") )",
-      "Description": "'Hnswlib' is a C++ library for Approximate Nearest Neighbors. This package provides a minimal R interface by relying on the 'Rcpp' package. See <https://github.com/nmslib/hnswlib> for more on 'hnswlib'. 'hnswlib' is released under Version 2.0 of the Apache License.",
-      "License": "GPL (>= 3)",
-      "URL": "https://github.com/jlmelville/rcpphnsw",
-      "BugReports": "https://github.com/jlmelville/rcpphnsw/issues",
-      "Imports": [
-        "methods",
-        "Rcpp (>= 0.11.3)"
-      ],
-      "Suggests": [
-        "covr",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.1",
-      "NeedsCompilation": "yes",
-      "Author": "James Melville [aut, cre, cph], Aaron Lun [ctb], Samuel Granjeaud [ctb], Dmitriy Selivanov [ctb], Yuxing Liao [ctb]",
-      "Maintainer": "James Melville <jlmelville@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "RcppProgress": {
-      "Package": "RcppProgress",
-      "Version": "0.4.2",
-      "Source": "Repository",
-      "Maintainer": "Karl Forner <karl.forner@gmail.com>",
-      "License": "GPL (>= 3)",
-      "Title": "An Interruptible Progress Bar with OpenMP Support for C++ in R Packages",
-      "Type": "Package",
-      "LazyLoad": "yes",
-      "Author": "Karl Forner <karl.forner@gmail.com>",
-      "Description": "Allows to display a progress bar in the R console for long running computations taking place in c++ code, and support for interrupting those computations even in multithreaded code, typically using OpenMP.",
-      "URL": "https://github.com/kforner/rcpp_progress",
-      "BugReports": "https://github.com/kforner/rcpp_progress/issues",
-      "Date": "2020-02-06",
-      "Suggests": [
-        "RcppArmadillo",
-        "devtools",
-        "roxygen2",
-        "testthat"
-      ],
-      "RoxygenNote": "6.1.1",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "no",
-      "Repository": "CRAN"
-    },
-    "RcppTOML": {
-      "Package": "RcppTOML",
-      "Version": "0.2.3",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "'Rcpp' Bindings to Parser for \"Tom's Obvious Markup Language\"",
-      "Date": "2025-03-08",
-      "Authors@R": "c(person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\", comment = c(ORCID = \"0000-0001-6419-907X\")), person(\"Mark\", \"Gillard\", role = \"aut\", comment = \"Author of 'toml++' header library\"))",
-      "Description": "The configuration format defined by 'TOML' (which expands to \"Tom's Obvious Markup Language\") specifies an excellent format (described at <https://toml.io/en/>) suitable for both human editing as well as the common uses of a machine-readable format. This package uses 'Rcpp' to connect to the 'toml++' parser written by Mark Gillard to R.",
-      "SystemRequirements": "A C++17 compiler",
-      "BugReports": "https://github.com/eddelbuettel/rcpptoml/issues",
-      "URL": "http://dirk.eddelbuettel.com/code/rcpp.toml.html",
-      "Imports": [
-        "Rcpp (>= 1.0.8)"
-      ],
-      "Depends": [
-        "R (>= 3.3.0)"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Suggests": [
-        "tinytest"
-      ],
-      "License": "GPL (>= 2)",
-      "NeedsCompilation": "yes",
-      "Author": "Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>), Mark Gillard [aut] (Author of 'toml++' header library)",
-      "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "CRAN"
-    },
-    "Rtsne": {
-      "Package": "Rtsne",
-      "Version": "0.17",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "T-Distributed Stochastic Neighbor Embedding using a Barnes-Hut Implementation",
-      "Authors@R": "c( person(\"Jesse\", \"Krijthe\", ,\"jkrijthe@gmail.com\", role = c(\"aut\", \"cre\")), person(\"Laurens\", \"van der Maaten\", role = c(\"cph\"), comment = \"Author of original C++ code\") )",
-      "Description": "An R wrapper around the fast T-distributed Stochastic Neighbor Embedding implementation by Van der Maaten  (see <https://github.com/lvdmaaten/bhtsne/> for more information on the original implementation).",
-      "License": "file LICENSE",
-      "URL": "https://github.com/jkrijthe/Rtsne",
-      "Encoding": "UTF-8",
-      "Imports": [
-        "Rcpp (>= 0.11.0)",
-        "stats"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Suggests": [
-        "irlba",
-        "testthat"
-      ],
-      "RoxygenNote": "7.2.3",
-      "NeedsCompilation": "yes",
-      "Author": "Jesse Krijthe [aut, cre], Laurens van der Maaten [cph] (Author of original C++ code)",
-      "Maintainer": "Jesse Krijthe <jkrijthe@gmail.com>",
-      "License_is_FOSS": "yes",
-      "Repository": "CRAN"
     },
     "S7": {
       "Package": "S7",
@@ -629,246 +256,6 @@
       "Author": "Object-Oriented Programming Working Group [cph], Davis Vaughan [aut], Jim Hester [aut] (ORCID: <https://orcid.org/0000-0002-2739-7082>), Tomasz Kalinowski [aut], Will Landau [aut], Michael Lawrence [aut], Martin Maechler [aut] (ORCID: <https://orcid.org/0000-0002-8685-9910>), Luke Tierney [aut], Hadley Wickham [aut, cre] (ORCID: <https://orcid.org/0000-0003-4757-117X>)",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "Seurat": {
-      "Package": "Seurat",
-      "Version": "5.4.0",
-      "Source": "Repository",
-      "Title": "Tools for Single Cell Genomics",
-      "Description": "A toolkit for quality control, analysis, and exploration of single cell RNA sequencing data. 'Seurat' aims to enable users to identify and interpret sources of heterogeneity from single cell transcriptomic measurements, and to integrate diverse types of single cell data. See Satija R, Farrell J, Gennert D, et al (2015) <doi:10.1038/nbt.3192>, Macosko E, Basu A, Satija R, et al (2015) <doi:10.1016/j.cell.2015.05.002>, Stuart T, Butler A, et al (2019) <doi:10.1016/j.cell.2019.05.031>, and Hao, Hao, et al (2020) <doi:10.1101/2020.10.12.335331> for more details.",
-      "Authors@R": "c( person(given = \"Andrew\", family = \"Butler\", email = \"abutler@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0003-3608-0463\")), person(given = \"Saket\", family = \"Choudhary\", email = \"schoudhary@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-5202-7633\")), person(given = 'David', family = 'Collins', email = 'dcollins@nygenome.org', role = 'ctb', comment = c(ORCID = '0000-0001-9243-7821')), person(given = \"Charlotte\", family = \"Darby\", email = \"cdarby@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0003-2195-5300\")), person(given = \"Jeff\", family = \"Farrell\", email = \"jfarrell@g.harvard.edu\", role = \"ctb\"), person(given = \"Isabella\", family = \"Grabski\", email = \"igrabski@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-0616-5469\")), person(given = \"Christoph\", family = \"Hafemeister\", email = \"chafemeister@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-6365-8254\")), person(given = \"Yuhan\", family = \"Hao\", email = \"yhao@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-1810-0822\")), person(given = \"Austin\", family = \"Hartman\", email = \"ahartman@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-7278-1852\")), person(given = \"Paul\", family = \"Hoffman\", email = \"hoff0792@umn.edu\", role = \"ctb\", comment = c(ORCID = \"0000-0002-7693-8957\")), person(given = \"Jaison\", family = \"Jain\", email = \"jjain@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-9478-5018\")), person(given = \"Longda\", family = \"Jiang\", email = \"ljiang@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0003-4964-6497\")), person(given = \"Madeline\", family = \"Kowalski\", email = \"mkowalski@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-5655-7620\")), person(given = \"Skylar\", family = \"Li\", email = \"sli@nygenome.org\", role = \"ctb\"), person(given = \"Brian\", family = \"Zhang\", email = \"brianzhang@nygenome.org\", role = \"ctb\"), person(given = \"Gesmira\", family = \"Molla\", email = 'gmolla@nygenome.org', role = 'ctb', comment = c(ORCID = '0000-0002-8628-5056')), person(given = \"Efthymia\", family = \"Papalexi\", email = \"epapalexi@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-5898-694X\")), person(given = \"Patrick\", family = \"Roelli\", email = \"proelli@nygenome.org\", role = \"ctb\"), person(given = \"Rahul\", family = \"Satija\", email = \"seurat@nygenome.org\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0001-9448-8833\")), person(given = \"Karthik\", family = \"Shekhar\", email = \"kshekhar@berkeley.edu\", role = \"ctb\"), person(given = \"Anagha\", family = \"Shenoy\", email = \"ashenoy@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-0537-6862\")), person(given = \"Avi\", family = \"Srivastava\", email = \"asrivastava@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-9798-2079\")), person(given = \"Tim\", family = \"Stuart\", email = \"tstuart@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-3044-0897\")), person(given = \"Kristof\", family = \"Torkenczy\", email = \"\", role = \"ctb\", comment = c(ORCID = \"0000-0002-4869-7957\")), person(given = \"Brian\", family = \"Zhang\", email = \"brianzhang@nygenome.org\", role = \"ctb\"), person(given = \"Shiwei\", family = \"Zheng\", email = \"szheng@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-6682-6743\")), person(\"Satija Lab and Collaborators\", role = \"fnd\") )",
-      "License": "MIT + file LICENSE",
-      "URL": "https://satijalab.org/seurat, https://github.com/satijalab/seurat",
-      "BugReports": "https://github.com/satijalab/seurat/issues",
-      "Additional_repositories": "https://satijalab.r-universe.dev, https://bnprks.r-universe.dev",
-      "Depends": [
-        "R (>= 4.0.0)",
-        "methods",
-        "SeuratObject (>= 5.0.2)"
-      ],
-      "Imports": [
-        "cluster",
-        "cowplot",
-        "fastDummies",
-        "fitdistrplus",
-        "future",
-        "future.apply",
-        "generics (>= 0.1.3)",
-        "ggplot2 (>= 3.3.0)",
-        "ggrepel",
-        "ggridges",
-        "graphics",
-        "grDevices",
-        "grid",
-        "httr",
-        "ica",
-        "igraph",
-        "irlba",
-        "jsonlite",
-        "KernSmooth",
-        "lifecycle",
-        "lmtest",
-        "MASS",
-        "Matrix (>= 1.5-0)",
-        "matrixStats",
-        "miniUI",
-        "patchwork",
-        "pbapply",
-        "plotly (>= 4.9.0)",
-        "png",
-        "progressr",
-        "RANN",
-        "RColorBrewer",
-        "Rcpp (>= 1.0.7)",
-        "RcppAnnoy (>= 0.0.18)",
-        "RcppHNSW",
-        "reticulate",
-        "rlang",
-        "ROCR",
-        "RSpectra",
-        "Rtsne",
-        "scales",
-        "scattermore (>= 1.2)",
-        "sctransform (>= 0.4.1)",
-        "shiny",
-        "spatstat.explore",
-        "spatstat.geom",
-        "stats",
-        "tibble",
-        "tools",
-        "utils",
-        "uwot (>= 0.1.10)"
-      ],
-      "Suggests": [
-        "ape",
-        "arrow",
-        "base64enc",
-        "Biobase",
-        "BiocGenerics",
-        "BPCells",
-        "data.table",
-        "DESeq2",
-        "DelayedArray",
-        "enrichR",
-        "GenomicRanges",
-        "GenomeInfoDb",
-        "glmGamPoi",
-        "ggrastr",
-        "harmony",
-        "hdf5r",
-        "IRanges",
-        "leidenbase",
-        "limma",
-        "magrittr",
-        "MAST",
-        "metap",
-        "mixtools",
-        "monocle",
-        "presto",
-        "rsvd",
-        "R.utils",
-        "Rfast2",
-        "rtracklayer",
-        "S4Vectors",
-        "sf (>= 1.0.0)",
-        "sp",
-        "SingleCellExperiment",
-        "SummarizedExperiment",
-        "testthat",
-        "VGAM"
-      ],
-      "LinkingTo": [
-        "Rcpp (>= 0.11.0)",
-        "RcppEigen",
-        "RcppProgress"
-      ],
-      "BuildManual": "true",
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "RoxygenNote": "7.3.3",
-      "Collate": "'RcppExports.R' 'reexports.R' 'generics.R' 'clustering.R' 'visualization.R' 'convenience.R' 'data.R' 'differential_expression.R' 'dimensional_reduction.R' 'integration.R' 'zzz.R' 'integration5.R' 'mixscape.R' 'objects.R' 'preprocessing.R' 'preprocessing5.R' 'roxygen.R' 'sketching.R' 'tree.R' 'utilities.R'",
-      "NeedsCompilation": "yes",
-      "Author": "Andrew Butler [ctb] (ORCID: <https://orcid.org/0000-0003-3608-0463>), Saket Choudhary [ctb] (ORCID: <https://orcid.org/0000-0001-5202-7633>), David Collins [ctb] (ORCID: <https://orcid.org/0000-0001-9243-7821>), Charlotte Darby [ctb] (ORCID: <https://orcid.org/0000-0003-2195-5300>), Jeff Farrell [ctb], Isabella Grabski [ctb] (ORCID: <https://orcid.org/0000-0002-0616-5469>), Christoph Hafemeister [ctb] (ORCID: <https://orcid.org/0000-0001-6365-8254>), Yuhan Hao [ctb] (ORCID: <https://orcid.org/0000-0002-1810-0822>), Austin Hartman [ctb] (ORCID: <https://orcid.org/0000-0001-7278-1852>), Paul Hoffman [ctb] (ORCID: <https://orcid.org/0000-0002-7693-8957>), Jaison Jain [ctb] (ORCID: <https://orcid.org/0000-0002-9478-5018>), Longda Jiang [ctb] (ORCID: <https://orcid.org/0000-0003-4964-6497>), Madeline Kowalski [ctb] (ORCID: <https://orcid.org/0000-0002-5655-7620>), Skylar Li [ctb], Brian Zhang [ctb], Gesmira Molla [ctb] (ORCID: <https://orcid.org/0000-0002-8628-5056>), Efthymia Papalexi [ctb] (ORCID: <https://orcid.org/0000-0001-5898-694X>), Patrick Roelli [ctb], Rahul Satija [aut, cre] (ORCID: <https://orcid.org/0000-0001-9448-8833>), Karthik Shekhar [ctb], Anagha Shenoy [ctb] (ORCID: <https://orcid.org/0000-0002-0537-6862>), Avi Srivastava [ctb] (ORCID: <https://orcid.org/0000-0001-9798-2079>), Tim Stuart [ctb] (ORCID: <https://orcid.org/0000-0002-3044-0897>), Kristof Torkenczy [ctb] (ORCID: <https://orcid.org/0000-0002-4869-7957>), Brian Zhang [ctb], Shiwei Zheng [ctb] (ORCID: <https://orcid.org/0000-0001-6682-6743>), Satija Lab and Collaborators [fnd]",
-      "Maintainer": "Rahul Satija <seurat@nygenome.org>",
-      "Repository": "CRAN"
-    },
-    "SeuratData": {
-      "Package": "SeuratData",
-      "Version": "0.2.2.9002",
-      "Source": "GitHub",
-      "Title": "Install and Manage Seurat Datasets",
-      "Description": "Single cell RNA sequencing datasets can be large, consisting of matrices that contain expression data for several thousand features across several thousand cells. This package is designed to easily install, manage, and learn about various single-cell datasets, provided Seurat objects and distributed as independent packages.",
-      "Authors@R": "c( person(given = 'Rahul', family = 'Satija', email = 'rsatija@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0001-9448-8833')), person(given = 'Paul', family = 'Hoffman', email = 'phoffman@nygenome.org', role = c('aut', 'cre'), comment = c(ORCID = '0000-0002-7693-8957')), person(given = 'Andrew', family = 'Butler', email = 'abutler@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0003-3608-0463')), person(given = \"Austin\", family = \"Hartman\", email = \"ahartman@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-7278-1852\")),  person(given = \"Yuhan\", family = \"Hao\", email = \"yhao@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-1810-0822\")), person(given = \"Gesmira\", family = \"Molla\", email = 'gmolla@nygenome.org', role = 'ctb', comment = c(ORCID = '0000-0002-8628-5056')) )",
-      "License": "GPL-3 | file LICENSE",
-      "URL": "http://www.satijalab.org/seurat, https://github.com/satijalab/seurat-data",
-      "BugReports": "https://github.com/satijalab/seurat-data/issues",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Imports": [
-        "cli",
-        "crayon",
-        "Matrix",
-        "methods",
-        "rappdirs",
-        "SeuratObject (>= 5.0.0)",
-        "Seurat (>= 5.0.0)",
-        "stats",
-        "utils"
-      ],
-      "Suggests": [
-        "Azimuth"
-      ],
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "RoxygenNote": "7.3.2",
-      "Collate": "'zzz.R' 'seurat_data.R'",
-      "Author": "Rahul Satija [aut] (ORCID: <https://orcid.org/0000-0001-9448-8833>), Paul Hoffman [aut, cre] (ORCID: <https://orcid.org/0000-0002-7693-8957>), Andrew Butler [aut] (ORCID: <https://orcid.org/0000-0003-3608-0463>), Austin Hartman [ctb] (ORCID: <https://orcid.org/0000-0001-7278-1852>), Yuhan Hao [ctb] (ORCID: <https://orcid.org/0000-0002-1810-0822>), Gesmira Molla [ctb] (ORCID: <https://orcid.org/0000-0002-8628-5056>)",
-      "Maintainer": "Paul Hoffman <phoffman@nygenome.org>",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "satijalab",
-      "RemoteRepo": "seurat-data",
-      "RemoteRef": "main",
-      "RemoteSha": "3e51f44303069b64f5dc4d68e6a3d4a343f55c39"
-    },
-    "SeuratObject": {
-      "Package": "SeuratObject",
-      "Version": "5.3.0",
-      "Source": "Repository",
-      "Title": "Data Structures for Single Cell Data",
-      "Authors@R": "c( person(given = 'Paul', family = 'Hoffman', email = 'hoff0792@alumni.umn.edu', role = 'aut', comment = c(ORCID = '0000-0002-7693-8957')), person(given = 'Rahul', family = 'Satija', email = 'seurat@nygenome.org', role = c('aut', 'cre'), comment = c(ORCID = '0000-0001-9448-8833')), person(given = 'David', family = 'Collins', email = 'dcollins@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0001-9243-7821')), person(given = \"Yuhan\", family = \"Hao\", email = 'yhao@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0002-1810-0822')), person(given = \"Austin\", family = \"Hartman\", email = 'ahartman@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0001-7278-1852')), person(given = \"Gesmira\", family = \"Molla\", email = 'gmolla@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0002-8628-5056')), person(given = 'Andrew', family = 'Butler', email = 'abutler@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0003-3608-0463')), person(given = 'Tim', family = 'Stuart', email = 'tstuart@nygenome.org', role = 'aut', comment = c(ORCID = '0000-0002-3044-0897')), person(given = \"Madeline\", family = \"Kowalski\", email = \"mkowalski@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-5655-7620\")), person(given = \"Saket\", family = \"Choudhary\", email = \"schoudhary@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-5202-7633\")), person(given = \"Skylar\", family = \"Li\", email = \"sli@nygenome.org\", role = \"ctb\"), person(given = \"Longda\", family = \"Jiang\", email = \"ljiang@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0003-4964-6497\")), person(given = \"Anagha\", family = \"Shenoy\", email = \"ashenoy@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0002-0537-6862\")), person(given = 'Jeff', family = 'Farrell', email = 'jfarrell@g.harvard.edu', role = 'ctb'), person(given = 'Shiwei', family = 'Zheng', email = 'szheng@nygenome.org', role = 'ctb', comment = c(ORCID = '0000-0001-6682-6743')), person(given = 'Christoph', family = 'Hafemeister', email = 'chafemeister@nygenome.org', role = 'ctb', comment = c(ORCID = '0000-0001-6365-8254')), person(given = 'Patrick', family = 'Roelli', email = 'proelli@nygenome.org', role = 'ctb') )",
-      "Description": "Defines S4 classes for single-cell genomic data and associated information, such as dimensionality reduction embeddings, nearest-neighbor graphs, and spatially-resolved coordinates. Provides data access methods and R-native hooks to ensure the Seurat object is familiar to other R users. See Satija R, Farrell J, Gennert D, et al (2015) <doi:10.1038/nbt.3192>, Macosko E, Basu A, Satija R, et al (2015) <doi:10.1016/j.cell.2015.05.002>, and Stuart T, Butler A, et al (2019) <doi:10.1016/j.cell.2019.05.031>, Hao Y, Hao S, et al (2021) <doi:10.1016/j.cell.2021.04.048> and Hao Y, et al (2023) <doi:10.1101/2022.02.24.481684> for more details.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://satijalab.github.io/seurat-object/, https://github.com/satijalab/seurat-object",
-      "BugReports": "https://github.com/satijalab/seurat-object/issues",
-      "Additional_repositories": "https://bnprks.r-universe.dev",
-      "Depends": [
-        "R (>= 4.1.0)",
-        "sp (>= 1.5.0)"
-      ],
-      "Imports": [
-        "future",
-        "future.apply",
-        "generics",
-        "grDevices",
-        "grid",
-        "lifecycle",
-        "Matrix (>= 1.6.4)",
-        "methods",
-        "progressr",
-        "Rcpp (>= 1.0.5)",
-        "rlang (>= 0.4.7)",
-        "spam",
-        "stats",
-        "tools",
-        "utils"
-      ],
-      "Suggests": [
-        "BPCells",
-        "DelayedArray",
-        "fs (>= 1.5.2)",
-        "sf (>= 1.0.0)",
-        "ggplot2",
-        "HDF5Array",
-        "rmarkdown",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "Rcpp",
-        "RcppEigen"
-      ],
-      "Config/Needs/website": "pkgdown",
-      "BuildManual": "true",
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "RoxygenNote": "7.3.3",
-      "Collate": "'RcppExports.R' 'zzz.R' 'generics.R' 'keymixin.R' 'graph.R' 'default.R' 'assay.R' 'logmap.R' 'layers.R' 'assay5.R' 'centroids.R' 'command.R' 'compliance.R' 'data.R' 'jackstraw.R' 'dimreduc.R' 'segmentation.R' 'molecules.R' 'spatial.R' 'fov.R' 'neighbor.R' 'seurat.R' 'sparse.R' 'utils.R'",
-      "NeedsCompilation": "yes",
-      "Author": "Paul Hoffman [aut] (ORCID: <https://orcid.org/0000-0002-7693-8957>), Rahul Satija [aut, cre] (ORCID: <https://orcid.org/0000-0001-9448-8833>), David Collins [aut] (ORCID: <https://orcid.org/0000-0001-9243-7821>), Yuhan Hao [aut] (ORCID: <https://orcid.org/0000-0002-1810-0822>), Austin Hartman [aut] (ORCID: <https://orcid.org/0000-0001-7278-1852>), Gesmira Molla [aut] (ORCID: <https://orcid.org/0000-0002-8628-5056>), Andrew Butler [aut] (ORCID: <https://orcid.org/0000-0003-3608-0463>), Tim Stuart [aut] (ORCID: <https://orcid.org/0000-0002-3044-0897>), Madeline Kowalski [ctb] (ORCID: <https://orcid.org/0000-0002-5655-7620>), Saket Choudhary [ctb] (ORCID: <https://orcid.org/0000-0001-5202-7633>), Skylar Li [ctb], Longda Jiang [ctb] (ORCID: <https://orcid.org/0000-0003-4964-6497>), Anagha Shenoy [ctb] (ORCID: <https://orcid.org/0000-0002-0537-6862>), Jeff Farrell [ctb], Shiwei Zheng [ctb] (ORCID: <https://orcid.org/0000-0001-6682-6743>), Christoph Hafemeister [ctb] (ORCID: <https://orcid.org/0000-0001-6365-8254>), Patrick Roelli [ctb]",
-      "Maintainer": "Rahul Satija <seurat@nygenome.org>",
-      "Repository": "CRAN"
-    },
-    "abind": {
-      "Package": "abind",
-      "Version": "1.4-8",
-      "Source": "Repository",
-      "Date": "2024-09-08",
-      "Title": "Combine Multidimensional Arrays",
-      "Authors@R": "c(person(\"Tony\", \"Plate\", email = \"tplate@acm.org\", role = c(\"aut\", \"cre\")), person(\"Richard\", \"Heiberger\", role = c(\"aut\")))",
-      "Maintainer": "Tony Plate <tplate@acm.org>",
-      "Description": "Combine multidimensional arrays into a single array. This is a generalization of 'cbind' and 'rbind'.  Works with vectors, matrices, and higher-dimensional arrays (aka tensors). Also provides functions 'adrop', 'asub', and 'afill' for manipulating, extracting and replacing data in arrays.",
-      "Depends": [
-        "R (>= 1.5.0)"
-      ],
-      "Imports": [
-        "methods",
-        "utils"
-      ],
-      "License": "MIT + file LICENSE",
-      "NeedsCompilation": "no",
-      "Author": "Tony Plate [aut, cre], Richard Heiberger [aut]",
-      "Repository": "CRAN"
     },
     "askpass": {
       "Package": "askpass",
@@ -1034,22 +421,6 @@
       "Author": "Michael Chirico [aut, cre], Jens Oehlschlägel [aut], Leonardo Silvestri [ctb], Ofek Shilon [ctb]",
       "Maintainer": "Michael Chirico <michaelchirico4@gmail.com>",
       "Repository": "RSPM"
-    },
-    "bitops": {
-      "Package": "bitops",
-      "Version": "1.0-9",
-      "Source": "Repository",
-      "Date": "2024-10-03",
-      "Authors@R": "c( person(\"Steve\", \"Dutky\", role = \"aut\", email = \"sdutky@terpalum.umd.edu\", comment = \"S original; then (after MM's port) revised and modified\"), person(\"Martin\", \"Maechler\", role = c(\"cre\", \"aut\"), email = \"maechler@stat.math.ethz.ch\", comment = c(\"Initial R port; tweaks\", ORCID = \"0000-0002-8685-9910\")))",
-      "Title": "Bitwise Operations",
-      "Description": "Functions for bitwise operations on integer vectors.",
-      "License": "GPL (>= 2)",
-      "URL": "https://github.com/mmaechler/R-bitops",
-      "BugReports": "https://github.com/mmaechler/R-bitops/issues",
-      "NeedsCompilation": "yes",
-      "Author": "Steve Dutky [aut] (S original; then (after MM's port) revised and modified), Martin Maechler [cre, aut] (Initial R port; tweaks, <https://orcid.org/0000-0002-8685-9910>)",
-      "Maintainer": "Martin Maechler <maechler@stat.math.ethz.ch>",
-      "Repository": "CRAN"
     },
     "blob": {
       "Package": "blob",
@@ -1267,31 +638,6 @@
       "Maintainer": "Carson Sievert <carson@posit.co>",
       "Repository": "CRAN"
     },
-    "caTools": {
-      "Package": "caTools",
-      "Version": "1.18.3",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Tools: Moving Window Statistics, GIF, Base64, ROC AUC, etc",
-      "Date": "2024-09-04",
-      "Authors@R": "c(person(given = \"Jarek\", family = \"Tuszynski\", role = \"aut\", email = \"jaroslaw.w.tuszynski@saic.com\"), person(given = \"Michael\", family = \"Dietze\", role = \"cre\", email = \"michael.dietze@uni-goettingen.de\"))",
-      "Maintainer": "Michael Dietze <michael.dietze@uni-goettingen.de>",
-      "Depends": [
-        "R (>= 3.6.0)"
-      ],
-      "Imports": [
-        "bitops"
-      ],
-      "Suggests": [
-        "MASS",
-        "rpart"
-      ],
-      "Description": "Contains several basic utility functions including: moving (rolling, running) window statistic functions, read/write for GIF and ENVI binary files, fast calculation of AUC, LogitBoost classifier, base64 encoder/decoder, round-off-error-free sum and cumsum, etc.",
-      "License": "GPL-3",
-      "NeedsCompilation": "yes",
-      "Repository": "CRAN",
-      "Author": "Jarek Tuszynski [aut], Michael Dietze [cre]"
-    },
     "cachem": {
       "Package": "cachem",
       "Version": "1.1.0",
@@ -1466,48 +812,6 @@
       "Maintainer": "Matthew Lincoln <matthew.d.lincoln@gmail.com>",
       "Repository": "RSPM"
     },
-    "cluster": {
-      "Package": "cluster",
-      "Version": "2.1.8.1",
-      "Source": "Repository",
-      "VersionNote": "Last CRAN: 2.1.8 on 2024-12-10; 2.1.7 on 2024-12-06; 2.1.6 on 2023-11-30; 2.1.5 on 2023-11-27",
-      "Date": "2025-03-11",
-      "Priority": "recommended",
-      "Title": "\"Finding Groups in Data\": Cluster Analysis Extended Rousseeuw et al.",
-      "Description": "Methods for Cluster analysis.  Much extended the original from Peter Rousseeuw, Anja Struyf and Mia Hubert, based on Kaufman and Rousseeuw (1990) \"Finding Groups in Data\".",
-      "Maintainer": "Martin Maechler <maechler@stat.math.ethz.ch>",
-      "Authors@R": "c(person(\"Martin\",\"Maechler\", role = c(\"aut\",\"cre\"), email=\"maechler@stat.math.ethz.ch\", comment = c(ORCID = \"0000-0002-8685-9910\")) ,person(\"Peter\", \"Rousseeuw\", role=\"aut\", email=\"peter.rousseeuw@kuleuven.be\", comment = c(\"Fortran original\", ORCID = \"0000-0002-3807-5353\")) ,person(\"Anja\", \"Struyf\", role=\"aut\", comment= \"S original\") ,person(\"Mia\", \"Hubert\", role=\"aut\", email= \"Mia.Hubert@uia.ua.ac.be\", comment = c(\"S original\", ORCID = \"0000-0001-6398-4850\")) ,person(\"Kurt\", \"Hornik\", role=c(\"trl\", \"ctb\"), email=\"Kurt.Hornik@R-project.org\", comment=c(\"port to R; maintenance(1999-2000)\", ORCID=\"0000-0003-4198-9911\")) ,person(\"Matthias\", \"Studer\", role=\"ctb\") ,person(\"Pierre\", \"Roudier\", role=\"ctb\") ,person(\"Juan\",   \"Gonzalez\", role=\"ctb\") ,person(\"Kamil\",  \"Kozlowski\", role=\"ctb\") ,person(\"Erich\",  \"Schubert\", role=\"ctb\", comment = c(\"fastpam options for pam()\", ORCID = \"0000-0001-9143-4880\")) ,person(\"Keefe\",  \"Murphy\", role=\"ctb\", comment = \"volume.ellipsoid({d >= 3})\") #not yet ,person(\"Fischer-Rasmussen\", \"Kasper\", role = \"ctb\", comment = \"Gower distance for CLARA\") )",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Imports": [
-        "graphics",
-        "grDevices",
-        "stats",
-        "utils"
-      ],
-      "Suggests": [
-        "MASS",
-        "Matrix"
-      ],
-      "SuggestsNote": "MASS: two examples using cov.rob() and mvrnorm(); Matrix tools for testing",
-      "Enhances": [
-        "mvoutlier",
-        "fpc",
-        "ellipse",
-        "sfsmisc"
-      ],
-      "EnhancesNote": "xref-ed in man/*.Rd",
-      "LazyLoad": "yes",
-      "LazyData": "yes",
-      "ByteCompile": "yes",
-      "BuildResaveData": "no",
-      "License": "GPL (>= 2)",
-      "URL": "https://svn.r-project.org/R-packages/trunk/cluster/",
-      "NeedsCompilation": "yes",
-      "Author": "Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>), Peter Rousseeuw [aut] (Fortran original, <https://orcid.org/0000-0002-3807-5353>), Anja Struyf [aut] (S original), Mia Hubert [aut] (S original, <https://orcid.org/0000-0001-6398-4850>), Kurt Hornik [trl, ctb] (port to R; maintenance(1999-2000), <https://orcid.org/0000-0003-4198-9911>), Matthias Studer [ctb], Pierre Roudier [ctb], Juan Gonzalez [ctb], Kamil Kozlowski [ctb], Erich Schubert [ctb] (fastpam options for pam(), <https://orcid.org/0000-0001-9143-4880>), Keefe Murphy [ctb] (volume.ellipsoid({d >= 3}))",
-      "Repository": "CRAN"
-    },
     "codetools": {
       "Package": "codetools",
       "Version": "0.2-20",
@@ -1585,56 +889,6 @@
       "Author": "Hadley Wickham [aut, cre], RStudio [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
       "Repository": "RSPM"
-    },
-    "cowplot": {
-      "Package": "cowplot",
-      "Version": "1.2.0",
-      "Source": "Repository",
-      "Title": "Streamlined Plot Theme and Plot Annotations for 'ggplot2'",
-      "Authors@R": "person( given = \"Claus O.\", family = \"Wilke\", role = c(\"aut\", \"cre\"), email = \"wilke@austin.utexas.edu\", comment = c(ORCID = \"0000-0002-7470-9261\") )",
-      "Description": "Provides various features that help with creating publication-quality figures with 'ggplot2', such as a set of themes, functions to align plots and arrange them into complex compound figures, and functions that make it easy to annotate plots and or mix plots with images. The package was originally written for internal use in the Wilke lab, hence the name (Claus O. Wilke's plot package). It has also been used extensively in the book Fundamentals of Data Visualization.",
-      "URL": "https://wilkelab.org/cowplot/",
-      "BugReports": "https://github.com/wilkelab/cowplot/issues",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Imports": [
-        "ggplot2 (>= 3.5.2)",
-        "grid",
-        "gtable",
-        "grDevices",
-        "methods",
-        "rlang",
-        "scales"
-      ],
-      "License": "GPL-2",
-      "Suggests": [
-        "Cairo",
-        "covr",
-        "dplyr",
-        "forcats",
-        "gridGraphics (>= 0.4-0)",
-        "knitr",
-        "lattice",
-        "magick",
-        "maps",
-        "PASWR",
-        "patchwork",
-        "rmarkdown",
-        "ragg",
-        "testthat (>= 1.0.0)",
-        "tidyr",
-        "vdiffr (>= 0.3.0)",
-        "VennDiagram"
-      ],
-      "VignetteBuilder": "knitr",
-      "Collate": "'add_sub.R' 'align_plots.R' 'as_grob.R' 'as_gtable.R' 'axis_canvas.R' 'cowplot.R' 'draw.R' 'get_plot_component.R' 'get_axes.R' 'get_titles.R' 'get_legend.R' 'get_panel.R' 'gtable.R' 'key_glyph.R' 'plot_grid.R' 'save.R' 'set_null_device.R' 'setup.R' 'stamp.R' 'themes.R' 'utils_ggplot2.R'",
-      "RoxygenNote": "7.3.2",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "no",
-      "Author": "Claus O. Wilke [aut, cre] (ORCID: <https://orcid.org/0000-0002-7470-9261>)",
-      "Maintainer": "Claus O. Wilke <wilke@austin.utexas.edu>",
-      "Repository": "CRAN"
     },
     "cpp11": {
       "Package": "cpp11",
@@ -1874,31 +1128,6 @@
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
     },
-    "deldir": {
-      "Package": "deldir",
-      "Version": "2.0-4",
-      "Source": "Repository",
-      "Date": "2024-02-27",
-      "Title": "Delaunay Triangulation and Dirichlet (Voronoi) Tessellation",
-      "Author": "Rolf Turner",
-      "Maintainer": "Rolf Turner <rolfturner@posteo.net>",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Suggests": [
-        "polyclip"
-      ],
-      "Imports": [
-        "graphics",
-        "grDevices"
-      ],
-      "Description": "Calculates the Delaunay triangulation and the Dirichlet or Voronoi tessellation (with respect to the entire plane) of a planar point set. Plots triangulations and tessellations in various ways.  Clips tessellations to sub-windows. Calculates perimeters of tessellations.  Summarises information about the tiles of the tessellation.\tCalculates the centroidal Voronoi (Dirichlet) tessellation using Lloyd's algorithm.",
-      "LazyData": "true",
-      "ByteCompile": "true",
-      "License": "GPL (>= 2)",
-      "NeedsCompilation": "yes",
-      "Repository": "CRAN"
-    },
     "digest": {
       "Package": "digest",
       "Version": "0.6.39",
@@ -1927,36 +1156,6 @@
       "Author": "Dirk Eddelbuettel [aut, cre] (ORCID: <https://orcid.org/0000-0001-6419-907X>), Antoine Lucas [ctb] (ORCID: <https://orcid.org/0000-0002-8059-9767>), Jarek Tuszynski [ctb], Henrik Bengtsson [ctb] (ORCID: <https://orcid.org/0000-0002-7579-5165>), Simon Urbanek [ctb] (ORCID: <https://orcid.org/0000-0003-2297-1732>), Mario Frasca [ctb], Bryan Lewis [ctb], Murray Stokely [ctb], Hannes Muehleisen [ctb] (ORCID: <https://orcid.org/0000-0001-8552-0029>), Duncan Murdoch [ctb], Jim Hester [ctb] (ORCID: <https://orcid.org/0000-0002-2739-7082>), Wush Wu [ctb] (ORCID: <https://orcid.org/0000-0001-5180-0567>), Qiang Kou [ctb] (ORCID: <https://orcid.org/0000-0001-6786-5453>), Thierry Onkelinx [ctb] (ORCID: <https://orcid.org/0000-0001-8804-4216>), Michel Lang [ctb] (ORCID: <https://orcid.org/0000-0001-9754-0393>), Viliam Simko [ctb], Kurt Hornik [ctb] (ORCID: <https://orcid.org/0000-0003-4198-9911>), Radford Neal [ctb] (ORCID: <https://orcid.org/0000-0002-2473-3407>), Kendon Bell [ctb] (ORCID: <https://orcid.org/0000-0002-9093-8312>), Matthew de Queljoe [ctb], Dmitry Selivanov [ctb] (ORCID: <https://orcid.org/0000-0003-0492-6647>), Ion Suruceanu [ctb] (ORCID: <https://orcid.org/0009-0005-6446-4909>), Bill Denney [ctb] (ORCID: <https://orcid.org/0000-0002-5759-428X>), Dirk Schumacher [ctb], András Svraka [ctb] (ORCID: <https://orcid.org/0009-0008-8480-1329>), Sergey Fedorov [ctb] (ORCID: <https://orcid.org/0000-0002-5970-7233>), Will Landau [ctb] (ORCID: <https://orcid.org/0000-0003-1878-3253>), Floris Vanderhaeghe [ctb] (ORCID: <https://orcid.org/0000-0002-6378-6229>), Kevin Tappe [ctb], Harris McGehee [ctb], Tim Mastny [ctb], Aaron Peikert [ctb] (ORCID: <https://orcid.org/0000-0001-7813-818X>), Mark van der Loo [ctb] (ORCID: <https://orcid.org/0000-0002-9807-4686>), Chris Muir [ctb] (ORCID: <https://orcid.org/0000-0003-2555-3878>), Moritz Beller [ctb] (ORCID: <https://orcid.org/0000-0003-4852-0526>), Sebastian Campbell [ctb] (ORCID: <https://orcid.org/0009-0000-5948-4503>), Winston Chang [ctb] (ORCID: <https://orcid.org/0000-0002-1576-2126>), Dean Attali [ctb] (ORCID: <https://orcid.org/0000-0002-5645-3493>), Michael Chirico [ctb] (ORCID: <https://orcid.org/0000-0003-0787-087X>), Kevin Ushey [ctb] (ORCID: <https://orcid.org/0000-0003-2880-7407>), Carl Pearson [ctb] (ORCID: <https://orcid.org/0000-0003-0701-7860>)",
       "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "dotCall64": {
-      "Package": "dotCall64",
-      "Version": "1.2",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Enhanced Foreign Function Interface Supporting Long Vectors",
-      "Date": "2024-10-03",
-      "Authors@R": "c(person(\"Kaspar\", \"Moesinger\", role = c(\"aut\"), email = \"kaspar.moesinger@gmail.com\"),  person(\"Florian\", \"Gerber\", role = c(\"aut\"), email = \"flora.fauna.gerber@gmail.com\", comment = c(ORCID = \"0000-0001-8545-5263\")), person(\"Reinhard\", \"Furrer\", role = c(\"cre\", \"ctb\"), email = \"reinhard.furrer@uzh.ch\", comment = c(ORCID = \"0000-0002-6319-2332\")))",
-      "Description": "Provides .C64(), which is an enhanced version of .C() and .Fortran() from the foreign function interface. .C64() supports long vectors, arguments of type 64-bit integer, and provides a mechanism to avoid unnecessary copies of read-only and write-only arguments. This makes it a convenient and fast interface to C/C++ and Fortran code.",
-      "License": "GPL (>= 2)",
-      "URL": "https://git.math.uzh.ch/reinhard.furrer/dotCall64",
-      "BugReports": "https://git.math.uzh.ch/reinhard.furrer/dotCall64/-/issues",
-      "Depends": [
-        "R (>= 4.0)"
-      ],
-      "Suggests": [
-        "microbenchmark",
-        "RhpcBLASctl",
-        "RColorBrewer",
-        "roxygen2",
-        "spam",
-        "testthat"
-      ],
-      "Collate": "'vector_dc.R' 'dotCall64.R' 'zzz.R'",
-      "RoxygenNote": "7.2.3",
-      "NeedsCompilation": "yes",
-      "Author": "Kaspar Moesinger [aut], Florian Gerber [aut] (<https://orcid.org/0000-0001-8545-5263>), Reinhard Furrer [cre, ctb] (<https://orcid.org/0000-0002-6319-2332>)",
-      "Maintainer": "Reinhard Furrer <reinhard.furrer@uzh.ch>",
-      "Repository": "CRAN"
     },
     "dplyr": {
       "Package": "dplyr",
@@ -2020,45 +1219,6 @@
       "Author": "Hadley Wickham [aut, cre] (<https://orcid.org/0000-0003-4757-117X>), Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>), Lionel Henry [aut], Kirill Müller [aut] (<https://orcid.org/0000-0002-1416-3412>), Davis Vaughan [aut] (<https://orcid.org/0000-0003-4777-038X>), Posit Software, PBC [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "RSPM"
-    },
-    "dqrng": {
-      "Package": "dqrng",
-      "Version": "0.4.1",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Fast Pseudo Random Number Generators",
-      "Authors@R": "c( person(\"Ralf\", \"Stubner\", email = \"ralf.stubner@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0009-0009-1908-106X\")), person(\"daqana GmbH\", role = \"cph\"), person(\"David Blackman\", role = \"cph\", comment = \"Xoroshiro / Xoshiro family\"), person(\"Melissa O'Neill\", email = \"oneill@pcg-random.org\", role = \"cph\", comment = \"PCG family\"), person(\"Sebastiano Vigna\", email = \"vigna@acm.org\", role = \"cph\", comment = \"Xoroshiro / Xoshiro family\"), person(\"Aaron\", \"Lun\", role=\"ctb\"),  person(\"Kyle\", \"Butts\", role = \"ctb\", email = \"kyle.butts@colorado.edu\"), person(\"Henrik\", \"Sloot\", role = \"ctb\"), person(\"Philippe\", \"Grosjean\", role = c(\"ctb\"), comment = c(ORCID = \"0000-0002-2694-9471\")) )",
-      "Description": "Several fast random number generators are provided as C++ header only libraries: The PCG family by O'Neill (2014 <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>) as well as the Xoroshiro / Xoshiro family by Blackman and Vigna (2021 <doi:10.1145/3460772>). In addition fast functions for generating random numbers according to a uniform, normal and exponential distribution are included. The latter two use the Ziggurat algorithm originally proposed by Marsaglia and Tsang (2000, <doi:10.18637/jss.v005.i08>). The fast sampling methods support unweighted sampling both with and without replacement. These functions are exported to R and as a C++ interface and are enabled for use with the default 64 bit generator from the PCG family, Xoroshiro128+/++/** and Xoshiro256+/++/** as well as the 64 bit version of the 20 rounds Threefry engine (Salmon et al., 2011, <doi:10.1145/2063384.2063405>) as provided by the package 'sitmo'.",
-      "License": "AGPL-3",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Imports": [
-        "Rcpp (>= 0.12.16)"
-      ],
-      "LinkingTo": [
-        "Rcpp",
-        "BH (>= 1.64.0-1)",
-        "sitmo (>= 2.0.0)"
-      ],
-      "RoxygenNote": "7.3.1",
-      "Suggests": [
-        "BH",
-        "testthat",
-        "knitr",
-        "rmarkdown",
-        "mvtnorm (>= 1.2-3)",
-        "bench",
-        "sitmo"
-      ],
-      "VignetteBuilder": "knitr",
-      "URL": "https://daqana.github.io/dqrng/, https://github.com/daqana/dqrng",
-      "BugReports": "https://github.com/daqana/dqrng/issues",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "yes",
-      "Author": "Ralf Stubner [aut, cre] (<https://orcid.org/0009-0009-1908-106X>), daqana GmbH [cph], David Blackman [cph] (Xoroshiro / Xoshiro family), Melissa O'Neill [cph] (PCG family), Sebastiano Vigna [cph] (Xoroshiro / Xoshiro family), Aaron Lun [ctb], Kyle Butts [ctb], Henrik Sloot [ctb], Philippe Grosjean [ctb] (<https://orcid.org/0000-0002-2694-9471>)",
-      "Maintainer": "Ralf Stubner <ralf.stubner@gmail.com>",
-      "Repository": "CRAN"
     },
     "dtplyr": {
       "Package": "dtplyr",
@@ -2162,41 +1322,6 @@
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
       "Repository": "RSPM"
     },
-    "fastDummies": {
-      "Package": "fastDummies",
-      "Version": "1.7.5",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Fast Creation of Dummy (Binary) Columns and Rows from Categorical Variables",
-      "Authors@R": "c( person(\"Jacob\", \"Kaplan\", email = \"jkkaplan6@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-0601-0387\")),  person(\"Benjamin\", \"Schlegel\", email = \"kontakt@benjaminschlegl.ch\", role =  \"ctb\"))",
-      "Description": "Creates dummy columns from columns that have categorical variables (character or factor types). You can also specify which columns to make dummies out of, or which columns to ignore. Also creates dummy rows from character, factor, and Date columns. This package provides a significant speed increase from creating dummy variables through model.matrix().",
-      "Depends": [
-        "R (>= 2.10)"
-      ],
-      "Imports": [
-        "data.table",
-        "tibble",
-        "stringr"
-      ],
-      "License": "MIT + file LICENSE",
-      "Encoding": "UTF-8",
-      "URL": "https://github.com/jacobkap/fastDummies, https://jacobkap.github.io/fastDummies/",
-      "BugReports": "https://github.com/jacobkap/fastDummies/issues",
-      "RoxygenNote": "7.3.2",
-      "Suggests": [
-        "testthat (>= 2.1.0)",
-        "knitr",
-        "rmarkdown",
-        "covr",
-        "spelling"
-      ],
-      "VignetteBuilder": "knitr",
-      "Language": "en-US",
-      "NeedsCompilation": "no",
-      "Author": "Jacob Kaplan [aut, cre] (<https://orcid.org/0000-0002-0601-0387>), Benjamin Schlegel [ctb]",
-      "Maintainer": "Jacob Kaplan <jkkaplan6@gmail.com>",
-      "Repository": "CRAN"
-    },
     "fastmap": {
       "Package": "fastmap",
       "Version": "1.2.0",
@@ -2216,48 +1341,6 @@
       "Author": "Winston Chang [aut, cre], Posit Software, PBC [cph, fnd], Tessil [cph] (hopscotch_map library)",
       "Maintainer": "Winston Chang <winston@posit.co>",
       "Repository": "RSPM"
-    },
-    "fitdistrplus": {
-      "Package": "fitdistrplus",
-      "Version": "1.2-6",
-      "Source": "Repository",
-      "Title": "Help to Fit of a Parametric Distribution to Non-Censored or Censored Data",
-      "Authors@R": "c(person(\"Marie-Laure\", \"Delignette-Muller\", role = \"aut\", email = \"marielaure.delignettemuller@vetagro-sup.fr\", comment = c(ORCID = \"0000-0001-5453-3994\")), person(\"Christophe\", \"Dutang\", role = \"aut\", email = \"christophe.dutang@ensimag.fr\", comment = c(ORCID = \"0000-0001-6732-1501\")), person(\"Regis\", \"Pouillot\", role = \"ctb\"), person(\"Jean-Baptiste\", \"Denis\", role = \"ctb\"), person(\"Aurélie\", \"Siberchicot\", role = c(\"aut\", \"cre\"), email = \"aurelie.siberchicot@univ-lyon1.fr\", comment = c(ORCID = \"0000-0002-7638-8318\")))",
-      "Description": "Extends the fitdistr() function (of the MASS package) with several functions  to help the fit of a parametric distribution to non-censored or censored data.  Censored data may contain left censored, right censored and interval censored values,  with several lower and upper bounds. In addition to maximum likelihood estimation (MLE),  the package provides moment matching (MME), quantile matching (QME), maximum goodness-of-fit  estimation (MGE) and maximum spacing estimation (MSE) methods (available only for  non-censored data). Weighted versions of MLE, MME, QME and MSE are available. See e.g.  Casella & Berger (2002), Statistical inference, Pacific Grove, for a general introduction  to parametric estimation.",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "MASS",
-        "grDevices",
-        "survival",
-        "methods"
-      ],
-      "Imports": [
-        "stats",
-        "rlang"
-      ],
-      "Suggests": [
-        "actuar",
-        "rgenoud",
-        "mc2d",
-        "gamlss.dist",
-        "knitr",
-        "ggplot2",
-        "GeneralizedHyperbolic",
-        "rmarkdown",
-        "Hmisc",
-        "bookdown"
-      ],
-      "VignetteBuilder": "knitr",
-      "BuildVignettes": "true",
-      "License": "GPL (>= 2)",
-      "Encoding": "UTF-8",
-      "URL": "https://lbbe-software.github.io/fitdistrplus/, https://lbbe.univ-lyon1.fr/fr/fitdistrplus, https://github.com/lbbe-software/fitdistrplus",
-      "BugReports": "https://github.com/lbbe-software/fitdistrplus/issues",
-      "Contact": "Marie-Laure Delignette-Muller <marielaure.delignettemuller@vetagro-sup.fr> or Christophe Dutang <christophe.dutang@ensimag.fr>",
-      "NeedsCompilation": "no",
-      "Author": "Marie-Laure Delignette-Muller [aut] (ORCID: <https://orcid.org/0000-0001-5453-3994>), Christophe Dutang [aut] (ORCID: <https://orcid.org/0000-0001-6732-1501>), Regis Pouillot [ctb], Jean-Baptiste Denis [ctb], Aurélie Siberchicot [aut, cre] (ORCID: <https://orcid.org/0000-0002-7638-8318>)",
-      "Maintainer": "Aurélie Siberchicot <aurelie.siberchicot@univ-lyon1.fr>",
-      "Repository": "CRAN"
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -2377,82 +1460,6 @@
       "Author": "Jim Hester [aut], Hadley Wickham [aut], Gábor Csárdi [aut, cre], libuv project contributors [cph] (libuv library), Joyent, Inc. and other Node contributors [cph] (libuv library), Posit Software, PBC [cph, fnd]",
       "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
       "Repository": "RSPM"
-    },
-    "future": {
-      "Package": "future",
-      "Version": "1.69.0",
-      "Source": "Repository",
-      "Title": "Unified Parallel and Distributed Processing in R for Everyone",
-      "Depends": [
-        "R (>= 3.2.0)"
-      ],
-      "Imports": [
-        "digest",
-        "globals (>= 0.18.0)",
-        "listenv (>= 0.8.0)",
-        "parallel",
-        "parallelly (>= 1.44.0)",
-        "utils"
-      ],
-      "Suggests": [
-        "methods",
-        "RhpcBLASctl",
-        "R.rsp",
-        "markdown"
-      ],
-      "VignetteBuilder": "R.rsp",
-      "Authors@R": "c(person(\"Henrik\", \"Bengtsson\", role = c(\"aut\", \"cre\", \"cph\"), email = \"henrikb@braju.com\", comment = c(ORCID = \"0000-0002-7579-5165\")))",
-      "Description": "The purpose of this package is to provide a lightweight and unified Future API for sequential and parallel processing of R expression via futures.  The simplest way to evaluate an expression in parallel is to use `x %<-% { expression }` with `plan(multisession)`. This package implements sequential, multicore, multisession, and cluster futures.  With these, R expressions can be evaluated on the local machine, in parallel a set of local machines, or distributed on a mix of local and remote machines. Extensions to this package implement additional backends for processing futures via compute cluster schedulers, etc. Because of its unified API, there is no need to modify any code in order switch from sequential on the local machine to, say, distributed processing on a remote compute cluster. Another strength of this package is that global variables and functions are automatically identified and exported as needed, making it straightforward to tweak existing code to make use of futures.",
-      "License": "LGPL (>= 2.1)",
-      "LazyLoad": "TRUE",
-      "ByteCompile": "TRUE",
-      "URL": "https://future.futureverse.org, https://github.com/futureverse/future",
-      "BugReports": "https://github.com/futureverse/future/issues",
-      "Language": "en-US",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.3",
-      "Collate": "'000.bquote.R' '000.import.R' '000.re-exports.R' '009.deprecation.R' '010.tweakable.R' '010.utils-parallelly.R' 'backend_api-01-FutureBackend-class.R' 'backend_api-03.MultiprocessFutureBackend-class.R' 'backend_api-11.ClusterFutureBackend-class.R' 'backend_api-11.MulticoreFutureBackend-class.R' 'backend_api-11.SequentialFutureBackend-class.R' 'backend_api-13.MultisessionFutureBackend-class.R' 'backend_api-ConstantFuture-class.R' 'backend_api-Future-class.R' 'backend_api-FutureRegistry.R' 'backend_api-UniprocessFuture-class.R' 'backend_api-evalFuture.R' 'core_api-cancel.R' 'core_api-future.R' 'core_api-reset.R' 'core_api-resolved.R' 'core_api-value.R' 'delayed_api-futureAssign.R' 'delayed_api-futureOf.R' 'demo_api-mandelbrot.R' 'infix_api-01-futureAssign_OP.R' 'infix_api-02-globals_OP.R' 'infix_api-03-seed_OP.R' 'infix_api-04-stdout_OP.R' 'infix_api-05-conditions_OP.R' 'infix_api-06-lazy_OP.R' 'infix_api-07-label_OP.R' 'infix_api-08-plan_OP.R' 'infix_api-09-tweak_OP.R' 'protected_api-FutureCondition-class.R' 'protected_api-FutureGlobals-class.R' 'protected_api-FutureResult-class.R' 'protected_api-futures.R' 'protected_api-globals.R' 'protected_api-journal.R' 'protected_api-resolve.R' 'protected_api-result.R' 'protected_api-signalConditions.R' 'testme.R' 'utils-basic.R' 'utils-conditions.R' 'utils-connections.R' 'utils-debug.R' 'utils-immediateCondition.R' 'utils-marshalling.R' 'utils-objectSize.R' 'utils-options.R' 'utils-prune_pkg_code.R' 'utils-registerClusterTypes.R' 'utils-rng_utils.R' 'utils-signalEarly.R' 'utils-stealth_sample.R' 'utils-sticky_globals.R' 'utils-tweakExpression.R' 'utils-uuid.R' 'utils-whichIndex.R' 'utils_api-backtrace.R' 'utils_api-capture_journals.R' 'utils_api-futureCall.R' 'utils_api-futureSessionInfo.R' 'utils_api-makeClusterFuture.R' 'utils_api-minifuture.R' 'utils_api-nbrOfWorkers.R' 'utils_api-plan.R' 'utils_api-plan-with.R' 'utils_api-sessionDetails.R' 'utils_api-tweak.R' 'zzz.R'",
-      "NeedsCompilation": "no",
-      "Author": "Henrik Bengtsson [aut, cre, cph] (ORCID: <https://orcid.org/0000-0002-7579-5165>)",
-      "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "future.apply": {
-      "Package": "future.apply",
-      "Version": "1.20.2",
-      "Source": "Repository",
-      "Title": "Apply Function to Elements in Parallel using Futures",
-      "Depends": [
-        "R (>= 3.2.0)",
-        "future (>= 1.49.0)"
-      ],
-      "Imports": [
-        "globals",
-        "parallel",
-        "utils"
-      ],
-      "Suggests": [
-        "datasets",
-        "stats",
-        "tools",
-        "listenv",
-        "R.rsp",
-        "markdown"
-      ],
-      "VignetteBuilder": "R.rsp",
-      "Authors@R": "c(person(\"Henrik\", \"Bengtsson\", role = c(\"aut\", \"cre\", \"cph\"), email = \"henrikb@braju.com\", comment = c(ORCID = \"0000-0002-7579-5165\")), person(\"R Core Team\", role = c(\"cph\", \"ctb\")))",
-      "Description": "Implementations of apply(), by(), eapply(), lapply(), Map(), .mapply(), mapply(), replicate(), sapply(), tapply(), and vapply() that can be resolved using any future-supported backend, e.g. parallel on the local machine or distributed on a compute cluster. These future_*apply() functions come with the same pros and cons as the corresponding base-R *apply() functions but with the additional feature of being able to be processed via the future framework <doi:10.32614/RJ-2021-048>.",
-      "License": "GPL (>= 2)",
-      "LazyLoad": "TRUE",
-      "URL": "https://future.apply.futureverse.org, https://github.com/futureverse/future.apply",
-      "BugReports": "https://github.com/futureverse/future.apply/issues",
-      "Language": "en-US",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "no",
-      "Author": "Henrik Bengtsson [aut, cre, cph] (ORCID: <https://orcid.org/0000-0002-7579-5165>), R Core Team [cph, ctb]",
-      "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "CRAN"
     },
     "gargle": {
       "Package": "gargle",
@@ -2608,126 +1615,6 @@
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
     },
-    "ggrepel": {
-      "Package": "ggrepel",
-      "Version": "0.9.7",
-      "Source": "Repository",
-      "Authors@R": "c( person(\"Kamil\", \"Slowikowski\", email = \"kslowikowski@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-2843-6370\")), person(\"Teun\", \"van den Brand\", role = \"ctb\", comment = c(ORCID = \"0000-0002-9335-7468\")), person(\"Alicia\", \"Schep\", role = \"ctb\", comment = c(ORCID = \"0000-0002-3915-0618\")), person(\"Sean\", \"Hughes\", role = \"ctb\", comment = c(ORCID = \"0000-0002-9409-9405\")), person(\"Trung Kien\", \"Dang\", role = \"ctb\", comment = c(ORCID = \"0000-0001-7562-6495\")), person(\"Saulius\", \"Lukauskas\", role = \"ctb\"), person(\"Jean-Olivier\", \"Irisson\", role = \"ctb\", comment = c(ORCID = \"0000-0003-4920-3880\")), person(\"Zhian N\", \"Kamvar\", role = \"ctb\", comment = c(ORCID = \"0000-0003-1458-7108\")), person(\"Thompson\", \"Ryan\", role = \"ctb\", comment = c(ORCID = \"0000-0002-0450-8181\")), person(\"Dervieux\", \"Christophe\", role = \"ctb\", comment = c(ORCID = \"0000-0003-4474-2498\")), person(\"Yutani\", \"Hiroaki\", role = \"ctb\"), person(\"Pierre\", \"Gramme\", role = \"ctb\"), person(\"Amir Masoud\", \"Abdol\", role = \"ctb\"), person(\"Malcolm\", \"Barrett\", role = \"ctb\", comment = c(ORCID = \"0000-0003-0299-5825\")), person(\"Robrecht\", \"Cannoodt\", role = \"ctb\", comment = c(ORCID = \"0000-0003-3641-729X\")), person(\"Michał\", \"Krassowski\", role = \"ctb\", comment = c(ORCID = \"0000-0002-9638-7785\")), person(\"Michael\", \"Chirico\", role = \"ctb\", comment = c(ORCID = \"0000-0003-0787-087X\")), person(\"Pedro\", \"Aphalo\", role = \"ctb\", comment = c(ORCID = \"0000-0003-3385-972X\")), person(\"Francis\", \"Barton\", role = \"ctb\") )",
-      "Title": "Automatically Position Non-Overlapping Text Labels with 'ggplot2'",
-      "Description": "Provides text and label geoms for 'ggplot2' that help to avoid overlapping text labels. Labels repel away from each other and away from the data points.",
-      "Depends": [
-        "R (>= 4.5.0)",
-        "ggplot2 (>= 3.5.2)"
-      ],
-      "Imports": [
-        "grid",
-        "Rcpp",
-        "rlang (>= 1.1.6)",
-        "S7",
-        "scales (>= 1.4.0)",
-        "withr (>= 3.0.2)"
-      ],
-      "Suggests": [
-        "knitr",
-        "rmarkdown",
-        "testthat",
-        "svglite",
-        "vdiffr",
-        "gridExtra",
-        "ggpp",
-        "patchwork",
-        "devtools",
-        "prettydoc",
-        "ggbeeswarm",
-        "dplyr",
-        "magrittr",
-        "readr",
-        "stringr",
-        "marquee",
-        "rsvg",
-        "sf"
-      ],
-      "VignetteBuilder": "knitr",
-      "License": "GPL-3 | file LICENSE",
-      "URL": "https://ggrepel.slowkow.com/, https://github.com/slowkow/ggrepel",
-      "BugReports": "https://github.com/slowkow/ggrepel/issues",
-      "RoxygenNote": "7.3.3",
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "yes",
-      "Author": "Kamil Slowikowski [aut, cre] (ORCID: <https://orcid.org/0000-0002-2843-6370>), Teun van den Brand [ctb] (ORCID: <https://orcid.org/0000-0002-9335-7468>), Alicia Schep [ctb] (ORCID: <https://orcid.org/0000-0002-3915-0618>), Sean Hughes [ctb] (ORCID: <https://orcid.org/0000-0002-9409-9405>), Trung Kien Dang [ctb] (ORCID: <https://orcid.org/0000-0001-7562-6495>), Saulius Lukauskas [ctb], Jean-Olivier Irisson [ctb] (ORCID: <https://orcid.org/0000-0003-4920-3880>), Zhian N Kamvar [ctb] (ORCID: <https://orcid.org/0000-0003-1458-7108>), Thompson Ryan [ctb] (ORCID: <https://orcid.org/0000-0002-0450-8181>), Dervieux Christophe [ctb] (ORCID: <https://orcid.org/0000-0003-4474-2498>), Yutani Hiroaki [ctb], Pierre Gramme [ctb], Amir Masoud Abdol [ctb], Malcolm Barrett [ctb] (ORCID: <https://orcid.org/0000-0003-0299-5825>), Robrecht Cannoodt [ctb] (ORCID: <https://orcid.org/0000-0003-3641-729X>), Michał Krassowski [ctb] (ORCID: <https://orcid.org/0000-0002-9638-7785>), Michael Chirico [ctb] (ORCID: <https://orcid.org/0000-0003-0787-087X>), Pedro Aphalo [ctb] (ORCID: <https://orcid.org/0000-0003-3385-972X>), Francis Barton [ctb]",
-      "Maintainer": "Kamil Slowikowski <kslowikowski@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "ggridges": {
-      "Package": "ggridges",
-      "Version": "0.5.7",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Ridgeline Plots in 'ggplot2'",
-      "Authors@R": "person( given = \"Claus O.\", family = \"Wilke\", role = c(\"aut\", \"cre\"), email = \"wilke@austin.utexas.edu\", comment = c(ORCID = \"0000-0002-7470-9261\") )",
-      "Description": "Ridgeline plots provide a convenient way of visualizing changes in distributions over time or space. This package enables the creation of such plots in 'ggplot2'.",
-      "URL": "https://wilkelab.org/ggridges/",
-      "BugReports": "https://github.com/wilkelab/ggridges/issues",
-      "Depends": [
-        "R (>= 3.2)"
-      ],
-      "Imports": [
-        "ggplot2 (>= 3.5.0)",
-        "grid (>= 3.0.0)",
-        "scales (>= 0.4.1)",
-        "withr (>= 2.1.1)"
-      ],
-      "License": "GPL-2 | file LICENSE",
-      "LazyData": "true",
-      "Suggests": [
-        "covr",
-        "dplyr",
-        "patchwork",
-        "ggplot2movies",
-        "forcats",
-        "knitr",
-        "rmarkdown",
-        "testthat",
-        "vdiffr"
-      ],
-      "VignetteBuilder": "knitr",
-      "Collate": "'data.R' 'ggridges.R' 'geoms.R' 'geomsv.R' 'geoms-gradient.R' 'geom-density-line.R' 'position.R' 'scale-cyclical.R' 'scale-point.R' 'scale-vline.R' 'stats.R' 'theme.R' 'utils_ggplot2.R' 'utils.R'",
-      "RoxygenNote": "7.3.2",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "no",
-      "Author": "Claus O. Wilke [aut, cre] (ORCID: <https://orcid.org/0000-0002-7470-9261>)",
-      "Maintainer": "Claus O. Wilke <wilke@austin.utexas.edu>",
-      "Repository": "CRAN"
-    },
-    "globals": {
-      "Package": "globals",
-      "Version": "0.19.0",
-      "Source": "Repository",
-      "Depends": [
-        "R (>= 3.1.2)"
-      ],
-      "Imports": [
-        "codetools"
-      ],
-      "Title": "Identify Global Objects in R Expressions",
-      "Authors@R": "c( person(\"Henrik\", \"Bengtsson\", role=c(\"aut\", \"cre\", \"cph\"), email=\"henrikb@braju.com\"), person(\"Davis\",\"Vaughan\", role=\"ctb\", email=\"davis@posit.co\"))",
-      "Description": "Identifies global (\"unknown\" or \"free\") objects in R expressions by code inspection using various strategies (ordered, liberal, conservative, or deep-first search). The objective of this package is to make it as simple as possible to identify global objects for the purpose of exporting them in parallel, distributed compute environments.",
-      "License": "LGPL (>= 2.1)",
-      "LazyLoad": "TRUE",
-      "ByteCompile": "TRUE",
-      "Language": "en-US",
-      "Encoding": "UTF-8",
-      "URL": "https://globals.futureverse.org, https://github.com/futureverse/globals",
-      "BugReports": "https://github.com/futureverse/globals/issues",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "no",
-      "Author": "Henrik Bengtsson [aut, cre, cph], Davis Vaughan [ctb]",
-      "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "CRAN"
-    },
     "glue": {
       "Package": "glue",
       "Version": "1.8.0",
@@ -2768,29 +1655,6 @@
       "Author": "Jim Hester [aut] (<https://orcid.org/0000-0002-2739-7082>), Jennifer Bryan [aut, cre] (<https://orcid.org/0000-0002-6983-2759>), Posit Software, PBC [cph, fnd]",
       "Maintainer": "Jennifer Bryan <jenny@posit.co>",
       "Repository": "RSPM"
-    },
-    "goftest": {
-      "Package": "goftest",
-      "Version": "1.2-3",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Classical Goodness-of-Fit Tests for Univariate Distributions",
-      "Date": "2021-10-07",
-      "Authors@R": "c(person(\"Julian\", \"Faraway\", role = \"aut\"), person(\"George\", \"Marsaglia\", role = \"aut\"), person(\"John\",   \"Marsaglia\", role = \"aut\"), person(\"Adrian\", \"Baddeley\", role = c(\"aut\", \"cre\"), email = \"Adrian.Baddeley@curtin.edu.au\"))",
-      "Depends": [
-        "R (>= 3.3)"
-      ],
-      "Imports": [
-        "stats"
-      ],
-      "Description": "Cramer-Von Mises and Anderson-Darling tests of goodness-of-fit for continuous univariate distributions, using efficient algorithms.",
-      "URL": "https://github.com/baddstats/goftest",
-      "BugReports": "https://github.com/baddstats/goftest/issues",
-      "License": "GPL (>= 2)",
-      "NeedsCompilation": "yes",
-      "Author": "Julian Faraway [aut], George Marsaglia [aut], John Marsaglia [aut], Adrian Baddeley [aut, cre]",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Repository": "CRAN"
     },
     "googledrive": {
       "Package": "googledrive",
@@ -2891,75 +1755,6 @@
       "Maintainer": "Jennifer Bryan <jenny@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
     },
-    "gplots": {
-      "Package": "gplots",
-      "Version": "3.3.0",
-      "Source": "Repository",
-      "Title": "Various R Programming Tools for Plotting Data",
-      "Description": "Various R programming tools for plotting data, including: - calculating and plotting locally smoothed summary function as ('bandplot', 'wapply'), - enhanced versions of standard plots ('barplot2', 'boxplot2', 'heatmap.2', 'smartlegend'), - manipulating colors ('col2hex', 'colorpanel', 'redgreen', 'greenred', 'bluered', 'redblue', 'rich.colors'), - calculating and plotting two-dimensional data summaries ('ci2d', 'hist2d'), - enhanced regression diagnostic plots ('lmplot2', 'residplot'), - formula-enabled interface to 'stats::lowess' function ('lowess'), - displaying textual data in plots ('textplot', 'sinkplot'), - plotting dots whose size reflects the relative magnitude of the elements ('balloonplot', 'bubbleplot'), - plotting \"Venn\" diagrams ('venn'), - displaying Open-Office style plots ('ooplot'), - plotting multiple data on same region, with separate axes ('overplot'), - plotting means and confidence intervals ('plotCI', 'plotmeans'), - spacing points in an x-y plot so they don't overlap ('space').",
-      "Depends": [
-        "R (>= 3.0)"
-      ],
-      "Imports": [
-        "gtools",
-        "stats",
-        "caTools",
-        "KernSmooth",
-        "methods"
-      ],
-      "Suggests": [
-        "grid",
-        "MASS",
-        "knitr",
-        "rmarkdown",
-        "r2d2",
-        "nlme",
-        "dendextend",
-        "heatmaply",
-        "RColorBrewer"
-      ],
-      "LazyData": "yes",
-      "VignetteBuilder": "knitr",
-      "Date": "2025-11-29",
-      "Authors@R": "c( person(\"Gregory R.\", \"Warnes\", , role = \"aut\"), person(\"Ben\", \"Bolker\", , role = \"aut\"), person(\"Lodewijk\", \"Bonebakker\", , role = \"aut\"), person(\"Robert\", \"Gentleman\", role = \"aut\"), person(\"Wolfgang\", \"Huber\", role = \"aut\"), person(\"Andy\", \"Liaw\", role = \"aut\"), person(\"Thomas\", \"Lumley\", role = \"aut\"), person(\"Martin\", \"Maechler\", role = \"aut\"), person(\"Arni\", \"Magnusson\", role = \"aut\"), person(\"Steffen\", \"Moeller\", role = \"aut\"), person(\"Marc\", \"Schwartz\", role = \"aut\"), person(\"Bill\", \"Venables\", role = \"aut\"), person(\"Tal\", \"Galili\", , \"tal.galili@gmail.com\", c(\"aut\", \"cre\")) )",
-      "License": "GPL-2",
-      "URL": "https://github.com/talgalili/gplots, https://talgalili.github.io/gplots/",
-      "BugReports": "https://github.com/talgalili/gplots/issues",
-      "NeedsCompilation": "no",
-      "Author": "Gregory R. Warnes [aut], Ben Bolker [aut], Lodewijk Bonebakker [aut], Robert Gentleman [aut], Wolfgang Huber [aut], Andy Liaw [aut], Thomas Lumley [aut], Martin Maechler [aut], Arni Magnusson [aut], Steffen Moeller [aut], Marc Schwartz [aut], Bill Venables [aut], Tal Galili [aut, cre]",
-      "Maintainer": "Tal Galili <tal.galili@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "gridExtra": {
-      "Package": "gridExtra",
-      "Version": "2.3",
-      "Source": "Repository",
-      "Authors@R": "c(person(\"Baptiste\", \"Auguie\", email = \"baptiste.auguie@gmail.com\", role = c(\"aut\", \"cre\")), person(\"Anton\", \"Antonov\", email = \"tonytonov@gmail.com\", role = c(\"ctb\")))",
-      "License": "GPL (>= 2)",
-      "Title": "Miscellaneous Functions for \"Grid\" Graphics",
-      "Type": "Package",
-      "Description": "Provides a number of user-level functions to work with \"grid\" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.",
-      "VignetteBuilder": "knitr",
-      "Imports": [
-        "gtable",
-        "grid",
-        "grDevices",
-        "graphics",
-        "utils"
-      ],
-      "Suggests": [
-        "ggplot2",
-        "egg",
-        "lattice",
-        "knitr",
-        "testthat"
-      ],
-      "RoxygenNote": "6.0.1",
-      "NeedsCompilation": "no",
-      "Author": "Baptiste Auguie [aut, cre], Anton Antonov [ctb]",
-      "Maintainer": "Baptiste Auguie <baptiste.auguie@gmail.com>",
-      "Repository": "CRAN"
-    },
     "gtable": {
       "Package": "gtable",
       "Version": "0.3.6",
@@ -2999,37 +1794,6 @@
       "Author": "Hadley Wickham [aut], Thomas Lin Pedersen [aut, cre], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
       "Repository": "RSPM"
-    },
-    "gtools": {
-      "Package": "gtools",
-      "Version": "3.9.5",
-      "Source": "Repository",
-      "Title": "Various R Programming Tools",
-      "Description": "Functions to assist in R programming, including: - assist in developing, updating, and maintaining R and R packages ('ask', 'checkRVersion', 'getDependencies', 'keywords', 'scat'), - calculate the logit and inverse logit transformations ('logit', 'inv.logit'), - test if a value is missing, empty or contains only NA and NULL values ('invalid'), - manipulate R's .Last function ('addLast'), - define macros ('defmacro'), - detect odd and even integers ('odd', 'even'), - convert strings containing non-ASCII characters (like single quotes) to plain ASCII ('ASCIIfy'), - perform a binary search ('binsearch'), - sort strings containing both numeric and character components ('mixedsort'), - create a factor variable from the quantiles of a continuous variable ('quantcut'), - enumerate permutations and combinations ('combinations', 'permutation'), - calculate and convert between fold-change and log-ratio ('foldchange', 'logratio2foldchange', 'foldchange2logratio'), - calculate probabilities and generate random numbers from Dirichlet distributions ('rdirichlet', 'ddirichlet'), - apply a function over adjacent subsets of a vector ('running'), - modify the TCP_NODELAY ('de-Nagle') flag for socket objects, - efficient 'rbind' of data frames, even if the column names don't match ('smartbind'), - generate significance stars from p-values ('stars.pval'), - convert characters to/from ASCII codes ('asc', 'chr'), - convert character vector to ASCII representation ('ASCIIfy'), - apply title capitalization rules to a character vector ('capwords').",
-      "Authors@R": "c(person(\"Gregory R.\", \"Warnes\", role = \"aut\"), person(\"Ben\", \"Bolker\", role = c(\"aut\", \"cre\"), email = \"bolker@mcmaster.ca\", comment=c(ORCID=\"0000-0002-2127-0443\")), person(\"Thomas\", \"Lumley\", role = \"aut\"), person(\"Arni\", \"Magnusson\", role = \"aut\"), person(\"Bill\", \"Venables\", role = \"aut\"), person(\"Genei\", \"Ryodan\", role = \"aut\"), person(\"Steffen\", \"Moeller\", role = \"aut\"), person(\"Ian\", \"Wilson\", role = \"ctb\"), person(\"Mark\", \"Davis\", role = \"ctb\"), person(\"Nitin\", \"Jain\", role=\"ctb\"), person(\"Scott\", \"Chamberlain\", role = \"ctb\"))",
-      "License": "GPL-2",
-      "Depends": [
-        "methods",
-        "stats",
-        "utils"
-      ],
-      "URL": "https://github.com/r-gregmisc/gtools",
-      "BugReports": "https://github.com/r-gregmisc/gtools/issues",
-      "Language": "en-US",
-      "Suggests": [
-        "car",
-        "gplots",
-        "knitr",
-        "rstudioapi",
-        "SGP",
-        "taxize"
-      ],
-      "RoxygenNote": "7.2.3",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "yes",
-      "Author": "Gregory R. Warnes [aut], Ben Bolker [aut, cre] (<https://orcid.org/0000-0002-2127-0443>), Thomas Lumley [aut], Arni Magnusson [aut], Bill Venables [aut], Genei Ryodan [aut], Steffen Moeller [aut], Ian Wilson [ctb], Mark Davis [ctb], Nitin Jain [ctb], Scott Chamberlain [ctb]",
-      "Maintainer": "Ben Bolker <bolker@mcmaster.ca>",
-      "Repository": "CRAN"
     },
     "haven": {
       "Package": "haven",
@@ -3079,44 +1843,6 @@
       "Author": "Hadley Wickham [aut, cre], Evan Miller [aut, cph] (Author of included ReadStat code), Danny Smith [aut], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "RSPM"
-    },
-    "here": {
-      "Package": "here",
-      "Version": "1.0.2",
-      "Source": "Repository",
-      "Title": "A Simpler Way to Find Your Files",
-      "Date": "2025-09-06",
-      "Authors@R": "c(person(given = \"Kirill\", family = \"M\\u00fcller\", role = c(\"aut\", \"cre\"), email = \"kirill@cynkra.com\", comment = c(ORCID = \"0000-0002-1416-3412\")), person(given = \"Jennifer\", family = \"Bryan\", role = \"ctb\", email = \"jenny@rstudio.com\", comment = c(ORCID = \"0000-0002-6983-2759\")))",
-      "Description": "Constructs paths to your project's files. Declare the relative path of a file within your project with 'i_am()'. Use the 'here()' function as a drop-in replacement for 'file.path()', it will always locate the files relative to your project root.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://here.r-lib.org/, https://github.com/r-lib/here",
-      "BugReports": "https://github.com/r-lib/here/issues",
-      "Imports": [
-        "rprojroot (>= 2.1.0)"
-      ],
-      "Suggests": [
-        "conflicted",
-        "covr",
-        "fs",
-        "knitr",
-        "palmerpenguins",
-        "plyr",
-        "readr",
-        "rlang",
-        "rmarkdown",
-        "testthat",
-        "uuid",
-        "withr"
-      ],
-      "VignetteBuilder": "knitr",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.3.9000",
-      "Config/testthat/edition": "3",
-      "Config/Needs/website": "tidyverse/tidytemplate",
-      "NeedsCompilation": "no",
-      "Author": "Kirill Müller [aut, cre] (ORCID: <https://orcid.org/0000-0002-1416-3412>), Jennifer Bryan [ctb] (ORCID: <https://orcid.org/0000-0002-6983-2759>)",
-      "Maintainer": "Kirill Müller <kirill@cynkra.com>",
-      "Repository": "CRAN"
     },
     "highr": {
       "Package": "highr",
@@ -3339,20 +2065,6 @@
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "RSPM"
     },
-    "ica": {
-      "Package": "ica",
-      "Version": "1.0-3",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Independent Component Analysis",
-      "Date": "2022-07-08",
-      "Author": "Nathaniel E. Helwig <helwig@umn.edu>",
-      "Maintainer": "Nathaniel E. Helwig <helwig@umn.edu>",
-      "Description": "Independent Component Analysis (ICA) using various algorithms: FastICA, Information-Maximization (Infomax), and Joint Approximate Diagonalization of Eigenmatrices (JADE).",
-      "License": "GPL (>= 2)",
-      "NeedsCompilation": "no",
-      "Repository": "CRAN"
-    },
     "ids": {
       "Package": "ids",
       "Version": "1.0.1",
@@ -3448,35 +2160,6 @@
       "Maintainer": "Kirill Müller <kirill@cynkra.com>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
     },
-    "irlba": {
-      "Package": "irlba",
-      "Version": "2.3.7",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Fast Truncated Singular Value Decomposition and Principal Components Analysis for Large Dense and Sparse Matrices",
-      "Date": "2026-1-26",
-      "Authors@R": "c( person(\"Jim\", \"Baglama\", role=c(\"aut\", \"cph\"), email=\"jbaglama@uri.edu\"), person(\"Lothar\", \"Reichel\", role=c(\"aut\", \"cph\"), email=\"reichel@math.kent.edu\"), person(\"B. W.\", \"Lewis\", role=c(\"aut\",\"cre\",\"cph\"), email=\"blewis@illposed.net\"))",
-      "Description": "Fast and memory efficient methods for truncated singular value decomposition and principal components analysis of large sparse and dense matrices.",
-      "Depends": [
-        "R (>= 3.6.2)",
-        "Matrix"
-      ],
-      "LinkingTo": [
-        "Matrix"
-      ],
-      "Imports": [
-        "stats",
-        "methods"
-      ],
-      "License": "GPL-3",
-      "BugReports": "https://github.com/bwlewis/irlba/issues",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "yes",
-      "Author": "Jim Baglama [aut, cph], Lothar Reichel [aut, cph], B. W. Lewis [aut, cre, cph]",
-      "Maintainer": "B. W. Lewis <blewis@illposed.net>",
-      "Repository": "CRAN",
-      "Encoding": "UTF-8"
-    },
     "isoband": {
       "Package": "isoband",
       "Version": "0.3.0",
@@ -3518,6 +2201,52 @@
       "Author": "Hadley Wickham [aut] (ORCID: <https://orcid.org/0000-0003-4757-117X>), Claus O. Wilke [aut] (Original author, ORCID: <https://orcid.org/0000-0002-7470-9261>), Thomas Lin Pedersen [aut, cre] (ORCID: <https://orcid.org/0000-0002-5147-4711>), Posit, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
+    },
+    "janitor": {
+      "Package": "janitor",
+      "Version": "2.2.1",
+      "Source": "Repository",
+      "Title": "Simple Tools for Examining and Cleaning Dirty Data",
+      "Authors@R": "c(person(\"Sam\", \"Firke\", email = \"samuel.firke@gmail.com\", role = c(\"aut\", \"cre\")), person(\"Bill\", \"Denney\", email = \"wdenney@humanpredictions.com\", role = \"ctb\"), person(\"Chris\", \"Haid\", email = \"chrishaid@gmail.com\", role = \"ctb\"), person(\"Ryan\", \"Knight\", email = \"ryangknight@gmail.com\", role = \"ctb\"), person(\"Malte\", \"Grosser\", email = \"malte.grosser@gmail.com\", role = \"ctb\"), person(\"Jonathan\", \"Zadra\", email = \"jonathan.zadra@sorensonimpact.com\", role = \"ctb\"))",
+      "Description": "The main janitor functions can: perfectly format data.frame column names; provide quick counts of variable combinations (i.e., frequency tables and crosstabs); and explore duplicate records. Other janitor functions nicely format the tabulation results. These tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel. This package follows the principles of the \"tidyverse\" and works well with the pipe function %>%. janitor was built with beginning-to-intermediate R users in mind and is optimized for user-friendliness.",
+      "URL": "https://github.com/sfirke/janitor, https://sfirke.github.io/janitor/",
+      "BugReports": "https://github.com/sfirke/janitor/issues",
+      "Depends": [
+        "R (>= 3.1.2)"
+      ],
+      "Imports": [
+        "dplyr (>= 1.0.0)",
+        "hms",
+        "lifecycle",
+        "lubridate",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "stringi",
+        "stringr",
+        "snakecase (>= 0.9.2)",
+        "tidyselect (>= 1.0.0)",
+        "tidyr (>= 0.7.0)"
+      ],
+      "License": "MIT + file LICENSE",
+      "RoxygenNote": "7.2.3",
+      "Suggests": [
+        "dbplyr",
+        "knitr",
+        "rmarkdown",
+        "RSQLite",
+        "sf",
+        "testthat (>= 3.0.0)",
+        "tibble",
+        "tidygraph"
+      ],
+      "VignetteBuilder": "knitr",
+      "Encoding": "UTF-8",
+      "Config/testthat/edition": "3",
+      "NeedsCompilation": "no",
+      "Author": "Sam Firke [aut, cre], Bill Denney [ctb], Chris Haid [ctb], Ryan Knight [ctb], Malte Grosser [ctb], Jonathan Zadra [ctb]",
+      "Maintainer": "Sam Firke <samuel.firke@gmail.com>",
+      "Repository": "CRAN"
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -3658,7 +2387,7 @@
     },
     "later": {
       "Package": "later",
-      "Version": "1.4.7",
+      "Version": "1.4.5",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Utilities for Scheduling Functions to Execute Later with Event Loops",
@@ -3694,7 +2423,7 @@
       "NeedsCompilation": "yes",
       "Author": "Winston Chang [aut] (ORCID: <https://orcid.org/0000-0002-1576-2126>), Joe Cheng [aut], Charlie Gao [aut, cre] (ORCID: <https://orcid.org/0000-0002-0750-061X>), Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>), Marcus Geelnard [ctb, cph] (TinyCThread library, https://tinycthread.github.io/), Evan Nemerson [ctb, cph] (TinyCThread library, https://tinycthread.github.io/)",
       "Maintainer": "Charlie Gao <charlie.gao@posit.co>",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/latest"
     },
     "lattice": {
       "Package": "lattice",
@@ -3801,66 +2530,6 @@
       "Maintainer": "Lionel Henry <lionel@posit.co>",
       "Repository": "CRAN"
     },
-    "listenv": {
-      "Package": "listenv",
-      "Version": "0.10.0",
-      "Source": "Repository",
-      "Depends": [
-        "R (>= 3.1.2)"
-      ],
-      "Suggests": [
-        "R.utils",
-        "R.rsp",
-        "markdown"
-      ],
-      "VignetteBuilder": "R.rsp",
-      "Title": "Environments Behaving (Almost) as Lists",
-      "Authors@R": "c(person(\"Henrik\", \"Bengtsson\", role=c(\"aut\", \"cre\", \"cph\"), email = \"henrikb@braju.com\"))",
-      "Description": "List environments are environments that have list-like properties.  For instance, the elements of a list environment are ordered and can be accessed and iterated over using index subsetting, e.g. 'x <- listenv(a = 1, b = 2); for (i in seq_along(x)) x[[i]] <- x[[i]] ^ 2; y <- as.list(x)'.",
-      "License": "LGPL (>= 2.1)",
-      "LazyLoad": "TRUE",
-      "URL": "https://listenv.futureverse.org, https://github.com/futureverse/listenv",
-      "BugReports": "https://github.com/futureverse/listenv/issues",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "no",
-      "Author": "Henrik Bengtsson [aut, cre, cph]",
-      "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Encoding": "UTF-8"
-    },
-    "lmtest": {
-      "Package": "lmtest",
-      "Version": "0.9-40",
-      "Source": "Repository",
-      "Title": "Testing Linear Regression Models",
-      "Date": "2022-03-21",
-      "Authors@R": "c(person(given = \"Torsten\", family = \"Hothorn\", role = \"aut\", email = \"Torsten.Hothorn@R-project.org\", comment = c(ORCID = \"0000-0001-8301-0471\")), person(given = \"Achim\", family = \"Zeileis\", role = c(\"aut\", \"cre\"), email = \"Achim.Zeileis@R-project.org\", comment = c(ORCID = \"0000-0003-0918-3766\")), person(given = c(\"Richard\", \"W.\"), family = \"Farebrother\", role = \"aut\", comment = \"pan.f\"), person(given = \"Clint\", family = \"Cummins\", role = \"aut\", comment = \"pan.f\"), person(given = \"Giovanni\", family = \"Millo\", role = \"ctb\"), person(given = \"David\", family = \"Mitchell\", role = \"ctb\"))",
-      "Description": "A collection of tests, data sets, and examples for diagnostic checking in linear regression models. Furthermore, some generic tools for inference in parametric models are provided.",
-      "LazyData": "yes",
-      "Depends": [
-        "R (>= 3.0.0)",
-        "stats",
-        "zoo"
-      ],
-      "Suggests": [
-        "car",
-        "strucchange",
-        "sandwich",
-        "dynlm",
-        "stats4",
-        "survival",
-        "AER"
-      ],
-      "Imports": [
-        "graphics"
-      ],
-      "License": "GPL-2 | GPL-3",
-      "NeedsCompilation": "yes",
-      "Author": "Torsten Hothorn [aut] (<https://orcid.org/0000-0001-8301-0471>), Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Richard W. Farebrother [aut] (pan.f), Clint Cummins [aut] (pan.f), Giovanni Millo [ctb], David Mitchell [ctb]",
-      "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
-      "Repository": "RSPM",
-      "Encoding": "UTF-8"
-    },
     "lubridate": {
       "Package": "lubridate",
       "Version": "1.9.4",
@@ -3938,38 +2607,6 @@
       "Maintainer": "Lionel Henry <lionel@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
     },
-    "matrixStats": {
-      "Package": "matrixStats",
-      "Version": "1.5.0",
-      "Source": "Repository",
-      "Depends": [
-        "R (>= 3.4.0)"
-      ],
-      "Suggests": [
-        "utils",
-        "base64enc",
-        "ggplot2",
-        "knitr",
-        "markdown",
-        "microbenchmark",
-        "R.devices",
-        "R.rsp"
-      ],
-      "VignetteBuilder": "R.rsp",
-      "Title": "Functions that Apply to Rows and Columns of Matrices (and to Vectors)",
-      "Authors@R": "c( person(\"Henrik\", \"Bengtsson\", role=c(\"aut\", \"cre\", \"cph\"), email=\"henrikb@braju.com\"), person(\"Constantin\", \"Ahlmann-Eltze\", role = \"ctb\"), person(\"Hector\", \"Corrada Bravo\", role=\"ctb\"), person(\"Robert\", \"Gentleman\", role=\"ctb\"), person(\"Jan\", \"Gleixner\", role=\"ctb\"), person(\"Peter\", \"Hickey\", role=\"ctb\"), person(\"Ola\", \"Hossjer\", role=\"ctb\"), person(\"Harris\", \"Jaffee\", role=\"ctb\"), person(\"Dongcan\", \"Jiang\", role=\"ctb\"), person(\"Peter\", \"Langfelder\", role=\"ctb\"), person(\"Brian\", \"Montgomery\", role=\"ctb\"), person(\"Angelina\", \"Panagopoulou\", role=\"ctb\"), person(\"Hugh\", \"Parsonage\", role=\"ctb\"), person(\"Jakob Peder\", \"Pettersen\", role=\"ctb\"))",
-      "Author": "Henrik Bengtsson [aut, cre, cph], Constantin Ahlmann-Eltze [ctb], Hector Corrada Bravo [ctb], Robert Gentleman [ctb], Jan Gleixner [ctb], Peter Hickey [ctb], Ola Hossjer [ctb], Harris Jaffee [ctb], Dongcan Jiang [ctb], Peter Langfelder [ctb], Brian Montgomery [ctb], Angelina Panagopoulou [ctb], Hugh Parsonage [ctb], Jakob Peder Pettersen [ctb]",
-      "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Description": "High-performing functions operating on rows and columns of matrices, e.g. col / rowMedians(), col / rowRanks(), and col / rowSds().  Functions optimized per data type and for subsetted calculations such that both memory usage and processing time is minimized.  There are also optimized vector-based methods, e.g. binMeans(), madDiff() and weightedMedian().",
-      "License": "Artistic-2.0",
-      "LazyLoad": "TRUE",
-      "NeedsCompilation": "yes",
-      "ByteCompile": "TRUE",
-      "URL": "https://github.com/HenrikBengtsson/matrixStats",
-      "BugReports": "https://github.com/HenrikBengtsson/matrixStats/issues",
-      "RoxygenNote": "7.3.2",
-      "Repository": "CRAN"
-    },
     "memoise": {
       "Package": "memoise",
       "Version": "2.0.1",
@@ -4021,29 +2658,6 @@
       "Maintainer": "Yihui Xie <xie@yihui.name>",
       "Repository": "RSPM"
     },
-    "miniUI": {
-      "Package": "miniUI",
-      "Version": "0.1.2",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Shiny UI Widgets for Small Screens",
-      "Authors@R": "c( person(\"Joe\", \"Cheng\", role = c(\"cre\", \"aut\"), email = \"joe@posit.co\"), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"), comment = c(ROR = \"03wc8by49\")) )",
-      "Description": "Provides UI widget and layout functions for writing Shiny apps that work well on small screens.",
-      "License": "GPL-3",
-      "URL": "https://github.com/rstudio/miniUI",
-      "BugReports": "https://github.com/rstudio/miniUI/issues",
-      "Imports": [
-        "shiny (>= 0.13)",
-        "htmltools (>= 0.3)",
-        "utils"
-      ],
-      "RoxygenNote": "7.3.2",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "no",
-      "Author": "Joe Cheng [cre, aut], Posit Software, PBC [cph, fnd] (03wc8by49)",
-      "Maintainer": "Joe Cheng <joe@posit.co>",
-      "Repository": "CRAN"
-    },
     "modelr": {
       "Package": "modelr",
       "Version": "0.1.11",
@@ -4082,40 +2696,6 @@
       "Author": "Hadley Wickham [aut, cre], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "nlme": {
-      "Package": "nlme",
-      "Version": "3.1-168",
-      "Source": "Repository",
-      "Date": "2025-03-31",
-      "Priority": "recommended",
-      "Title": "Linear and Nonlinear Mixed Effects Models",
-      "Authors@R": "c(person(\"José\", \"Pinheiro\", role = \"aut\", comment = \"S version\"), person(\"Douglas\", \"Bates\", role = \"aut\", comment = \"up to 2007\"), person(\"Saikat\", \"DebRoy\", role = \"ctb\", comment = \"up to 2002\"), person(\"Deepayan\", \"Sarkar\", role = \"ctb\", comment = \"up to 2005\"), person(\"EISPACK authors\", role = \"ctb\", comment = \"src/rs.f\"), person(\"Siem\", \"Heisterkamp\", role = \"ctb\", comment = \"Author fixed sigma\"), person(\"Bert\", \"Van Willigen\",role = \"ctb\", comment = \"Programmer fixed sigma\"), person(\"Johannes\", \"Ranke\", role = \"ctb\", comment = \"varConstProp()\"), person(\"R Core Team\", email = \"R-core@R-project.org\", role = c(\"aut\", \"cre\"), comment = c(ROR = \"02zz1nj61\")))",
-      "Contact": "see 'MailingList'",
-      "Description": "Fit and compare Gaussian linear and nonlinear mixed-effects models.",
-      "Depends": [
-        "R (>= 3.6.0)"
-      ],
-      "Imports": [
-        "graphics",
-        "stats",
-        "utils",
-        "lattice"
-      ],
-      "Suggests": [
-        "MASS",
-        "SASmixed"
-      ],
-      "LazyData": "yes",
-      "Encoding": "UTF-8",
-      "License": "GPL (>= 2)",
-      "BugReports": "https://bugs.r-project.org",
-      "MailingList": "R-help@r-project.org",
-      "URL": "https://svn.r-project.org/R-packages/trunk/nlme/",
-      "NeedsCompilation": "yes",
-      "Author": "José Pinheiro [aut] (S version), Douglas Bates [aut] (up to 2007), Saikat DebRoy [ctb] (up to 2002), Deepayan Sarkar [ctb] (up to 2005), EISPACK authors [ctb] (src/rs.f), Siem Heisterkamp [ctb] (Author fixed sigma), Bert Van Willigen [ctb] (Programmer fixed sigma), Johannes Ranke [ctb] (varConstProp()), R Core Team [aut, cre] (02zz1nj61)",
-      "Maintainer": "R Core Team <R-core@R-project.org>",
-      "Repository": "CRAN"
     },
     "openssl": {
       "Package": "openssl",
@@ -4185,108 +2765,6 @@
       "Author": "Gábor Csárdi [aut, cre]",
       "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "parallelly": {
-      "Package": "parallelly",
-      "Version": "1.46.1",
-      "Source": "Repository",
-      "Title": "Enhancing the 'parallel' Package",
-      "Imports": [
-        "parallel",
-        "tools",
-        "utils"
-      ],
-      "Suggests": [
-        "commonmark",
-        "base64enc"
-      ],
-      "VignetteBuilder": "parallelly",
-      "Authors@R": "c( person(\"Henrik\", \"Bengtsson\", role = c(\"aut\", \"cre\", \"cph\"), email = \"henrikb@braju.com\", comment = c(ORCID = \"0000-0002-7579-5165\")), person(\"Mike\", \"Cheng\", role = c(\"ctb\"), email = \"mikefc@coolbutuseless.com\") )",
-      "Description": "Utility functions that enhance the 'parallel' package and support the built-in parallel backends of the 'future' package.  For example, availableCores() gives the number of CPU cores available to your R process as given by the operating system, 'cgroups' and Linux containers, R options, and environment variables, including those set by job schedulers on high-performance compute clusters. If none is set, it will fall back to parallel::detectCores(). Another example is makeClusterPSOCK(), which is backward compatible with parallel::makePSOCKcluster() while doing a better job in setting up remote cluster workers without the need for configuring the firewall to do port-forwarding to your local computer.",
-      "License": "LGPL (>= 2.1)",
-      "LazyLoad": "TRUE",
-      "ByteCompile": "TRUE",
-      "URL": "https://parallelly.futureverse.org, https://github.com/futureverse/parallelly",
-      "BugReports": "https://github.com/futureverse/parallelly/issues",
-      "Language": "en-US",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "yes",
-      "Author": "Henrik Bengtsson [aut, cre, cph] (ORCID: <https://orcid.org/0000-0002-7579-5165>), Mike Cheng [ctb]",
-      "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "patchwork": {
-      "Package": "patchwork",
-      "Version": "1.3.2",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "The Composer of Plots",
-      "Authors@R": "person(given = \"Thomas Lin\", family = \"Pedersen\", role = c(\"cre\", \"aut\"), email = \"thomasp85@gmail.com\", comment = c(ORCID = \"0000-0002-5147-4711\"))",
-      "Maintainer": "Thomas Lin Pedersen <thomasp85@gmail.com>",
-      "Description": "The 'ggplot2' package provides a strong API for sequentially  building up a plot, but does not concern itself with composition of multiple plots. 'patchwork' is a package that expands the API to allow for  arbitrarily complex composition of plots by, among others, providing  mathematical operators for combining multiple plots. Other packages that try  to address this need (but with a different approach) are 'gridExtra' and  'cowplot'.",
-      "License": "MIT + file LICENSE",
-      "Encoding": "UTF-8",
-      "Imports": [
-        "ggplot2 (>= 3.0.0)",
-        "gtable (>= 0.3.6)",
-        "grid",
-        "stats",
-        "grDevices",
-        "utils",
-        "graphics",
-        "rlang (>= 1.0.0)",
-        "cli",
-        "farver"
-      ],
-      "RoxygenNote": "7.3.2",
-      "URL": "https://patchwork.data-imaginist.com, https://github.com/thomasp85/patchwork",
-      "BugReports": "https://github.com/thomasp85/patchwork/issues",
-      "Suggests": [
-        "knitr",
-        "rmarkdown",
-        "gridGraphics",
-        "gridExtra",
-        "ragg",
-        "testthat (>= 2.1.0)",
-        "vdiffr",
-        "covr",
-        "png",
-        "gt (>= 0.11.0)"
-      ],
-      "VignetteBuilder": "knitr",
-      "Config/Needs/website": "gifski",
-      "NeedsCompilation": "no",
-      "Author": "Thomas Lin Pedersen [cre, aut] (ORCID: <https://orcid.org/0000-0002-5147-4711>)",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "pbapply": {
-      "Package": "pbapply",
-      "Version": "1.7-4",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Adding Progress Bar to '*apply' Functions",
-      "Date": "2025-07-19",
-      "Authors@R": "c(person(given = \"Peter\", family = \"Solymos\", comment = c(ORCID = \"0000-0001-7337-1740\"), role = c(\"aut\", \"cre\"), email = \"psolymos@gmail.com\"), person(given = \"Zygmunt\", family = \"Zawadzki\", role = \"aut\", email = \"zygmunt@zstat.pl\"), person(given = \"Henrik\",  family = \"Bengtsson\",  role = \"ctb\", email = \"henrikb@braju.com\"), person(\"R Core Team\", role = c(\"cph\", \"ctb\")))",
-      "Maintainer": "Peter Solymos <psolymos@gmail.com>",
-      "Description": "A lightweight package that adds progress bar to vectorized R functions ('*apply'). The implementation can easily be added to functions where showing the progress is useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options. Supports several parallel processing backends including mirai and future.",
-      "Depends": [
-        "R (>= 3.2.0)"
-      ],
-      "Imports": [
-        "parallel"
-      ],
-      "Suggests": [
-        "shiny",
-        "future",
-        "future.apply"
-      ],
-      "License": "GPL (>= 2)",
-      "URL": "https://github.com/psolymos/pbapply, https://peter.solymos.org/pbapply/",
-      "BugReports": "https://github.com/psolymos/pbapply/issues",
-      "NeedsCompilation": "no",
-      "Author": "Peter Solymos [aut, cre] (ORCID: <https://orcid.org/0000-0001-7337-1740>), Zygmunt Zawadzki [aut], Henrik Bengtsson [ctb], R Core Team [cph, ctb]",
-      "Repository": "CRAN"
     },
     "pillar": {
       "Package": "pillar",
@@ -4446,81 +2924,6 @@
       "Maintainer": "Carson Sievert <cpsievert1@gmail.com>",
       "Repository": "CRAN"
     },
-    "plyr": {
-      "Package": "plyr",
-      "Version": "1.8.9",
-      "Source": "Repository",
-      "Title": "Tools for Splitting, Applying and Combining Data",
-      "Authors@R": "person(\"Hadley\", \"Wickham\", , \"hadley@rstudio.com\", role = c(\"aut\", \"cre\"))",
-      "Description": "A set of tools that solves a common set of problems: you need to break a big problem down into manageable pieces, operate on each piece and then put all the pieces back together.  For example, you might want to fit a model to each spatial location or time point in your study, summarise data by panels or collapse high-dimensional arrays to simpler summary statistics. The development of 'plyr' has been generously supported by 'Becton Dickinson'.",
-      "License": "MIT + file LICENSE",
-      "URL": "http://had.co.nz/plyr, https://github.com/hadley/plyr",
-      "BugReports": "https://github.com/hadley/plyr/issues",
-      "Depends": [
-        "R (>= 3.1.0)"
-      ],
-      "Imports": [
-        "Rcpp (>= 0.11.0)"
-      ],
-      "Suggests": [
-        "abind",
-        "covr",
-        "doParallel",
-        "foreach",
-        "iterators",
-        "itertools",
-        "tcltk",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "RoxygenNote": "7.2.3",
-      "NeedsCompilation": "yes",
-      "Author": "Hadley Wickham [aut, cre]",
-      "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-      "Repository": "CRAN"
-    },
-    "png": {
-      "Package": "png",
-      "Version": "0.1-8",
-      "Source": "Repository",
-      "Title": "Read and write PNG images",
-      "Author": "Simon Urbanek <Simon.Urbanek@r-project.org>",
-      "Maintainer": "Simon Urbanek <Simon.Urbanek@r-project.org>",
-      "Depends": [
-        "R (>= 2.9.0)"
-      ],
-      "Description": "This package provides an easy and simple way to read, write and display bitmap images stored in the PNG format. It can read and write both files and in-memory raw vectors.",
-      "License": "GPL-2 | GPL-3",
-      "SystemRequirements": "libpng",
-      "URL": "http://www.rforge.net/png/",
-      "NeedsCompilation": "yes",
-      "Repository": "CRAN"
-    },
-    "polyclip": {
-      "Package": "polyclip",
-      "Version": "1.10-7",
-      "Source": "Repository",
-      "Date": "2024-07-23",
-      "Title": "Polygon Clipping",
-      "Authors@R": "c(person(\"Angus\", \"Johnson\", role = \"aut\",  comment=\"C++ original, http://www.angusj.com/delphi/clipper.php\"), person(\"Adrian\", \"Baddeley\", role = c(\"aut\", \"trl\", \"cre\"), email = \"Adrian.Baddeley@curtin.edu.au\"), person(\"Kurt\", \"Hornik\", role = \"ctb\"), person(c(\"Brian\", \"D.\"), \"Ripley\", role = \"ctb\"), person(\"Elliott\", \"Sales de Andrade\", role=\"ctb\"), person(\"Paul\", \"Murrell\", role = \"ctb\"), person(\"Ege\", \"Rubak\", role=\"ctb\"), person(\"Mark\", \"Padgham\", role=\"ctb\"))",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Description": "R port of Angus Johnson's open source library 'Clipper'. Performs polygon clipping operations (intersection, union, set minus, set difference) for polygonal regions of arbitrary complexity, including holes. Computes offset polygons (spatial buffer zones, morphological dilations, Minkowski dilations) for polygonal regions and polygonal lines. Computes Minkowski Sum of general polygons. There is a function for removing self-intersections from polygon data.",
-      "License": "BSL",
-      "URL": "https://www.angusj.com, https://sourceforge.net/projects/polyclipping, https://github.com/baddstats/polyclip",
-      "BugReports": "https://github.com/baddstats/polyclip/issues",
-      "ByteCompile": "true",
-      "Note": "built from Clipper C++ version 6.4.0",
-      "NeedsCompilation": "yes",
-      "Author": "Angus Johnson [aut] (C++ original, http://www.angusj.com/delphi/clipper.php), Adrian Baddeley [aut, trl, cre], Kurt Hornik [ctb], Brian D. Ripley [ctb], Elliott Sales de Andrade [ctb], Paul Murrell [ctb], Ege Rubak [ctb], Mark Padgham [ctb]",
-      "Repository": "CRAN"
-    },
     "prettyunits": {
       "Package": "prettyunits",
       "Version": "1.2.0",
@@ -4618,55 +3021,6 @@
       "Author": "Gábor Csárdi [aut, cre], Rich FitzJohn [aut], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
       "Repository": "RSPM"
-    },
-    "progressr": {
-      "Package": "progressr",
-      "Version": "0.18.0",
-      "Source": "Repository",
-      "Title": "An Inclusive, Unifying API for Progress Updates",
-      "Description": "A minimal, unifying API for scripts and packages to report progress updates from anywhere including when using parallel processing.  The package is designed such that the developer can to focus on what progress should be reported on without having to worry about how to present it.  The end user has full control of how, where, and when to render these progress updates, e.g. in the terminal using utils::txtProgressBar(), cli::cli_progress_bar(), in a graphical user interface using utils::winProgressBar(), tcltk::tkProgressBar() or shiny::withProgress(), via the speakers using beepr::beep(), or on a file system via the size of a file. Anyone can add additional, customized, progression handlers. The 'progressr' package uses R's condition framework for signaling progress updated. Because of this, progress can be reported from almost anywhere in R, e.g. from classical for and while loops, from map-reduce API:s like the lapply() family of functions, 'purrr', 'plyr', and 'foreach'. It will also work with parallel processing via the 'future' framework, e.g. future.apply::future_lapply(), furrr::future_map(), and 'foreach' with 'doFuture'. The package is compatible with Shiny applications.",
-      "Authors@R": "c(person(\"Henrik\", \"Bengtsson\", role = c(\"aut\", \"cre\", \"cph\"), email = \"henrikb@braju.com\", comment = c(ORCID = \"0000-0002-7579-5165\")))",
-      "License": "GPL (>= 3)",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Imports": [
-        "digest",
-        "utils"
-      ],
-      "Suggests": [
-        "graphics",
-        "tcltk",
-        "beepr",
-        "cli",
-        "crayon",
-        "pbmcapply",
-        "progress",
-        "purrr",
-        "foreach",
-        "plyr",
-        "doFuture",
-        "future",
-        "future.apply",
-        "furrr",
-        "ntfy",
-        "RPushbullet",
-        "rstudioapi",
-        "shiny",
-        "commonmark",
-        "base64enc",
-        "tools"
-      ],
-      "VignetteBuilder": "progressr",
-      "Language": "en-US",
-      "Encoding": "UTF-8",
-      "URL": "https://progressr.futureverse.org, https://github.com/futureverse/progressr",
-      "BugReports": "https://github.com/futureverse/progressr/issues",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "no",
-      "Author": "Henrik Bengtsson [aut, cre, cph] (ORCID: <https://orcid.org/0000-0002-7579-5165>)",
-      "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
     },
     "promises": {
       "Package": "promises",
@@ -5118,91 +3472,6 @@
       "Maintainer": "Jennifer Bryan <jenny@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
     },
-    "reshape2": {
-      "Package": "reshape2",
-      "Version": "1.4.5",
-      "Source": "Repository",
-      "Title": "Flexibly Reshape Data: A Reboot of the Reshape Package",
-      "Authors@R": "person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\"))",
-      "Description": "Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast').",
-      "License": "MIT + file LICENSE",
-      "URL": "https://github.com/hadley/reshape",
-      "BugReports": "https://github.com/hadley/reshape/issues",
-      "Depends": [
-        "R (>= 3.1)"
-      ],
-      "Imports": [
-        "plyr (>= 1.8.1)",
-        "Rcpp",
-        "stringr"
-      ],
-      "Suggests": [
-        "covr",
-        "lattice",
-        "testthat (>= 3.0.0)"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Config/testthat/edition": "3",
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "yes",
-      "Author": "Hadley Wickham [aut, cre]",
-      "Maintainer": "Hadley Wickham <hadley@posit.co>",
-      "Repository": "CRAN"
-    },
-    "reticulate": {
-      "Package": "reticulate",
-      "Version": "1.45.0",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Interface to 'Python'",
-      "Authors@R": "c( person(\"Tomasz\", \"Kalinowski\", role = c(\"ctb\", \"cre\"), email = \"tomasz@posit.co\"), person(\"Kevin\", \"Ushey\", role = c(\"aut\"), email = \"kevin@posit.co\"), person(\"JJ\", \"Allaire\", role = c(\"aut\"), email = \"jj@posit.co\"), person(\"RStudio\", role = c(\"cph\", \"fnd\")), person(\"Yuan\", \"Tang\", role = c(\"aut\", \"cph\"), email = \"terrytangyuan@gmail.com\", comment = c(ORCID = \"0000-0001-5243-233X\")), person(\"Dirk\", \"Eddelbuettel\", role = c(\"ctb\", \"cph\"), email = \"edd@debian.org\"), person(\"Bryan\", \"Lewis\", role = c(\"ctb\", \"cph\"), email = \"blewis@illposed.net\"), person(\"Sigrid\", \"Keydana\", role = c(\"ctb\"), email = \"sigrid@posit.co\"), person(\"Ryan\", \"Hafen\", role = c(\"ctb\", \"cph\"), email = \"rhafen@gmail.com\"), person(\"Marcus\", \"Geelnard\", role = c(\"ctb\", \"cph\"), comment = \"TinyThread library, http://tinythreadpp.bitsnbites.eu/\") )",
-      "Description": "Interface to 'Python' modules, classes, and functions. When calling into 'Python', R data types are automatically converted to their equivalent 'Python' types. When values are returned from 'Python' to R they are converted back to R types. Compatible with all versions of 'Python' >= 2.7.",
-      "License": "Apache License 2.0",
-      "URL": "https://rstudio.github.io/reticulate/, https://github.com/rstudio/reticulate",
-      "BugReports": "https://github.com/rstudio/reticulate/issues",
-      "SystemRequirements": "Python (>= 2.7.0)",
-      "Encoding": "UTF-8",
-      "Depends": [
-        "R (>= 3.5)"
-      ],
-      "Imports": [
-        "Matrix",
-        "Rcpp (>= 1.0.7)",
-        "RcppTOML",
-        "graphics",
-        "here",
-        "jsonlite",
-        "methods",
-        "png",
-        "rappdirs",
-        "utils",
-        "rlang",
-        "withr"
-      ],
-      "Suggests": [
-        "callr",
-        "knitr",
-        "glue",
-        "cli",
-        "rmarkdown",
-        "pillar",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "RoxygenNote": "7.3.3",
-      "VignetteBuilder": "knitr",
-      "Config/build/compilation-database": "true",
-      "NeedsCompilation": "yes",
-      "Author": "Tomasz Kalinowski [ctb, cre], Kevin Ushey [aut], JJ Allaire [aut], RStudio [cph, fnd], Yuan Tang [aut, cph] (ORCID: <https://orcid.org/0000-0001-5243-233X>), Dirk Eddelbuettel [ctb, cph], Bryan Lewis [ctb, cph], Sigrid Keydana [ctb], Ryan Hafen [ctb, cph], Marcus Geelnard [ctb, cph] (TinyThread library, http://tinythreadpp.bitsnbites.eu/)",
-      "Maintainer": "Tomasz Kalinowski <tomasz@posit.co>",
-      "Repository": "CRAN"
-    },
     "rlang": {
       "Package": "rlang",
       "Version": "1.1.7",
@@ -5309,40 +3578,6 @@
       "Author": "JJ Allaire [aut], Yihui Xie [aut, cre] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Christophe Dervieux [aut] (ORCID: <https://orcid.org/0000-0003-4474-2498>), Jonathan McPherson [aut], Javier Luraschi [aut], Kevin Ushey [aut], Aron Atkins [aut], Hadley Wickham [aut], Joe Cheng [aut], Winston Chang [aut], Richard Iannone [aut] (ORCID: <https://orcid.org/0000-0003-3925-190X>), Andrew Dunning [ctb] (ORCID: <https://orcid.org/0000-0003-0464-5036>), Atsushi Yasumoto [ctb, cph] (ORCID: <https://orcid.org/0000-0002-8335-495X>, cph: Number sections Lua filter), Barret Schloerke [ctb], Carson Sievert [ctb] (ORCID: <https://orcid.org/0000-0002-4958-2844>), Devon Ryan [ctb] (ORCID: <https://orcid.org/0000-0002-8549-0971>), Frederik Aust [ctb] (ORCID: <https://orcid.org/0000-0003-4900-788X>), Jeff Allen [ctb], JooYoung Seo [ctb] (ORCID: <https://orcid.org/0000-0002-4064-6012>), Malcolm Barrett [ctb], Rob Hyndman [ctb], Romain Lesur [ctb], Roy Storey [ctb], Ruben Arslan [ctb], Sergio Oller [ctb], Posit Software, PBC [cph, fnd], jQuery UI contributors [ctb, cph] (jQuery UI library; authors listed in inst/rmd/h/jqueryui/AUTHORS.txt), Mark Otto [ctb] (Bootstrap library), Jacob Thornton [ctb] (Bootstrap library), Bootstrap contributors [ctb] (Bootstrap library), Twitter, Inc [cph] (Bootstrap library), Alexander Farkas [ctb, cph] (html5shiv library), Scott Jehl [ctb, cph] (Respond.js library), Ivan Sagalaev [ctb, cph] (highlight.js library), Greg Franko [ctb, cph] (tocify library), John MacFarlane [ctb, cph] (Pandoc templates), Google, Inc. [ctb, cph] (ioslides library), Dave Raggett [ctb] (slidy library), W3C [cph] (slidy library), Dave Gandy [ctb, cph] (Font-Awesome), Ben Sperry [ctb] (Ionicons), Drifty [cph] (Ionicons), Aidan Lister [ctb, cph] (jQuery StickyTabs), Benct Philip Jonsson [ctb, cph] (pagebreak Lua filter), Albert Krewinkel [ctb, cph] (pagebreak Lua filter)",
       "Maintainer": "Yihui Xie <xie@yihui.name>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "rprojroot": {
-      "Package": "rprojroot",
-      "Version": "2.1.1",
-      "Source": "Repository",
-      "Title": "Finding Files in Project Subdirectories",
-      "Authors@R": "person(given = \"Kirill\", family = \"M\\u00fcller\", role = c(\"aut\", \"cre\"), email = \"kirill@cynkra.com\", comment = c(ORCID = \"0000-0002-1416-3412\"))",
-      "Description": "Robust, reliable and flexible paths to files below a project root. The 'root' of a project is defined as a directory that matches a certain criterion, e.g., it contains a certain regular file.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://rprojroot.r-lib.org/, https://github.com/r-lib/rprojroot",
-      "BugReports": "https://github.com/r-lib/rprojroot/issues",
-      "Depends": [
-        "R (>= 3.0.0)"
-      ],
-      "Suggests": [
-        "covr",
-        "knitr",
-        "lifecycle",
-        "rlang",
-        "rmarkdown",
-        "testthat (>= 3.2.0)",
-        "withr"
-      ],
-      "VignetteBuilder": "knitr",
-      "Config/testthat/edition": "3",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.2.9000",
-      "Config/autostyle/scope": "line_breaks",
-      "Config/autostyle/strict": "true",
-      "Config/Needs/website": "tidyverse/tidytemplate",
-      "NeedsCompilation": "no",
-      "Author": "Kirill Müller [aut, cre] (ORCID: <https://orcid.org/0000-0002-1416-3412>)",
-      "Maintainer": "Kirill Müller <kirill@cynkra.com>",
-      "Repository": "CRAN"
     },
     "rstudioapi": {
       "Package": "rstudioapi",
@@ -5503,86 +3738,6 @@
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
       "Repository": "RSPM"
     },
-    "scattermore": {
-      "Package": "scattermore",
-      "Version": "1.2",
-      "Source": "Repository",
-      "Title": "Scatterplots with More Points",
-      "Authors@R": "c(person(given = \"Tereza\", family = \"Kulichova\", role = c(\"aut\"), email = \"kulichova.t@gmail.com\"), person(given = \"Mirek\", family = \"Kratochvil\", role = c(\"aut\", \"cre\"), email = \"exa.exa@gmail.com\", comment = c(ORCID = \"0000-0001-7356-4075\")))",
-      "Description": "C-based conversion of large scatterplot data to rasters plus other  operations such as data blurring or data alpha blending. Speeds up  plotting of data with millions of points.",
-      "Imports": [
-        "ggplot2",
-        "scales",
-        "grid",
-        "grDevices",
-        "graphics"
-      ],
-      "License": "GPL (>= 3)",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.2.3",
-      "Suggests": [
-        "covr",
-        "knitr",
-        "rmarkdown",
-        "testthat"
-      ],
-      "VignetteBuilder": "knitr",
-      "NeedsCompilation": "yes",
-      "Author": "Tereza Kulichova [aut], Mirek Kratochvil [aut, cre] (<https://orcid.org/0000-0001-7356-4075>)",
-      "Maintainer": "Mirek Kratochvil <exa.exa@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "sctransform": {
-      "Package": "sctransform",
-      "Version": "0.4.3",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Variance Stabilizing Transformations for Single Cell UMI Data",
-      "Date": "2025-12-25",
-      "Authors@R": "c( person(given = \"Christoph\", family = \"Hafemeister\", email = \"christoph.hafemeister@nyu.edu\", role = \"aut\", comment = c(ORCID = \"0000-0001-6365-8254\")), person(given = \"Saket\", family = \"Choudhary\", email = \"saketc@iitb.ac.in\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0001-5202-7633\")), person(given = \"Rahul\", family = \"Satija\", email = \"rsatija@nygenome.org\", role = \"ctb\", comment = c(ORCID = \"0000-0001-9448-8833\")) )",
-      "Description": "A normalization method for single-cell UMI count data using a  variance stabilizing transformation. The transformation is based on a  negative binomial regression model with regularized parameters. As part of the same regression framework, this package also provides functions for batch correction, and data correction. See Hafemeister and Satija (2019) <doi:10.1186/s13059-019-1874-1>, and Choudhary and Satija (2022) <doi:10.1186/s13059-021-02584-9> for more details.",
-      "URL": "https://github.com/satijalab/sctransform",
-      "BugReports": "https://github.com/satijalab/sctransform/issues",
-      "License": "GPL-3 | file LICENSE",
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "Depends": [
-        "R (>= 3.6.0)"
-      ],
-      "LinkingTo": [
-        "RcppArmadillo",
-        "Rcpp (>= 0.11.0)"
-      ],
-      "SystemRequirements": "C++17",
-      "Imports": [
-        "dplyr",
-        "magrittr",
-        "MASS",
-        "Matrix (>= 1.5-0)",
-        "methods",
-        "future.apply",
-        "future",
-        "parallelly",
-        "ggplot2",
-        "reshape2",
-        "rlang",
-        "gridExtra",
-        "matrixStats"
-      ],
-      "Suggests": [
-        "irlba",
-        "testthat",
-        "knitr"
-      ],
-      "Enhances": [
-        "glmGamPoi"
-      ],
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "yes",
-      "Author": "Christoph Hafemeister [aut] (ORCID: <https://orcid.org/0000-0001-6365-8254>), Saket Choudhary [aut, cre] (ORCID: <https://orcid.org/0000-0001-5202-7633>), Rahul Satija [ctb] (ORCID: <https://orcid.org/0000-0001-9448-8833>)",
-      "Maintainer": "Saket Choudhary <saketc@iitb.ac.in>",
-      "Repository": "CRAN"
-    },
     "secretbase": {
       "Package": "secretbase",
       "Version": "1.1.1",
@@ -5707,36 +3862,65 @@
       "Maintainer": "Carson Sievert <carson@posit.co>",
       "Repository": "CRAN"
     },
-    "sitmo": {
-      "Package": "sitmo",
-      "Version": "2.0.2",
+    "shinydashboard": {
+      "Package": "shinydashboard",
+      "Version": "0.7.3",
       "Source": "Repository",
-      "Title": "Parallel Pseudo Random Number Generator (PPRNG) 'sitmo' Header Files",
-      "Authors@R": "c(person(\"James\", \"Balamuta\", email = \"balamut2@illinois.edu\", role = c(\"aut\", \"cre\", \"cph\"), comment = c(ORCID = \"0000-0003-2826-8458\")), person(\"Thijs\",\"van den Berg\", email = \"thijs@sitmo.com\", role = c(\"aut\", \"cph\")), person(\"Ralf\", \"Stubner\", email = \"ralf.stubner@daqana.com\", role = c(\"ctb\")))",
-      "Description": "Provided within are two high quality and fast PPRNGs that may be used in an 'OpenMP' parallel environment. In addition, there is a generator for one dimensional low-discrepancy sequence. The objective of this library to consolidate the distribution of the 'sitmo' (C++98 & C++11), 'threefry' and 'vandercorput' (C++11-only) engines on CRAN by enabling others to link to the header files inside of 'sitmo' instead of including a copy of each engine within their individual package. Lastly, the package contains example implementations using the 'sitmo' package and three accompanying vignette that provide additional information.",
-      "Depends": [
-        "R (>= 3.2.0)"
-      ],
-      "URL": "https://github.com/coatless/sitmo, http://thecoatlessprofessor.com/projects/sitmo/, https://github.com/stdfin/random/",
-      "BugReports": "https://github.com/coatless/sitmo/issues",
+      "Title": "Create Dashboards with 'Shiny'",
+      "Authors@R": "c( person(\"Winston\", \"Chang\", , \"winston@posit.co\", role = c(\"aut\", \"cre\")), person(\"Barbara\", \"Borges Ribeiro\", role = \"aut\"), person(, \"Posit Software, PBC\", role = \"cph\"), person(, \"Almasaeed Studio\", role = c(\"ctb\", \"cph\"), comment = \"AdminLTE theme for Bootstrap\"), person(, \"Adobe Systems Incorporated\", role = c(\"ctb\", \"cph\"), comment = \"Source Sans Pro font\") )",
+      "Description": "Create dashboards with 'Shiny'. This package provides a theme on top of 'Shiny', making it easy to create attractive dashboards.",
       "License": "MIT + file LICENSE",
-      "LinkingTo": [
-        "Rcpp"
+      "URL": "https://rstudio.github.io/shinydashboard/, https://github.com/rstudio/shinydashboard",
+      "BugReports": "https://github.com/rstudio/shinydashboard/issues",
+      "Depends": [
+        "R (>= 3.0)"
       ],
       "Imports": [
-        "Rcpp (>= 0.12.13)"
+        "htmltools (>= 0.2.6)",
+        "promises",
+        "shiny (>= 1.0.0)",
+        "utils"
       ],
-      "RoxygenNote": "7.1.1",
+      "Encoding": "UTF-8",
+      "RoxygenNote": "7.3.2",
+      "NeedsCompilation": "no",
+      "Author": "Winston Chang [aut, cre], Barbara Borges Ribeiro [aut], Posit Software, PBC [cph], Almasaeed Studio [ctb, cph] (AdminLTE theme for Bootstrap), Adobe Systems Incorporated [ctb, cph] (Source Sans Pro font)",
+      "Maintainer": "Winston Chang <winston@posit.co>",
+      "Repository": "CRAN"
+    },
+    "snakecase": {
+      "Package": "snakecase",
+      "Version": "0.11.1",
+      "Source": "Repository",
+      "Date": "2023-08-27",
+      "Title": "Convert Strings into any Case",
+      "Description": "A consistent, flexible and easy to use tool to parse and convert strings into cases like snake or camel among others.",
+      "Authors@R": "c( person(\"Malte\", \"Grosser\", , \"malte.grosser@gmail.com\", role = c(\"aut\", \"cre\")))",
+      "Maintainer": "Malte Grosser <malte.grosser@gmail.com>",
+      "Depends": [
+        "R (>= 3.2)"
+      ],
+      "Imports": [
+        "stringr",
+        "stringi"
+      ],
       "Suggests": [
+        "testthat",
+        "covr",
+        "tibble",
+        "purrrlyr",
         "knitr",
         "rmarkdown",
-        "ggplot2"
+        "magrittr"
       ],
-      "VignetteBuilder": "knitr",
+      "URL": "https://github.com/Tazinho/snakecase",
+      "BugReports": "https://github.com/Tazinho/snakecase/issues",
       "Encoding": "UTF-8",
-      "NeedsCompilation": "yes",
-      "Author": "James Balamuta [aut, cre, cph] (<https://orcid.org/0000-0003-2826-8458>), Thijs van den Berg [aut, cph], Ralf Stubner [ctb]",
-      "Maintainer": "James Balamuta <balamut2@illinois.edu>",
+      "License": "GPL-3",
+      "RoxygenNote": "6.1.1",
+      "VignetteBuilder": "knitr",
+      "NeedsCompilation": "no",
+      "Author": "Malte Grosser [aut, cre]",
       "Repository": "CRAN"
     },
     "sourcetools": {
@@ -5759,328 +3943,6 @@
       "BugReports": "https://github.com/kevinushey/sourcetools/issues",
       "Encoding": "UTF-8",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
-    },
-    "sp": {
-      "Package": "sp",
-      "Version": "2.2-1",
-      "Source": "Repository",
-      "Title": "Classes and Methods for Spatial Data",
-      "Authors@R": "c(person(\"Edzer\", \"Pebesma\", role = c(\"aut\", \"cre\"), email = \"edzer.pebesma@uni-muenster.de\"), person(\"Roger\", \"Bivand\", role = \"aut\", email = \"Roger.Bivand@nhh.no\"), person(\"Barry\", \"Rowlingson\", role = \"ctb\"), person(\"Virgilio\", \"Gomez-Rubio\", role = \"ctb\"), person(\"Robert\", \"Hijmans\", role = \"ctb\"), person(\"Michael\", \"Sumner\", role = \"ctb\"), person(\"Don\", \"MacQueen\", role = \"ctb\"), person(\"Jim\", \"Lemon\", role = \"ctb\"), person(\"Finn\", \"Lindgren\", role = \"ctb\"), person(\"Josh\", \"O'Brien\", role = \"ctb\"), person(\"Joseph\", \"O'Rourke\", role = \"ctb\"), person(\"Patrick\", \"Hausmann\", role = \"ctb\"), person(\"Sebastian\", \"Meyer\", role = \"ctb\"))",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "methods"
-      ],
-      "Imports": [
-        "utils",
-        "stats",
-        "graphics",
-        "grDevices",
-        "lattice",
-        "grid"
-      ],
-      "Suggests": [
-        "RColorBrewer",
-        "gstat",
-        "deldir",
-        "knitr",
-        "maps",
-        "mapview",
-        "rmarkdown",
-        "sf",
-        "terra",
-        "raster"
-      ],
-      "Description": "Classes and methods for spatial data; the classes document where the spatial location information resides, for 2D or 3D data. Utility functions are provided, e.g. for plotting data as maps, spatial selection, as well as methods for retrieving coordinates, for subsetting, print, summary, etc. From this version, 'rgdal', 'maptools', and 'rgeos' are no longer used at all, see <https://r-spatial.org/r/2023/05/15/evolution4.html> for details.",
-      "License": "GPL (>= 2)",
-      "URL": "https://github.com/edzer/sp/ https://edzer.github.io/sp/",
-      "BugReports": "https://github.com/edzer/sp/issues",
-      "Collate": "bpy.colors.R AAA.R Class-CRS.R CRS-methods.R Class-Spatial.R Spatial-methods.R projected.R Class-SpatialPoints.R SpatialPoints-methods.R Class-SpatialPointsDataFrame.R SpatialPointsDataFrame-methods.R Class-SpatialMultiPoints.R SpatialMultiPoints-methods.R Class-SpatialMultiPointsDataFrame.R SpatialMultiPointsDataFrame-methods.R Class-GridTopology.R Class-SpatialGrid.R Class-SpatialGridDataFrame.R Class-SpatialLines.R SpatialLines-methods.R Class-SpatialLinesDataFrame.R SpatialLinesDataFrame-methods.R Class-SpatialPolygons.R Class-SpatialPolygonsDataFrame.R SpatialPolygons-methods.R SpatialPolygonsDataFrame-methods.R GridTopology-methods.R SpatialGrid-methods.R SpatialGridDataFrame-methods.R SpatialPolygons-internals.R point.in.polygon.R SpatialPolygons-displayMethods.R zerodist.R image.R stack.R bubble.R mapasp.R select.spatial.R gridded.R asciigrid.R spplot.R over.R spsample.R recenter.R dms.R gridlines.R spdists.R rbind.R flipSGDF.R chfids.R loadmeuse.R compassRose.R surfaceArea.R spOptions.R subset.R disaggregate.R sp_spat1.R merge.R aggregate.R elide.R sp2Mondrian.R",
-      "VignetteBuilder": "knitr",
-      "NeedsCompilation": "yes",
-      "Author": "Edzer Pebesma [aut, cre], Roger Bivand [aut], Barry Rowlingson [ctb], Virgilio Gomez-Rubio [ctb], Robert Hijmans [ctb], Michael Sumner [ctb], Don MacQueen [ctb], Jim Lemon [ctb], Finn Lindgren [ctb], Josh O'Brien [ctb], Joseph O'Rourke [ctb], Patrick Hausmann [ctb], Sebastian Meyer [ctb]",
-      "Maintainer": "Edzer Pebesma <edzer.pebesma@uni-muenster.de>",
-      "Repository": "CRAN"
-    },
-    "spam": {
-      "Package": "spam",
-      "Version": "2.11-3",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "SPArse Matrix",
-      "Date": "2026-01-05",
-      "Authors@R": "c(person(\"Reinhard\", \"Furrer\", role = c(\"aut\", \"cre\"), email = \"reinhard.furrer@math.uzh.ch\", comment = c(ORCID = \"0000-0002-6319-2332\")), person(\"Florian\", \"Gerber\", role = c(\"aut\"), email = \"florian.gerber@math.uzh.ch\", comment = c(ORCID = \"0000-0001-8545-5263\")), person(\"Roman\", \"Flury\", role = c(\"aut\"), email = \"roman.flury@math.uzh.ch\", comment = c(ORCID = \"0000-0002-0349-8698\")), person(\"Daniel\", \"Gerber\", role = \"ctb\", email = \"daniel_gerber_2222@hotmail.com\"), person(\"Kaspar\", \"Moesinger\", role = \"ctb\", email = \"kaspar.moesinger@gmail.com\"), person(\"Annina\", \"Cincera\", email = \"annina.cincera@math.uzh.ch\", role = \"ctb\"), person(\"Youcef\", \"Saad\", role = \"ctb\", comment = \"SPARSEKIT http://www-users.cs.umn.edu/~saad/software/SPARSKIT/\"), person(c(\"Esmond\", \"G.\"), \"Ng\", role = \"ctb\", comment = \"Fortran Cholesky routines\"), person(c(\"Barry\", \"W.\"), \"Peyton\", role = \"ctb\", comment = \"Fortran Cholesky routines\"), person(c(\"Joseph\", \"W.H.\"), \"Liu\", role = \"ctb\", comment = \"Fortran Cholesky routines\"), person(c(\"Alan\", \"D.\"), \"George\", role = \"ctb\", comment = \"Fortran Cholesky routines\"), person(c(\"Lehoucq\", \"B.\"), \"Rich\", role = \"ctb\", comment = \"ARPACK\"), person(c(\"Maschhoff\"), \"Kristi\", role = \"ctb\", comment = \"ARPACK\"), person(c(\"Sorensen\", \"C.\"), \"Danny\", role = \"ctb\", comment = \"ARPACK\"), person(c(\"Yang\"), \"Chao\", role = \"ctb\", comment = \"ARPACK\"))",
-      "Depends": [
-        "R (>= 4.0)"
-      ],
-      "Imports": [
-        "dotCall64",
-        "grid",
-        "methods",
-        "Rcpp (>= 1.0.8.3)"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "Suggests": [
-        "spam64",
-        "fields",
-        "Matrix",
-        "testthat",
-        "R.rsp",
-        "truncdist",
-        "knitr",
-        "rmarkdown"
-      ],
-      "VignetteBuilder": "R.rsp, knitr",
-      "Description": "Set of functions for sparse matrix algebra. Differences with other sparse matrix packages are: (1) we only support (essentially) one sparse matrix format, (2) based on transparent and simple structure(s), (3) tailored for MCMC calculations within G(M)RF. (4) and it is fast and scalable (with the extension package spam64). Documentation about 'spam' is provided by vignettes included in this package, see also Furrer and Sain (2010) <doi:10.18637/jss.v036.i10>; see 'citation(\"spam\")' for details.",
-      "LazyData": "true",
-      "License": "LGPL-2 | BSD_3_clause + file LICENSE",
-      "URL": "https://www.math.uzh.ch/pages/spam/",
-      "BugReports": "https://git.math.uzh.ch/reinhard.furrer/spam/-/issues",
-      "NeedsCompilation": "yes",
-      "Author": "Reinhard Furrer [aut, cre] (ORCID: <https://orcid.org/0000-0002-6319-2332>), Florian Gerber [aut] (ORCID: <https://orcid.org/0000-0001-8545-5263>), Roman Flury [aut] (ORCID: <https://orcid.org/0000-0002-0349-8698>), Daniel Gerber [ctb], Kaspar Moesinger [ctb], Annina Cincera [ctb], Youcef Saad [ctb] (SPARSEKIT http://www-users.cs.umn.edu/~saad/software/SPARSKIT/), Esmond G. Ng [ctb] (Fortran Cholesky routines), Barry W. Peyton [ctb] (Fortran Cholesky routines), Joseph W.H. Liu [ctb] (Fortran Cholesky routines), Alan D. George [ctb] (Fortran Cholesky routines), Lehoucq B. Rich [ctb] (ARPACK), Maschhoff Kristi [ctb] (ARPACK), Sorensen C. Danny [ctb] (ARPACK), Yang Chao [ctb] (ARPACK)",
-      "Maintainer": "Reinhard Furrer <reinhard.furrer@math.uzh.ch>",
-      "Repository": "CRAN"
-    },
-    "spatstat.data": {
-      "Package": "spatstat.data",
-      "Version": "3.1-9",
-      "Source": "Repository",
-      "Date": "2025-10-18",
-      "Title": "Datasets for 'spatstat' Family",
-      "Authors@R": "c(person(\"Adrian\", \"Baddeley\",  role = c(\"aut\", \"cre\"), email = \"Adrian.Baddeley@curtin.edu.au\", comment = c(ORCID=\"0000-0001-9499-8382\")), person(\"Rolf\", \"Turner\",  role = \"aut\", email=\"rolfturner@posteo.net\", comment=c(ORCID=\"0000-0001-5521-5218\")), person(\"Ege\",   \"Rubak\",  role = \"aut\", email = \"rubak@math.aau.dk\", comment=c(ORCID=\"0000-0002-6675-533X\")), person(\"W\", \"Aherne\", role=\"ctb\"), person(\"Freda\", \"Alexander\", role=\"ctb\"), person(\"Qi Wei\", \"Ang\", role=\"ctb\"), person(\"Sourav\", \"Banerjee\", role=\"ctb\"), person(\"Mark\", \"Berman\", role=\"ctb\"), person(\"R\", \"Bernhardt\", role=\"ctb\"), person(\"Thomas\", \"Berndtsen\", role=\"ctb\"), person(\"Andrew\", \"Bevan\", role=\"ctb\"), person(\"Jeffrey\", \"Betts\", role=\"ctb\"), person(\"Ray\", \"Cartwright\", role=\"ctb\"), person(\"Lucia\", \"Cobo Sanchez\", role=\"ctb\"), person(\"Richard\", \"Condit\", role=\"ctb\"), person(\"Francis\", \"Crick\", role=\"ctb\"), person(\"Marcelino\", \"de la Cruz Rot\", role=\"ctb\"), person(\"Jack\", \"Cuzick\", role=\"ctb\"), person(\"Tilman\", \"Davies\", role=\"ctb\"), person(\"Peter\", \"Diggle\", role=\"ctb\"), person(\"Michael\", \"Drinkwater\", role=\"ctb\"), person(\"Stephen\", \"Eglen\", role=\"ctb\"), person(\"Robert\", \"Edwards\", role=\"ctb\"), person(\"Johannes\", \"Elias\", role=\"ctb\"), person(\"AE\", \"Esler\", role=\"ctb\"), person(\"Gregory\", \"Evans\", role=\"ctb\"), person(\"Bernard\", \"Fingleton\", role=\"ctb\"), person(\"Olivier\", \"Flores\", role=\"ctb\"), person(\"David\", \"Ford\", role=\"ctb\"), person(\"Robin\", \"Foster\", role=\"ctb\"), person(\"Janet\", \"Franklin\", role=\"ctb\"), person(\"Neba\", \"Funwi-Gabga\", role=\"ctb\"), person(\"DJ\", \"Gerrard\", role=\"ctb\"), person(\"Andy\", \"Green\", role=\"ctb\"), person(\"Tim\", \"Griffin\", role=\"ctb\"), person(\"Ute\", \"Hahn\", role=\"ctb\"), person(\"RD\", \"Harkness\", role=\"ctb\"), person(\"Arthur\", \"Hickman\", role=\"ctb\"), person(\"Stephen\", \"Hubbell\", role=\"ctb\"), person(\"Austin\", \"Hughes\", role=\"ctb\"), person(\"Jonathan\", \"Huntington\", role=\"ctb\"), person(\"MJ\", \"Hutchings\", role=\"ctb\"), person(\"Jackie\", \"Inwald\", role=\"ctb\"), person(\"Valerie\", \"Isham\", role=\"ctb\"), person(\"Aruna\", \"Jammalamadaka\", role=\"ctb\"), person(\"Carl\", \"Knox-Robinson\", role=\"ctb\"), person(\"Mahdieh\", \"Khanmohammadi\", role=\"ctb\"), person(\"Tero\", \"Kokkila\", role=\"ctb\"), person(\"Bas\", \"Kooijman\", role=\"ctb\"), person(\"Kenneth\", \"Kosik\", role=\"ctb\"), person(\"Peter\", \"Kovesi\", role=\"ctb\"), person(\"Lily\", \"Kozmian-Ledward\", role=\"ctb\"), person(\"Robert\", \"Lamb\", role=\"ctb\"), person(\"NA\", \"Laskurain\", role=\"ctb\"), person(\"George\", \"Leser\", role=\"ctb\"), person(\"Marie-Colette\", \"van Lieshout\", role=\"ctb\"), person(\"AF\", \"Mark\", role=\"ctb\"), person(\"Sebastian\", \"Meyer\", role=\"ctb\"), person(\"Jorge\", \"Mateu\", role=\"ctb\"), person(\"Annikki\", \"Makela\", role=\"ctb\"), person(\"Enrique\", \"Miranda\", role=\"ctb\"), person(\"Nicoletta\", \"Nava\", role=\"ctb\"), person(\"M\", \"Numata\", role=\"ctb\"), person(\"Matti\", \"Nummelin\", role=\"ctb\"), person(\"Jens Randel\", \"Nyengaard\", role=\"ctb\"), person(\"Yosihiko\", \"Ogata\", role=\"ctb\"), person(\"Si\", \"Palmer\", role=\"ctb\"), person(\"Antti\", \"Penttinen\", role=\"ctb\"), person(\"Sandra\", \"Pereira\", role=\"ctb\"), person(\"Nicolas\", \"Picard\", role=\"ctb\"), person(\"William\", \"Platt\", role=\"ctb\"), person(\"Stephen\", \"Rathbun\", role=\"ctb\"), person(\"Brian\", \"Ripley\", role=\"ctb\"), person(\"Roger\", \"Sainsbury\", role=\"ctb\"), person(\"Dietrich\", \"Stoyan\", role=\"ctb\"), person(\"David\", \"Strauss\", role=\"ctb\"), person(\"L\", \"Strand\", role=\"ctb\"), person(\"Masaharu\", \"Tanemura\", role=\"ctb\"), person(\"Graham\", \"Upton\", role=\"ctb\"), person(\"Bill\", \"Venables\", role=\"ctb\"), person(\"Ulrich\", \"Vogel\", role=\"ctb\"), person(\"Sasha\", \"Voss\", role=\"ctb\"), person(\"Rasmus\", \"Waagepetersen\", role=\"ctb\"), person(\"Keith\", \"Watkins\", role=\"ctb\"), person(\"H\", \"Wendrock\", role=\"ctb\") )",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Imports": [
-        "spatstat.utils (>= 3.1-2)",
-        "Matrix"
-      ],
-      "Suggests": [
-        "spatstat.geom",
-        "spatstat.random",
-        "spatstat.explore",
-        "spatstat.model",
-        "spatstat.linnet"
-      ],
-      "Description": "Contains all the datasets for the 'spatstat' family of packages.",
-      "License": "GPL (>= 2)",
-      "URL": "http://spatstat.org/",
-      "LazyData": "true",
-      "NeedsCompilation": "no",
-      "ByteCompile": "true",
-      "BugReports": "https://github.com/spatstat/spatstat.data/issues",
-      "Author": "Adrian Baddeley [aut, cre] (ORCID: <https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut] (ORCID: <https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut] (ORCID: <https://orcid.org/0000-0002-6675-533X>), W Aherne [ctb], Freda Alexander [ctb], Qi Wei Ang [ctb], Sourav Banerjee [ctb], Mark Berman [ctb], R Bernhardt [ctb], Thomas Berndtsen [ctb], Andrew Bevan [ctb], Jeffrey Betts [ctb], Ray Cartwright [ctb], Lucia Cobo Sanchez [ctb], Richard Condit [ctb], Francis Crick [ctb], Marcelino de la Cruz Rot [ctb], Jack Cuzick [ctb], Tilman Davies [ctb], Peter Diggle [ctb], Michael Drinkwater [ctb], Stephen Eglen [ctb], Robert Edwards [ctb], Johannes Elias [ctb], AE Esler [ctb], Gregory Evans [ctb], Bernard Fingleton [ctb], Olivier Flores [ctb], David Ford [ctb], Robin Foster [ctb], Janet Franklin [ctb], Neba Funwi-Gabga [ctb], DJ Gerrard [ctb], Andy Green [ctb], Tim Griffin [ctb], Ute Hahn [ctb], RD Harkness [ctb], Arthur Hickman [ctb], Stephen Hubbell [ctb], Austin Hughes [ctb], Jonathan Huntington [ctb], MJ Hutchings [ctb], Jackie Inwald [ctb], Valerie Isham [ctb], Aruna Jammalamadaka [ctb], Carl Knox-Robinson [ctb], Mahdieh Khanmohammadi [ctb], Tero Kokkila [ctb], Bas Kooijman [ctb], Kenneth Kosik [ctb], Peter Kovesi [ctb], Lily Kozmian-Ledward [ctb], Robert Lamb [ctb], NA Laskurain [ctb], George Leser [ctb], Marie-Colette van Lieshout [ctb], AF Mark [ctb], Sebastian Meyer [ctb], Jorge Mateu [ctb], Annikki Makela [ctb], Enrique Miranda [ctb], Nicoletta Nava [ctb], M Numata [ctb], Matti Nummelin [ctb], Jens Randel Nyengaard [ctb], Yosihiko Ogata [ctb], Si Palmer [ctb], Antti Penttinen [ctb], Sandra Pereira [ctb], Nicolas Picard [ctb], William Platt [ctb], Stephen Rathbun [ctb], Brian Ripley [ctb], Roger Sainsbury [ctb], Dietrich Stoyan [ctb], David Strauss [ctb], L Strand [ctb], Masaharu Tanemura [ctb], Graham Upton [ctb], Bill Venables [ctb], Ulrich Vogel [ctb], Sasha Voss [ctb], Rasmus Waagepetersen [ctb], Keith Watkins [ctb], H Wendrock [ctb]",
-      "Repository": "CRAN"
-    },
-    "spatstat.explore": {
-      "Package": "spatstat.explore",
-      "Version": "3.7-0",
-      "Source": "Repository",
-      "Date": "2026-01-22",
-      "Title": "Exploratory Data Analysis for the 'spatstat' Family",
-      "Authors@R": "c(person(\"Adrian\", \"Baddeley\",  role = c(\"aut\", \"cre\", \"cph\"), email = \"Adrian.Baddeley@curtin.edu.au\", comment = c(ORCID=\"0000-0001-9499-8382\")), person(\"Rolf\", \"Turner\",  role = c(\"aut\", \"cph\"), email=\"rolfturner@posteo.net\", comment=c(ORCID=\"0000-0001-5521-5218\")), person(\"Ege\",   \"Rubak\",  role = c(\"aut\", \"cph\"), email = \"rubak@math.aau.dk\", comment=c(ORCID=\"0000-0002-6675-533X\")), person(\"Kasper\", \"Klitgaard Berthelsen\", role = \"ctb\"), person(\"Warick\", \"Brown\", role = \"cph\"), person(\"Achmad\", \"Choiruddin\", role = \"ctb\"), person(\"Ya-Mei\", \"Chang\", role = \"ctb\"), person(\"Jean-Francois\", \"Coeurjolly\", role = \"ctb\"), person(\"Lucia\", \"Cobo Sanchez\", role = c(\"ctb\", \"cph\")), person(\"Ottmar\", \"Cronie\", role = \"ctb\"), person(\"Tilman\", \"Davies\", role = c(\"ctb\", \"cph\")), person(\"Julian\", \"Gilbey\", role = \"ctb\"), person(\"Jonatan\", \"Gonzalez\", role = \"ctb\"), person(\"Yongtao\", \"Guan\", role = \"ctb\"), person(\"Ute\", \"Hahn\", role = \"ctb\"), person(\"Martin\", \"Hazelton\",  role = \"ctb\"), person(\"Kassel\", \"Hingee\", role = c(\"ctb\", \"cph\")), person(\"Abdollah\", \"Jalilian\",  role = \"ctb\"), person(\"Frederic\", \"Lavancier\", role = \"ctb\"), person(\"Marie-Colette\", \"van Lieshout\", role = c(\"ctb\", \"cph\")), person(\"Greg\", \"McSwiggan\", role = \"ctb\"), person(\"Robin K\", \"Milne\", role = \"cph\"), person(\"Tuomas\", \"Rajala\", role = \"ctb\"), person(\"Suman\", \"Rakshit\", role = c(\"ctb\", \"cph\")), person(\"Dominic\", \"Schuhmacher\", role = \"ctb\"), person(\"Rasmus\", \"Plenge Waagepetersen\", role = \"ctb\"), person(\"Hangsheng\", \"Wang\", role = \"ctb\"), person(\"Tingting\", \"Zhan\", role=\"ctb\"))",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "spatstat.data (>= 3.1-9)",
-        "spatstat.univar (>= 3.1-6)",
-        "spatstat.geom (>= 3.7-0)",
-        "spatstat.random (>= 3.4-3)",
-        "stats",
-        "graphics",
-        "grDevices",
-        "utils",
-        "methods",
-        "nlme"
-      ],
-      "Imports": [
-        "spatstat.utils (>= 3.2-1)",
-        "spatstat.sparse (>= 3.1)",
-        "goftest (>= 1.2-2)",
-        "Matrix",
-        "abind"
-      ],
-      "Suggests": [
-        "sm",
-        "gsl",
-        "locfit",
-        "spatial",
-        "fftwtools (>= 0.9-8)",
-        "spatstat.linnet (>= 3.4)",
-        "spatstat.model (>= 3.5)",
-        "spatstat (>= 3.5)"
-      ],
-      "Description": "Functionality for exploratory data analysis and nonparametric analysis of spatial data, mainly spatial point patterns, in the 'spatstat' family of packages. (Excludes analysis of spatial data on a linear network, which is covered by the separate package 'spatstat.linnet'.) Methods include quadrat counts, K-functions and their simulation envelopes, nearest neighbour distance and empty space statistics, Fry plots, pair correlation function, kernel smoothed intensity, relative risk estimation with cross-validated bandwidth selection, mark correlation functions, segregation indices, mark dependence diagnostics, and kernel estimates of covariate effects. Formal hypothesis tests of random pattern (chi-squared, Kolmogorov-Smirnov, Monte Carlo, Diggle-Cressie-Loosmore-Ford, Dao-Genton, two-stage Monte Carlo) and tests for covariate effects (Cox-Berman-Waller-Lawson, Kolmogorov-Smirnov, ANOVA) are also supported.",
-      "License": "GPL (>= 2)",
-      "URL": "http://spatstat.org/",
-      "NeedsCompilation": "yes",
-      "ByteCompile": "true",
-      "BugReports": "https://github.com/spatstat/spatstat.explore/issues",
-      "Author": "Adrian Baddeley [aut, cre, cph] (ORCID: <https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (ORCID: <https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (ORCID: <https://orcid.org/0000-0002-6675-533X>), Kasper Klitgaard Berthelsen [ctb], Warick Brown [cph], Achmad Choiruddin [ctb], Ya-Mei Chang [ctb], Jean-Francois Coeurjolly [ctb], Lucia Cobo Sanchez [ctb, cph], Ottmar Cronie [ctb], Tilman Davies [ctb, cph], Julian Gilbey [ctb], Jonatan Gonzalez [ctb], Yongtao Guan [ctb], Ute Hahn [ctb], Martin Hazelton [ctb], Kassel Hingee [ctb, cph], Abdollah Jalilian [ctb], Frederic Lavancier [ctb], Marie-Colette van Lieshout [ctb, cph], Greg McSwiggan [ctb], Robin K Milne [cph], Tuomas Rajala [ctb], Suman Rakshit [ctb, cph], Dominic Schuhmacher [ctb], Rasmus Plenge Waagepetersen [ctb], Hangsheng Wang [ctb], Tingting Zhan [ctb]",
-      "Repository": "CRAN"
-    },
-    "spatstat.geom": {
-      "Package": "spatstat.geom",
-      "Version": "3.7-0",
-      "Source": "Repository",
-      "Date": "2026-01-20",
-      "Title": "Geometrical Functionality of the 'spatstat' Family",
-      "Authors@R": "c(person(\"Adrian\", \"Baddeley\",  role = c(\"aut\", \"cre\", \"cph\"), email = \"Adrian.Baddeley@curtin.edu.au\", comment = c(ORCID=\"0000-0001-9499-8382\")), person(\"Rolf\", \"Turner\",  role = c(\"aut\", \"cph\"), email=\"rolfturner@posteo.net\", comment=c(ORCID=\"0000-0001-5521-5218\")), person(\"Ege\",   \"Rubak\",  role = c(\"aut\", \"cph\"), email = \"rubak@math.aau.dk\", comment=c(ORCID=\"0000-0002-6675-533X\")), person(\"Warick\",    \"Brown\" ,        role = \"ctb\"), person(\"Tilman\",    \"Davies\",        role = \"ctb\"), person(\"Ute\",       \"Hahn\",          role = \"ctb\"), person(\"Martin\",    \"Hazelton\",      role = \"ctb\"), person(\"Abdollah\",  \"Jalilian\",      role = \"ctb\"), person(\"Greg\",      \"McSwiggan\",     role = c(\"ctb\", \"cph\")), person(\"Sebastian\", \"Meyer\",         role = c(\"ctb\", \"cph\")), person(\"Jens\",      \"Oehlschlaegel\", role = c(\"ctb\", \"cph\")), person(\"Suman\",     \"Rakshit\",       role = \"ctb\"), person(\"Dominic\",   \"Schuhmacher\",   role = \"ctb\"), person(\"Rasmus\",    \"Waagepetersen\", role = \"ctb\"))",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "spatstat.data (>= 3.1-9)",
-        "spatstat.univar (>= 3.1-5.002)",
-        "stats",
-        "graphics",
-        "grDevices",
-        "utils",
-        "methods"
-      ],
-      "Imports": [
-        "spatstat.utils (>= 3.2-1)",
-        "deldir (>= 1.0-2)",
-        "polyclip (>= 1.10)"
-      ],
-      "Suggests": [
-        "spatstat.random (>= 3.4-3)",
-        "spatstat.explore (>= 3.6)",
-        "spatstat.model (>= 3.5)",
-        "spatstat.linnet (>= 3.4)",
-        "spatial",
-        "fftwtools (>= 0.9-8)",
-        "spatstat (>= 3.5)"
-      ],
-      "Description": "Defines spatial data types and supports geometrical operations on them. Data types include point patterns, windows (domains), pixel images, line segment patterns, tessellations and hyperframes. Capabilities include creation and manipulation of data (using command line or graphical interaction), plotting, geometrical operations (rotation, shift, rescale, affine transformation), convex hull, discretisation and pixellation, Dirichlet tessellation, Delaunay triangulation, pairwise distances, nearest-neighbour distances, distance transform, morphological operations (erosion, dilation, closing, opening), quadrat counting, geometrical measurement, geometrical covariance, colour maps, calculus on spatial domains, Gaussian blur, level sets of images, transects of images, intersections between objects, minimum distance matching. (Excludes spatial data on a network, which are supported by the package 'spatstat.linnet'.)",
-      "License": "GPL (>= 2)",
-      "URL": "http://spatstat.org/",
-      "NeedsCompilation": "yes",
-      "ByteCompile": "true",
-      "BugReports": "https://github.com/spatstat/spatstat.geom/issues",
-      "Author": "Adrian Baddeley [aut, cre, cph] (ORCID: <https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (ORCID: <https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (ORCID: <https://orcid.org/0000-0002-6675-533X>), Warick Brown [ctb], Tilman Davies [ctb], Ute Hahn [ctb], Martin Hazelton [ctb], Abdollah Jalilian [ctb], Greg McSwiggan [ctb, cph], Sebastian Meyer [ctb, cph], Jens Oehlschlaegel [ctb, cph], Suman Rakshit [ctb], Dominic Schuhmacher [ctb], Rasmus Waagepetersen [ctb]",
-      "Repository": "CRAN"
-    },
-    "spatstat.random": {
-      "Package": "spatstat.random",
-      "Version": "3.4-4",
-      "Source": "Repository",
-      "Date": "2026-01-21",
-      "Title": "Random Generation Functionality for the 'spatstat' Family",
-      "Authors@R": "c(person(\"Adrian\", \"Baddeley\",  role = c(\"aut\", \"cre\", \"cph\"), email = \"Adrian.Baddeley@curtin.edu.au\", comment = c(ORCID=\"0000-0001-9499-8382\")), person(\"Rolf\", \"Turner\",  role = c(\"aut\", \"cph\"), email=\"rolfturner@posteo.net\", comment=c(ORCID=\"0000-0001-5521-5218\")), person(\"Ege\",   \"Rubak\",  role = c(\"aut\", \"cph\"), email = \"rubak@math.aau.dk\", comment=c(ORCID=\"0000-0002-6675-533X\")), person(\"Tilman\", \"Davies\", role = c(\"aut\", \"cph\"), comment=c(ORCID=\"0000-0003-0565-1825\")), person(\"Kasper\", \"Klitgaard Berthelsen\", role = c(\"ctb\", \"cph\")), person(\"David\", \"Bryant\", role = c(\"ctb\", \"cph\")), person(\"Ya-Mei\", \"Chang\", role = c(\"ctb\", \"cph\"), email = \"yamei628@gmail.com\"), person(\"Ute\", \"Hahn\", role = \"ctb\"), person(\"Abdollah\", \"Jalilian\",  role = \"ctb\"), person(\"Dominic\", \"Schuhmacher\", role = c(\"ctb\", \"cph\")), person(\"Rasmus\", \"Plenge Waagepetersen\", role = c(\"ctb\", \"cph\")))",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "spatstat.data (>= 3.1-9)",
-        "spatstat.univar (>= 3.1-6)",
-        "spatstat.geom (>= 3.7-0)",
-        "stats",
-        "utils",
-        "methods",
-        "grDevices"
-      ],
-      "Imports": [
-        "spatstat.utils (>= 3.2-1)"
-      ],
-      "Suggests": [
-        "spatial",
-        "spatstat.linnet (>= 3.4)",
-        "spatstat.explore",
-        "spatstat.model",
-        "spatstat (>= 3.5)",
-        "gsl"
-      ],
-      "Description": "Functionality for random generation of spatial data in the 'spatstat' family of packages. Generates random spatial patterns of points according to many simple rules (complete spatial randomness, Poisson, binomial, random grid, systematic, cell), randomised alteration of patterns (thinning, random shift, jittering),  simulated realisations of random point processes including simple sequential inhibition, Matern inhibition models, Neyman-Scott cluster processes (using direct, Brix-Kendall, or hybrid algorithms), log-Gaussian Cox processes, product shot noise cluster processes and Gibbs point processes (using Metropolis-Hastings birth-death-shift algorithm, alternating Gibbs sampler, or coupling-from-the-past perfect simulation). Also generates random spatial patterns of line segments, random tessellations, and random images (random noise, random mosaics). Excludes random generation on a linear network, which is covered by the separate package 'spatstat.linnet'.",
-      "License": "GPL (>= 2)",
-      "URL": "http://spatstat.org/",
-      "NeedsCompilation": "yes",
-      "ByteCompile": "true",
-      "BugReports": "https://github.com/spatstat/spatstat.random/issues",
-      "Author": "Adrian Baddeley [aut, cre, cph] (ORCID: <https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (ORCID: <https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (ORCID: <https://orcid.org/0000-0002-6675-533X>), Tilman Davies [aut, cph] (ORCID: <https://orcid.org/0000-0003-0565-1825>), Kasper Klitgaard Berthelsen [ctb, cph], David Bryant [ctb, cph], Ya-Mei Chang [ctb, cph], Ute Hahn [ctb], Abdollah Jalilian [ctb], Dominic Schuhmacher [ctb, cph], Rasmus Plenge Waagepetersen [ctb, cph]",
-      "Repository": "CRAN"
-    },
-    "spatstat.sparse": {
-      "Package": "spatstat.sparse",
-      "Version": "3.1-0",
-      "Source": "Repository",
-      "Date": "2024-06-21",
-      "Title": "Sparse Three-Dimensional Arrays and Linear Algebra Utilities",
-      "Authors@R": "c(person(\"Adrian\", \"Baddeley\",  role = c(\"aut\", \"cre\", \"cph\"), email = \"Adrian.Baddeley@curtin.edu.au\", comment = c(ORCID=\"0000-0001-9499-8382\")), person(\"Rolf\", \"Turner\",  role = c(\"aut\", \"cph\"), email=\"rolfturner@posteo.net\", comment=c(ORCID=\"0000-0001-5521-5218\")), person(\"Ege\",   \"Rubak\",  role = c(\"aut\", \"cph\"), email = \"rubak@math.aau.dk\", comment=c(ORCID=\"0000-0002-6675-533X\")))",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "stats",
-        "utils",
-        "methods",
-        "Matrix",
-        "abind",
-        "tensor"
-      ],
-      "Imports": [
-        "spatstat.utils (>= 3.0-5)"
-      ],
-      "Description": "Defines sparse three-dimensional arrays and supports standard operations on them. The package also includes utility functions for matrix calculations that are common in statistics, such as quadratic forms.",
-      "License": "GPL (>= 2)",
-      "URL": "http://spatstat.org/",
-      "NeedsCompilation": "yes",
-      "ByteCompile": "true",
-      "BugReports": "https://github.com/spatstat/spatstat.sparse/issues",
-      "Author": "Adrian Baddeley [aut, cre, cph] (<https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (<https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (<https://orcid.org/0000-0002-6675-533X>)",
-      "Repository": "CRAN"
-    },
-    "spatstat.univar": {
-      "Package": "spatstat.univar",
-      "Version": "3.1-6",
-      "Source": "Repository",
-      "Date": "2026-01-17",
-      "Title": "One-Dimensional Probability Distribution Support for the 'spatstat' Family",
-      "Authors@R": "c(person(\"Adrian\", \"Baddeley\",  role = c(\"aut\", \"cre\", \"cph\"), email = \"Adrian.Baddeley@curtin.edu.au\", comment = c(ORCID=\"0000-0001-9499-8382\")), person(c(\"Tilman\", \"M.\"), \"Davies\", role = c(\"aut\", \"ctb\", \"cph\"), email = \"Tilman.Davies@otago.ac.nz\", comment = c(ORCID=\"0000-0003-0565-1825\")), person(c(\"Martin\", \"L.\"), \"Hazelton\", role = c(\"aut\", \"ctb\", \"cph\"), email = \"Martin.Hazelton@otago.ac.nz\", comment = c(ORCID=\"0000-0001-7831-725X\")), person(\"Ege\",   \"Rubak\",  role = c(\"aut\", \"cph\"), email = \"rubak@math.aau.dk\", comment=c(ORCID=\"0000-0002-6675-533X\")), person(\"Rolf\", \"Turner\",  role = c(\"aut\", \"cph\"), email=\"rolfturner@posteo.net\", comment=c(ORCID=\"0000-0001-5521-5218\")), person(\"Greg\", \"McSwiggan\", role = c(\"ctb\", \"cph\")))",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "stats"
-      ],
-      "Imports": [
-        "spatstat.utils (>= 3.2-1)",
-        "graphics"
-      ],
-      "Description": "Estimation of one-dimensional probability distributions including kernel density estimation, weighted empirical cumulative distribution functions, Kaplan-Meier and reduced-sample estimators for right-censored data, heat kernels, kernel properties, quantiles and integration.",
-      "License": "GPL (>= 2)",
-      "URL": "http://spatstat.org/",
-      "NeedsCompilation": "yes",
-      "ByteCompile": "true",
-      "BugReports": "https://github.com/spatstat/spatstat.univar/issues",
-      "Author": "Adrian Baddeley [aut, cre, cph] (ORCID: <https://orcid.org/0000-0001-9499-8382>), Tilman M. Davies [aut, ctb, cph] (ORCID: <https://orcid.org/0000-0003-0565-1825>), Martin L. Hazelton [aut, ctb, cph] (ORCID: <https://orcid.org/0000-0001-7831-725X>), Ege Rubak [aut, cph] (ORCID: <https://orcid.org/0000-0002-6675-533X>), Rolf Turner [aut, cph] (ORCID: <https://orcid.org/0000-0001-5521-5218>), Greg McSwiggan [ctb, cph]",
-      "Repository": "CRAN"
-    },
-    "spatstat.utils": {
-      "Package": "spatstat.utils",
-      "Version": "3.2-1",
-      "Source": "Repository",
-      "Date": "2026-01-08",
-      "Title": "Utility Functions for 'spatstat'",
-      "Authors@R": "c(person(\"Adrian\", \"Baddeley\",  role = c(\"aut\", \"cre\"), email = \"Adrian.Baddeley@curtin.edu.au\", comment = c(ORCID=\"0000-0001-9499-8382\")), person(\"Rolf\", \"Turner\",  role = \"aut\", email=\"rolfturner@posteo.net\", comment=c(ORCID=\"0000-0001-5521-5218\")), person(\"Ege\",   \"Rubak\",  role = \"aut\", email = \"rubak@math.aau.dk\", comment=c(ORCID=\"0000-0002-6675-533X\")))",
-      "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Depends": [
-        "R (>= 3.5.0)",
-        "stats",
-        "graphics",
-        "grDevices",
-        "utils",
-        "methods"
-      ],
-      "Suggests": [
-        "spatstat.model"
-      ],
-      "Description": "Contains utility functions for the 'spatstat' family of packages which may also be useful for other purposes.",
-      "License": "GPL (>= 2)",
-      "URL": "http://spatstat.org/",
-      "NeedsCompilation": "yes",
-      "ByteCompile": "true",
-      "BugReports": "https://github.com/spatstat/spatstat.utils/issues",
-      "Author": "Adrian Baddeley [aut, cre] (ORCID: <https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut] (ORCID: <https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut] (ORCID: <https://orcid.org/0000-0002-6675-533X>)",
       "Repository": "CRAN"
     },
     "stringi": {
@@ -6157,36 +4019,6 @@
       "Author": "Hadley Wickham [aut, cre, cph], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "survival": {
-      "Package": "survival",
-      "Version": "3.8-3",
-      "Source": "Repository",
-      "Title": "Survival Analysis",
-      "Priority": "recommended",
-      "Date": "2024-12-17",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Imports": [
-        "graphics",
-        "Matrix",
-        "methods",
-        "splines",
-        "stats",
-        "utils"
-      ],
-      "LazyData": "Yes",
-      "LazyDataCompression": "xz",
-      "ByteCompile": "Yes",
-      "Authors@R": "c(person(c(\"Terry\", \"M\"), \"Therneau\", email=\"therneau.terry@mayo.edu\", role=c(\"aut\", \"cre\")), person(\"Thomas\", \"Lumley\", role=c(\"ctb\", \"trl\"), comment=\"original S->R port and R maintainer until 2009\"), person(\"Atkinson\", \"Elizabeth\", role=\"ctb\"), person(\"Crowson\", \"Cynthia\", role=\"ctb\"))",
-      "Description": "Contains the core survival analysis routines, including definition of Surv objects,  Kaplan-Meier and Aalen-Johansen (multi-state) curves, Cox models, and parametric accelerated failure time models.",
-      "License": "LGPL (>= 2)",
-      "URL": "https://github.com/therneau/survival",
-      "NeedsCompilation": "yes",
-      "Author": "Terry M Therneau [aut, cre], Thomas Lumley [ctb, trl] (original S->R port and R maintainer until 2009), Atkinson Elizabeth [ctb], Crowson Cynthia [ctb]",
-      "Maintainer": "Terry M Therneau <therneau.terry@mayo.edu>",
-      "Repository": "CRAN"
     },
     "sys": {
       "Package": "sys",
@@ -6384,19 +4216,6 @@
       "Author": "William Michael Landau [aut, cre] (ORCID: <https://orcid.org/0000-0003-1878-3253>), Matthew T. Warkentin [ctb], Mark Edmondson [ctb] (ORCID: <https://orcid.org/0000-0002-8434-3881>), Samantha Oliver [rev] (ORCID: <https://orcid.org/0000-0001-5668-1165>), Tristan Mahr [rev] (ORCID: <https://orcid.org/0000-0002-8890-5116>), Eli Lilly and Company [cph, fnd]",
       "Maintainer": "William Michael Landau <will.landau.oss@gmail.com>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "tensor": {
-      "Package": "tensor",
-      "Version": "1.5.1",
-      "Source": "Repository",
-      "Title": "Tensor Product of Arrays",
-      "Authors@R": "person(given = \"Jonathan\", family = \"Rougier\", role = c(\"aut\", \"cre\"), email = \"j.c.rougier@bristol.ac.uk\")",
-      "Description": "The tensor product of two arrays is notionally an outer product of the arrays collapsed in specific extents by summing along the appropriate diagonals.",
-      "License": "GPL (>= 2)",
-      "Repository": "CRAN",
-      "NeedsCompilation": "no",
-      "Author": "Jonathan Rougier [aut, cre]",
-      "Maintainer": "Jonathan Rougier <j.c.rougier@bristol.ac.uk>"
     },
     "textshaping": {
       "Package": "textshaping",
@@ -6797,51 +4616,6 @@
       "NeedsCompilation": "yes",
       "Repository": "CRAN"
     },
-    "uwot": {
-      "Package": "uwot",
-      "Version": "0.2.4",
-      "Source": "Repository",
-      "Title": "The Uniform Manifold Approximation and Projection (UMAP) Method for Dimensionality Reduction",
-      "Authors@R": "c( person(\"James\", \"Melville\", , \"jlmelville@gmail.com\", role = c(\"aut\", \"cre\", \"cph\")), person(\"Aaron\", \"Lun\", role = \"ctb\"), person(\"Mohamed Nadhir\", \"Djekidel\", role = \"ctb\"), person(\"Yuhan\", \"Hao\", role = \"ctb\"), person(\"Dirk\", \"Eddelbuettel\", role = \"ctb\"), person(\"Wouter\", \"van der Bijl\", role = \"ctb\"), person(\"Hugo\", \"Gruson\", role = \"ctb\") )",
-      "Description": "An implementation of the Uniform Manifold Approximation and Projection dimensionality reduction by McInnes et al. (2018) <doi:10.48550/arXiv.1802.03426>. It also provides means to transform new data and to carry out supervised dimensionality reduction. An implementation of the related LargeVis method of Tang et al. (2016) <doi:10.48550/arXiv.1602.00370> is also provided. This is a complete re-implementation in R (and C++, via the 'Rcpp' package): no Python installation is required. See the uwot website (<https://github.com/jlmelville/uwot>) for more documentation and examples.",
-      "License": "GPL (>= 3)",
-      "URL": "https://github.com/jlmelville/uwot, https://jlmelville.github.io/uwot/",
-      "BugReports": "https://github.com/jlmelville/uwot/issues",
-      "Depends": [
-        "Matrix"
-      ],
-      "Imports": [
-        "FNN",
-        "irlba",
-        "methods",
-        "Rcpp",
-        "RcppAnnoy (>= 0.0.17)",
-        "RSpectra"
-      ],
-      "Suggests": [
-        "bigstatsr",
-        "covr",
-        "knitr",
-        "RcppHNSW",
-        "rmarkdown",
-        "rnndescent",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "dqrng",
-        "Rcpp",
-        "RcppAnnoy",
-        "RcppProgress"
-      ],
-      "VignetteBuilder": "knitr",
-      "Config/Needs/website": "rmarkdown",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "yes",
-      "Author": "James Melville [aut, cre, cph], Aaron Lun [ctb], Mohamed Nadhir Djekidel [ctb], Yuhan Hao [ctb], Dirk Eddelbuettel [ctb], Wouter van der Bijl [ctb], Hugo Gruson [ctb]",
-      "Maintainer": "James Melville <jlmelville@gmail.com>",
-      "Repository": "CRAN"
-    },
     "vctrs": {
       "Package": "vctrs",
       "Version": "0.7.1",
@@ -7119,23 +4893,21 @@
     },
     "xtable": {
       "Package": "xtable",
-      "Version": "1.8-8",
+      "Version": "1.8-4",
       "Source": "Repository",
-      "Date": "2026-02-20",
+      "Date": "2019-04-08",
       "Title": "Export Tables to LaTeX or HTML",
       "Authors@R": "c(person(\"David B.\", \"Dahl\", role=\"aut\"), person(\"David\", \"Scott\", role=c(\"aut\",\"cre\"), email=\"d.scott@auckland.ac.nz\"), person(\"Charles\", \"Roosen\", role=\"aut\"), person(\"Arni\", \"Magnusson\", role=\"aut\"), person(\"Jonathan\", \"Swinton\", role=\"aut\"), person(\"Ajay\", \"Shah\", role=\"ctb\"), person(\"Arne\", \"Henningsen\", role=\"ctb\"), person(\"Benno\", \"Puetz\", role=\"ctb\"), person(\"Bernhard\", \"Pfaff\", role=\"ctb\"), person(\"Claudio\", \"Agostinelli\", role=\"ctb\"), person(\"Claudius\", \"Loehnert\", role=\"ctb\"), person(\"David\", \"Mitchell\", role=\"ctb\"), person(\"David\", \"Whiting\", role=\"ctb\"), person(\"Fernando da\", \"Rosa\", role=\"ctb\"), person(\"Guido\", \"Gay\", role=\"ctb\"), person(\"Guido\", \"Schulz\", role=\"ctb\"), person(\"Ian\", \"Fellows\", role=\"ctb\"), person(\"Jeff\", \"Laake\", role=\"ctb\"), person(\"John\", \"Walker\", role=\"ctb\"), person(\"Jun\", \"Yan\", role=\"ctb\"), person(\"Liviu\", \"Andronic\", role=\"ctb\"), person(\"Markus\", \"Loecher\", role=\"ctb\"), person(\"Martin\", \"Gubri\", role=\"ctb\"), person(\"Matthieu\", \"Stigler\", role=\"ctb\"), person(\"Robert\", \"Castelo\", role=\"ctb\"), person(\"Seth\", \"Falcon\", role=\"ctb\"), person(\"Stefan\", \"Edwards\", role=\"ctb\"), person(\"Sven\", \"Garbade\", role=\"ctb\"), person(\"Uwe\", \"Ligges\", role=\"ctb\"))",
       "Maintainer": "David Scott <d.scott@auckland.ac.nz>",
       "Imports": [
         "stats",
-        "utils",
-        "methods"
+        "utils"
       ],
       "Suggests": [
         "knitr",
+        "plm",
         "zoo",
-        "survival",
-        "glue",
-        "tinytex"
+        "survival"
       ],
       "VignetteBuilder": "knitr",
       "Description": "Coerce data to LaTeX and HTML tables.",
@@ -7173,48 +4945,6 @@
       "Author": "Hadley Wickham [cre] (ORCID: <https://orcid.org/0000-0003-4757-117X>), Shawn Garbett [ctb] (ORCID: <https://orcid.org/0000-0003-4079-5621>), Jeremy Stephens [aut, ctb], Kirill Simonov [aut], Yihui Xie [ctb] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Zhuoer Dong [ctb], Jeffrey Horner [ctb], reikoch [ctb], Will Beasley [ctb] (ORCID: <https://orcid.org/0000-0002-5613-5006>), Brendan O'Connor [ctb], Michael Quinn [ctb], Charlie Gao [ctb], Gregory R. Warnes [ctb], Zhian N. Kamvar [ctb]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
-    },
-    "zoo": {
-      "Package": "zoo",
-      "Version": "1.8-15",
-      "Source": "Repository",
-      "Date": "2025-12-15",
-      "Title": "S3 Infrastructure for Regular and Irregular Time Series (Z's Ordered Observations)",
-      "Authors@R": "c(person(given = \"Achim\", family = \"Zeileis\", role = c(\"aut\", \"cre\"), email = \"Achim.Zeileis@R-project.org\", comment = c(ORCID = \"0000-0003-0918-3766\")), person(given = \"Gabor\", family = \"Grothendieck\", role = \"aut\", email = \"ggrothendieck@gmail.com\"), person(given = c(\"Jeffrey\", \"A.\"), family = \"Ryan\", role = \"aut\", email = \"jeff.a.ryan@gmail.com\"), person(given = c(\"Joshua\", \"M.\"), family = \"Ulrich\", role = \"ctb\", email = \"josh.m.ulrich@gmail.com\"), person(given = \"Felix\", family = \"Andrews\", role = \"ctb\", email = \"felix@nfrac.org\"))",
-      "Description": "An S3 class with methods for totally ordered indexed observations. It is particularly aimed at irregular time series of numeric vectors/matrices and factors. zoo's key design goals are independence of a particular index/date/time class and consistency with ts and base R by providing methods to extend standard generics.",
-      "Depends": [
-        "R (>= 3.1.0)",
-        "stats"
-      ],
-      "Suggests": [
-        "AER",
-        "coda",
-        "chron",
-        "ggplot2 (>= 3.5.0)",
-        "mondate",
-        "scales",
-        "stinepack",
-        "strucchange",
-        "timeDate",
-        "timeSeries",
-        "tinyplot",
-        "tis",
-        "tseries",
-        "xts"
-      ],
-      "Imports": [
-        "utils",
-        "graphics",
-        "grDevices",
-        "lattice (>= 0.20-27)"
-      ],
-      "License": "GPL-2 | GPL-3",
-      "URL": "https://zoo.R-Forge.R-project.org/",
-      "NeedsCompilation": "yes",
-      "Author": "Achim Zeileis [aut, cre] (ORCID: <https://orcid.org/0000-0003-0918-3766>), Gabor Grothendieck [aut], Jeffrey A. Ryan [aut], Joshua M. Ulrich [ctb], Felix Andrews [ctb]",
-      "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Encoding": "UTF-8"
     }
   }
 }

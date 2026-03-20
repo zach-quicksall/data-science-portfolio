@@ -1,0 +1,296 @@
+---
+title: "Analysis of NFL 4th Down Decision Making"
+author: "Zach Quicksall"
+date: today
+format:
+  html:
+    math: mathjax
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+source("R/packages.R")
+source("R/functions.R")
+set.seed(2026)
+
+tar_load(pbp_raw)
+```
+
+```{r}
+# Subset to all 4th down plays and add some useful annotations
+ pbp_clean <- pbp_raw %>%
+    filter(
+        down == 4,
+        play_type %in% c("run", "pass", "field_goal", "punt"),
+        !is.na(posteam),
+        !is.na(yardline_100),
+        !is.na(ydstogo),
+        !is.na(game_seconds_remaining),
+        !is.na(score_differential)
+    ) %>%
+    mutate(
+        is_go = play_type %in% c("run", "pass"),
+        is_conversion = case_when(
+          is_go & !is.na(first_down) ~ first_down == 1,
+          is_go & !is.na(yards_gained) ~ yards_gained >= ydstogo,
+          TRUE ~ NA
+        ),
+        fg_attempt = play_type == "field_goal",
+        fg_made = field_goal_result == "made",
+        punt_attempt = play_type == "punt"
+    ) %>%
+    mutate(
+        decision = case_when(
+        play_type %in% c("run", "pass") ~ "Go for it",
+        play_type == "punt" ~ "Punt",
+        play_type == "field_goal" ~ "Field goal",
+        TRUE ~ NA_character_)
+    ) %>%
+    mutate(
+        go_for_it = decision == "Go for it",
+        ydstogo_capped = pmin(ydstogo, 15),
+        yardline_bucket = floor(yardline_100 / 5) * 5
+    )
+```
+
+## Distribution of 4th Down Decisions
+
+```{r}
+pbp_clean %>%
+    count(decision) %>%
+    ggplot(aes(x = reorder(decision, n), y = n)) +
+    geom_col() +
+    coord_flip() +
+    labs(
+        title = "Observed 4th Down Decisions",
+        x = NULL,
+        y = "Plays (N)"
+    ) +
+    theme_minimal()
+```
+
+## Go-for-it Rates
+
+```{r}
+go_rates <- pbp_clean %>%
+  group_by(yardline_bucket, ydstogo_capped) %>%
+  summarise(
+    go_rate = mean(go_for_it, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  ) %>%
+  filter(n >= 25)
+
+go_rates %>%
+  ggplot(aes(x = yardline_bucket, y = ydstogo_capped, fill = go_rate)) +
+  geom_tile() +
+  scale_x_reverse() +
+  scale_fill_gradient(
+    low = "white",
+    high = "darkgreen",
+    labels = scales::percent_format(accuracy = 1)
+  ) +
+  labs(
+    title = "NFL Go-for-It Rate on 4th Down",
+    subtitle = "By field position and yards to go",
+    x = "Yards from Opponent End Zone",
+    y = "Yards to Go",
+    fill = "Go Rate"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Decision Map
+
+```{r}
+decision_map <- pbp_clean %>%
+  group_by(yardline_bucket, ydstogo_capped, decision) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(yardline_bucket, ydstogo_capped) %>%
+  mutate(pct = n / sum(n)) %>%
+  slice_max(pct, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+ggplot(decision_map, aes(x = yardline_bucket, y = ydstogo_capped, fill = decision)) +
+  geom_tile() +
+  scale_x_reverse() +
+  labs(
+    title = "Most Common 4th Down Decision",
+    subtitle = "By field position and yards to go",
+    x = "Yards from opponent end zone",
+    y = "Yards to go",
+    fill = "Decision"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+```
+
+## Conversion Probabilities
+
+```{r}
+fourth_go <- pbp_clean %>%
+  filter(
+    down == 4,
+    play_type %in% c("run", "pass"),
+    !is.na(ydstogo),
+    !is.na(yards_gained),
+    !is.na(yardline_100)
+  ) %>%
+  mutate(
+    converted = yards_gained >= ydstogo
+  )
+
+conversion_rates <- fourth_go %>%
+  group_by(yardline_bucket, ydstogo_capped) %>%
+  summarise(
+    conversion_rate = mean(converted),
+    attempts = n(),
+    .groups = "drop"
+  ) %>%
+  filter(attempts >= 20)
+
+conversion_rates %>%
+  ggplot(aes(x = yardline_bucket,
+           y = ydstogo_capped,
+           fill = conversion_rate)) +
+  geom_tile() +
+  scale_x_reverse() +
+  scale_fill_gradient(
+    low = "white",
+    high = "darkgreen",
+    labels = scales::percent_format()
+  ) +
+  geom_text(aes(label = scales::percent(conversion_rate, accuracy = 1)),
+          size = 3) +
+  labs(
+    title = "4th Down Conversion Probability",
+    subtitle = "Run/Pass attempts only",
+    x = "Yards from opponent end zone",
+    y = "Yards to go",
+    fill = "Conversion rate"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+```
+
+## Team Aggression
+
+### Full Cohort
+
+```{r}
+league_model <- glm(
+  is_go ~ ydstogo_capped + yardline_bucket,
+  data = pbp_clean,
+  family = binomial()
+)
+
+pbp_clean <- pbp_clean %>%
+  mutate(
+    expected_go = predict(league_model, type="response")
+  )
+
+team_aggression <- pbp_clean %>%
+  group_by(posteam) %>%
+  summarise(
+    actual_go = mean(is_go),
+    expected_go = mean(expected_go),
+    attempts = n(),
+    .groups = "drop"
+  ) %>%
+  filter(attempts > 50)
+```
+
+```{r}
+team_aggression %>%
+  ggplot(aes(x = expected_go, y = actual_go)) +
+  geom_point(aes(size = attempts), color="darkgreen") +
+  geom_text(aes(label = posteam), nudge_y = .002) +
+  geom_abline(linetype="dashed") +
+  labs(
+    title = "NFL 4th Down Aggressiveness by Team",
+    subtitle = "Actual vs Expected Go-for-It Rate",
+    x = "Expected Go Rate",
+    y = "Actual Go Rate",
+    size = "Attempts"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+### Year Over Year
+
+#### Overall
+
+```{r}
+league_aggression <- pbp_clean %>%
+  group_by(season) %>%
+  summarise(
+    go_rate = mean(is_go),
+    attempts = n(),
+    .groups = "drop"
+  )
+
+league_aggression %>%
+  ggplot(aes(x = season, y = go_rate)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2, color = "darkgreen") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "NFL 4th Down Aggression Over Time",
+    subtitle = "Percentage of 4th downs where teams go for it",
+    x = "Season",
+    y = "Go-for-it rate"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+> NFL teams have become increasingly aggressive on 4th down over the past decade. The league-wide go-for-it rate rose from roughly 12% in 2010 to over 20% by 2024, reflecting broader adoption of analytics-informed decision making.
+
+```{r}
+team_aggression <- pbp_clean %>%
+  group_by(posteam, season) %>%
+  summarise(
+    go_rate = mean(is_go),
+    attempts = n(),
+    .groups = "drop"
+  ) %>%
+  filter(attempts >= 20)
+
+team_aggression %>%
+  ggplot(aes(season, go_rate, color = posteam)) +
+  geom_line(alpha = .7) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "NFL Team 4th Down Aggression Over Time",
+    x = "Season",
+    y = "Go-for-it Rate",
+    color = "Team"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+```{r}
+ggplot(team_aggression,
+       aes(season, go_rate)) +
+  #geom_line(color="darkgreen") +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~posteam) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Team-Level 4th Down Aggression Over Time",
+    x = "Season",
+    y = "Go-for-it Rate"
+  ) +
+  theme_minimal()
+```

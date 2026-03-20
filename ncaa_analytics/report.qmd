@@ -1,0 +1,36 @@
+---
+title: "Analysis of College Basketball Play-by-Play"
+author: "Zach Quicksall"
+date: today
+format:
+  html:
+    math: mathjax
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+```{r}
+source("R/packages.R")
+source("R/functions.R")
+set.seed(2026)
+
+tar_load(pbp_possessions)
+```
+
+```{r}
+possessions <- pbp_possessions %>%
+  group_by(game_id, possession_id, team_id) %>%
+  summarise(
+    points_scored = sum(points, na.rm = TRUE),
+    events = n(),
+    .groups = "drop"
+  )
+```
