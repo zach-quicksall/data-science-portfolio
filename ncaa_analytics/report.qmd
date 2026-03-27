@@ -1,5 +1,5 @@
 ---
-title: "Analysis of College Basketball Play-by-Play"
+title: "NCAA Basketball Analytics: What Drives Team Success?"
 author: "Zach Quicksall"
 date: today
 format:
@@ -16,21 +16,131 @@ execute:
   message: false
 ---
 
-
 ```{r}
 source("R/packages.R")
 source("R/functions.R")
 set.seed(2026)
 
-tar_load(pbp_possessions)
+tar_load(team_summary)
+tar_load(season_summary)
+tar_load(kp_four_factors)
+
+combined_games <- team_summary %>%
+  left_join(
+    kp_four_factors,
+    by = c("season", "season_type", "game_id", "team_id", "team_name")
+  )
 ```
 
+College basketball performance is often summarized by win-loss record, but deeper insights come from possession-based analytics.
+
+In this analysis, we decompose team performance into efficiency metrics and the Four Factors framework introduced by Dean Oliver.
+
+We aim to answer:
+
+- What differentiates elite offensive teams?
+- Which factors are most associated with success?
+- Do teams succeed in different ways?
+
+## What is the Overall Picture?
+
+Teams in the top-right quadrant combine elite offense and defense, while others specialize on one side of the ball.
+
 ```{r}
-possessions <- pbp_possessions %>%
-  group_by(game_id, possession_id, team_id) %>%
-  summarise(
-    points_scored = sum(points, na.rm = TRUE),
-    events = n(),
-    .groups = "drop"
+annot <- season_summary %>%
+  filter(offensive_rating > 500, defensive_rating > 500)
+
+season_summary %>%
+  ggplot(aes(x = offensive_rating, y = defensive_rating)) +
+  geom_point(alpha = 0.6) +
+  ggrepel::geom_label_repel(
+    aes(
+      x = offensive_rating,
+      y = defensive_rating,
+      label = team_name),
+    data = annot) +
+  geom_hline(yintercept = mean(season_summary$defensive_rating, na.rm = TRUE), linetype = "dashed") +
+  geom_vline(xintercept = mean(season_summary$offensive_rating, na.rm = TRUE), linetype = "dashed") +
+  labs(
+    title = "Offensive vs Defensive Efficiency",
+    x = "Offensive Rating",
+    y = "Defensive Rating"
+  ) +
+    theme_minimal()
+```
+
+## Not All Possessions Are Equal
+
+```{r}
+season_summary %>%
+  ggplot(aes(x = total_possessions, y = total_points_scored / games)) +
+  geom_point(alpha = 0.6) +
+  labs(
+    title = "Possessions vs Points per Game",
+    x = "Possessions",
+    y = "Points per Game"
   )
+```
+
+## Efficiency Separates Teams
+
+```{r}
+combined_games %>%
+  ggplot(aes(x = tov_pct, y = offensive_rating)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs() +
+  theme_minimal()
+```
+
+## Turnovers Are a Clear Limiter
+
+```{r}
+combined_games %>%
+  ggplot(aes(x = tov_pct, y = offensive_rating)) +
+  geom_point(alpha = 0.4) +
+  labs(x = "Turnover Percentage Per Possession (%)", y = "Offensive Rating") +
+  theme_minimal()
+```
+
+## Offensive Rebounding Creates Second Chances
+
+```{r}
+combined_games %>%
+  ggplot(aes(x = orb_rate, y = offensive_rating)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Offensive Rebound Rate (%)", y = "Offensive Rating") +
+  theme_minimal()
+```
+
+## Free Throws Reflect Play Style
+
+```{r}
+combined_games %>%
+  ggplot(aes(x = ft_rate, y = offensive_rating)) +
+  geom_point(alpha = 0.4) +
+  labs(x = "Free Throw Rate (%)", y = "Offensive Rating") +
+  theme_minimal()
+```
+
+## Multiple Paths to Success
+
+```{r}
+#combined_season %>%
+#  ggplot(aes(x = tov_pct, y = orb_rate, color = net_rating)) +
+#  geom_point() +
+#  scale_color_viridis_c()
+```
+
+## Efficiency Wins Overall
+
+```{r}
+
+```
+
+## Teams That Break the Pattern
+
+```{r}
+
 ```

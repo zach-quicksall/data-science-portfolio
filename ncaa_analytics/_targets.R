@@ -29,5 +29,8 @@ tar_plan(
   # Summarize season metrics
   season_summary = make_team_season_stats(team_summary),
 
+  # Compute KenPom four-factors
+  kp_four_factors = make_four_factors(possession_summary),
+
 )
 

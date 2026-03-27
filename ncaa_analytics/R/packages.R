@@ -4,6 +4,7 @@ library(conflicted)
 library(hoopR)
 library(DBI)
 library(RSQLite)
+library(ggrepel)
 library(dbplyr)
 library(tidyverse)
 

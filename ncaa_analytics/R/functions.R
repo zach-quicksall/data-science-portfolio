@@ -11,8 +11,7 @@ clean_pbp <- function(pbp_raw) {
     ) %>%
     arrange(game_id, game_play_number) %>%
     mutate(
-      made_shot = str_detect(type_text, "Shot|Three Pointer|Three Point") &
-        !str_detect(type_text, "Miss"),
+      made_shot = str_detect(type_text, "Shot|Three Pointer|Three Point") & !str_detect(type_text, "Miss"),
       free_throw = str_detect(type_text, "Free Throw|MadeFreeThrow"),
       defensive_rebound = type_text == "Defensive Rebound",
       turnover = str_detect(type_text, "Turnover|Offensive Charge"),
@@ -39,6 +38,8 @@ clean_pbp <- function(pbp_raw) {
 
 summarize_possessions <- function(pbp_possessions) {
   
+  pbp_possessions <- pbp_clean
+
   pbp_possessions %>%
     arrange(game_id, game_play_number) %>%
     group_by(game_id, possession_id) %>%
@@ -161,30 +162,63 @@ make_team_season_stats <- function(team_game_stats) {
     group_by(season, season_type, team_id, team_name) %>%
     summarise(
       games = n(),
-      possessions = sum(possessions, na.rm = TRUE),
-      possessions_defended = sum(possessions_defended, na.rm = TRUE),
-      points_scored = sum(points_scored, na.rm = TRUE),
-      points_allowed = sum(points_allowed, na.rm = TRUE),
-      turnovers = sum(turnovers, na.rm = TRUE),
-      turnovers_forced = sum(turnovers_forced, na.rm = TRUE),
-      offensive_rebounds = sum(offensive_rebounds, na.rm = TRUE),
-      scoring_possessions = sum(scoring_possessions, na.rm = TRUE),
-      avg_possession_length = weighted.mean(
-        avg_possession_length,
-        w = possessions,
+      
+      total_possessions = sum(possessions, na.rm = TRUE),
+      total_possessions_defended = sum(possessions_defended, na.rm = TRUE),
+      total_points_scored = sum(points_scored, na.rm = TRUE),
+      total_points_allowed = sum(points_allowed, na.rm = TRUE),
+      total_turnovers = sum(turnovers, na.rm = TRUE),
+      total_turnovers_forced = sum(turnovers_forced, na.rm = TRUE),
+      total_offensive_rebounds = sum(offensive_rebounds, na.rm = TRUE),
+      total_scoring_possessions = sum(scoring_possessions, na.rm = TRUE),
+      
+      avg_possession_length = sum(
+        avg_possession_length * possessions,
         na.rm = TRUE
-      ),
+      ) / sum(possessions, na.rm = TRUE),
+      
       .groups = "drop"
     ) %>%
     mutate(
-      points_per_possession = points_scored / possessions,
-      offensive_rating = 100 * points_scored / possessions,
-      defensive_rating = 100 * points_allowed / possessions_defended,
+      offensive_rating = 100 * total_points_scored / total_possessions,
+      defensive_rating = 100 * total_points_allowed / total_possessions_defended,
       net_rating = offensive_rating - defensive_rating,
-      turnover_pct = turnovers / possessions,
-      offensive_rebound_pct = offensive_rebounds / possessions,
-      scoring_possession_pct = scoring_possessions / possessions,
-      pace_proxy = possessions / games
+      
+      turnover_pct = total_turnovers / total_possessions,
+      offensive_rebound_pct = total_offensive_rebounds / total_possessions,
+      scoring_possession_pct = total_scoring_possessions / total_possessions,
+      
+      pace_proxy = total_possessions / games
     ) %>%
     arrange(season, season_type, desc(net_rating))
+}
+
+make_four_factors <- function(possessions) {
+  
+  possessions %>%
+    group_by(
+      season,
+      season_type,
+      game_id,
+      offense_team_id,
+      offense_team_name
+    ) %>%
+    summarise(
+      possessions = n(),
+      points = sum(possession_points, na.rm = TRUE),
+      turnovers = sum(turnover_on_possession, na.rm = TRUE),
+      offensive_rebounds = sum(offensive_rebound_on_possession, na.rm = TRUE),
+      free_throw_possessions = sum(free_throw_on_possession, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    mutate(
+      efg_proxy = points / possessions,
+      tov_pct = turnovers / possessions,
+      orb_rate = offensive_rebounds / possessions,
+      ft_rate = free_throw_possessions / possessions
+    ) %>%
+    rename(
+      team_id = offense_team_id,
+      team_name = offense_team_name
+    )
 }
