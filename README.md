@@ -48,7 +48,7 @@ Supervised classification of ECG heartbeats using time-series signal data.
 This project focuses on transformation of 1-dimensional ECG waveforms and training deep learning architectures including convolutional neural networks and and transformer models.
 
 **Key themes:**  
-`time-series` · `deep learning` · `CNN` · `transformers` · `healthcare data` · `class imbalance` · `model evaluation`
+`time-series` · `deep learning` · `CNN` · `transformer` · `healthcare data` · `class imbalance` · `model evaluation`
 
 ---
 
@@ -131,12 +131,50 @@ The workflow includes network construction, module detection, eigengene-based ch
 
 ---
 
+### NCAA: What Makes a Winning Team?
+**Directory:** `ncaa_analytics`
+
+This project analyzes NCAA Division I basketball data to identify the statistical drivers of team success. Using game- and season-level data, the analysis focuses on how offensive and defensive efficiency metrics—particularly the Four Factors—relate to winning percentage and team rankings.
+
+The project includes data cleaning pipelines, feature engineering, and exploratory visualizations to compare high- and low-performing teams, with an emphasis on translating advanced metrics into intuitive insights.
+
+**Key themes:**  
+`NCAA` · `college basketball` · `four factors` · `offensive efficiency` · `defensive efficiency` · `sports analytics` · `EDA`
+
+---
+
+### Fourth Down Decisions in the NFL
+**Directory:** `fourth_down_decision_making`
+
+This project evaluates decision-making on fourth down in the NFL using play-by-play data. It examines when teams choose to go for it versus punt or kick, and compares those decisions to analytically optimal strategies based on field position, distance, and game context.
+
+The analysis highlights inefficiencies in real-world coaching decisions and quantifies the potential impact of more aggressive, data-driven strategies.
+
+**Key themes:**
+`NFL` · `football` · `fourth down` · `decision analysis` · `expected value` · `game strategy` · `sports analytics`
+
+---
+
+### Sales Dashboard
+**Directory:** `sales_dashboard`
+
+This project builds an interactive sales dashboard using the Global Superstore dataset to explore revenue, profit, and customer trends across regions and product categories. The dashboard enables dynamic filtering and visual exploration of key business metrics.
+
+It focuses on translating raw transactional data into actionable insights through clean visual design, KPI tracking, and user-driven analysis.
+
+**Key themes:**
+`data visualization` · `dashboard` · `R Shiny` · `business analytics` · `sales` · `KPIs` · `interactive`
+
+---
+
 ### Single-Cell / Single-Nucleus RNA Sequencing
 **Directory:** `single_cell_rnaseq`
 
-Coming soon!
+This project explores single-cell and single-nucleus RNA sequencing data to identify cellular heterogeneity and gene expression patterns at high resolution. The analysis includes preprocessing, normalization, dimensionality reduction, clustering, and marker gene identification.
+
+It emphasizes reproducible workflows and biological interpretation of clusters through downstream analyses such as cell-type annotation and network exploration.
 
 **Key themes:**  
-`gene expression` · `network analysis` · `scRNA-Seq` · `clustering` · `marker genes`
+`scRNA-seq` · `snRNA-seq` · `gene expression` · `clustering` · `dimensionality reduction` · `marker genes` · `bioinformatics`
 
 ---
