@@ -5,6 +5,7 @@ library(hoopR)
 library(DBI)
 library(RSQLite)
 library(ggrepel)
+library(kableExtra)
 library(dbplyr)
 library(tidyverse)
 

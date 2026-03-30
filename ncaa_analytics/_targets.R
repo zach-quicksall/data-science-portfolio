@@ -10,7 +10,7 @@ tar_plan(
   pbp_raw = tbl(con, "mbb_pbp") %>% collect(),
 
   # Restrict to valid periods and clean PBP data
-  pbp_clean = clean_pbp(pbp_raw),
+  pbp_clean = clean_pbp(pbp_raw), #%>% filter(game_id == 283192166)
 
   # Annotate possession changes and add incremental IDs
   pbp_possessions = pbp_clean %>%
@@ -26,10 +26,10 @@ tar_plan(
   # Summarize team metrics (per game)
   team_summary = make_team_game_stats(possession_summary),
 
-  # Summarize season metrics
+  # Summarize season metrics (per team & season)
   season_summary = make_team_season_stats(team_summary),
 
-  # Compute KenPom four-factors
+  # Compute KenPom four-factors (per game?)
   kp_four_factors = make_four_factors(possession_summary),
 
 )

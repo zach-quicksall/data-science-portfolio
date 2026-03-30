@@ -1,6 +1,7 @@
 clean_pbp <- function(pbp_raw) {
   
   pbp_raw %>%
+    mutate(sequence_number = as.numeric(sequence_number)) %>%
     filter(!is.na(period)) %>%
     mutate(
       home_score = as.numeric(home_score),
@@ -9,7 +10,7 @@ clean_pbp <- function(pbp_raw) {
       clock_seconds = suppressWarnings(as.numeric(clock_seconds)),
       period_seconds_remaining = clock_minutes * 60 + clock_seconds
     ) %>%
-    arrange(game_id, game_play_number) %>%
+    arrange(game_id, sequence_number) %>%
     mutate(
       made_shot = str_detect(type_text, "Shot|Three Pointer|Three Point") & !str_detect(type_text, "Miss"),
       free_throw = str_detect(type_text, "Free Throw|MadeFreeThrow"),
@@ -38,9 +39,44 @@ clean_pbp <- function(pbp_raw) {
 
 summarize_possessions <- function(pbp_possessions) {
   
-  pbp_possessions <- pbp_clean
+  infer_offense_team <- function(team_id, points, turnover, offensive_rebound, made_shot, free_throw) {
+    
+    team_id_nonmissing <- team_id[!is.na(team_id)]
+    
+    # Team that scored on the possession
+    scoring_team <- team_id[points > 0 & !is.na(team_id)]
+    if (length(scoring_team) > 0) {
+      return(dplyr::first(scoring_team))
+    }
+    
+    # Team charged with turnover
+    turnover_team <- team_id[turnover & !is.na(team_id)]
+    if (length(turnover_team) > 0) {
+      return(dplyr::first(turnover_team))
+    }
+    
+    # Team credited with offensive rebound
+    orb_team <- team_id[offensive_rebound & !is.na(team_id)]
+    if (length(orb_team) > 0) {
+      return(dplyr::first(orb_team))
+    }
+    
+    # Team taking shots / free throws
+    shot_team <- team_id[(made_shot | free_throw) & !is.na(team_id)]
+    if (length(shot_team) > 0) {
+      return(dplyr::first(shot_team))
+    }
+    
+    # Fallback: first tagged team in possession
+    if (length(team_id_nonmissing) > 0) {
+      return(dplyr::first(team_id_nonmissing))
+    }
+    
+    NA_real_
 
-  pbp_possessions %>%
+  }
+
+  possession_summary <- pbp_possessions %>%
     arrange(game_id, game_play_number) %>%
     group_by(game_id, possession_id) %>%
     summarise(
@@ -54,11 +90,17 @@ summarize_possessions <- function(pbp_possessions) {
       home_team_name = first(home_team_name),
       away_team_name = first(away_team_name),
       
-      offense_team_id = dplyr::first(team_id[!is.na(team_id)]),
+      offense_team_id = infer_offense_team(
+        team_id = team_id,
+        points = points,
+        turnover = turnover,
+        offensive_rebound = offensive_rebound,
+        made_shot = made_shot,
+        free_throw = free_throw
+      ),
       
       possession_points = sum(points, na.rm = TRUE),
       scoring_possession = possession_points > 0,
-      
       turnover_on_possession = any(turnover, na.rm = TRUE),
       offensive_rebound_on_possession = any(offensive_rebound, na.rm = TRUE),
       defensive_rebound_on_possession = any(defensive_rebound, na.rm = TRUE),
@@ -68,13 +110,10 @@ summarize_possessions <- function(pbp_possessions) {
       events_in_possession = n(),
       start_game_play_number = min(game_play_number, na.rm = TRUE),
       end_game_play_number = max(game_play_number, na.rm = TRUE),
-      
       start_period_seconds_remaining = first(period_seconds_remaining),
       end_period_seconds_remaining = last(period_seconds_remaining),
-      
       .groups = "drop"
     ) %>%
-    filter(!is.na(offense_team_id)) %>%
     mutate(
       offense_team_name = case_when(
         offense_team_id == home_team_id ~ home_team_name,
@@ -94,6 +133,30 @@ summarize_possessions <- function(pbp_possessions) {
       possession_length_seconds =
         start_period_seconds_remaining - end_period_seconds_remaining
     )
+  
+  # Fallback using previous possession's defense if offense still missing
+  possession_summary %>%
+    arrange(game_id, possession_id) %>%
+    group_by(game_id) %>%
+    mutate(
+      offense_team_id = dplyr::coalesce(offense_team_id, lag(defense_team_id)),
+      offense_team_name = case_when(
+        offense_team_id == home_team_id ~ home_team_name,
+        offense_team_id == away_team_id ~ away_team_name,
+        TRUE ~ offense_team_name
+      ),
+      defense_team_id = case_when(
+        offense_team_id == home_team_id ~ away_team_id,
+        offense_team_id == away_team_id ~ home_team_id,
+        TRUE ~ defense_team_id
+      ),
+      defense_team_name = case_when(
+        offense_team_id == home_team_id ~ away_team_name,
+        offense_team_id == away_team_id ~ home_team_name,
+        TRUE ~ defense_team_name
+      )
+    ) %>%
+    ungroup()
 }
 
 make_team_game_stats <- function(possessions) {

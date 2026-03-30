@@ -27,8 +27,40 @@ tar_load(kp_four_factors)
 
 combined_games <- team_summary %>%
   left_join(
-    kp_four_factors,
+    kp_four_factors %>%
+      select(-c(possessions, turnovers, offensive_rebounds)),
     by = c("season", "season_type", "game_id", "team_id", "team_name")
+  )
+
+combined_games <- combined_games %>%
+  mutate(
+    offensive_rating = as.numeric(offensive_rating),
+    defensive_rating = as.numeric(defensive_rating),
+    possessions = as.numeric(possessions),
+    tov_pct = as.numeric(tov_pct),
+    orb_rate = as.numeric(orb_rate),
+    ft_rate = as.numeric(ft_rate)
+  ) %>%
+  filter(
+    !is.na(offensive_rating),
+    !is.na(defensive_rating),
+    !is.na(possessions),
+    !is.na(tov_pct),
+    !is.na(orb_rate),
+    !is.na(ft_rate),
+    offensive_rating > 0,
+    defensive_rating > 0,
+    possessions >= 10,
+    tov_pct >= 0, tov_pct < 1,
+    orb_rate >= 0, orb_rate < 1,
+    ft_rate >= 0, ft_rate < 1
+  )
+
+season_summary <- season_summary %>%
+  filter(
+    total_possessions > 10,
+    offensive_rating > 0,
+    defensive_rating > 0
   )
 ```
 
@@ -44,69 +76,99 @@ We aim to answer:
 
 ## What is the Overall Picture?
 
-Teams in the top-right quadrant combine elite offense and defense, while others specialize on one side of the ball.
+> What makes a top team?
 
 ```{r}
 annot <- season_summary %>%
-  filter(offensive_rating > 500, defensive_rating > 500)
+  slice_max(net_rating, n = 10)
 
 season_summary %>%
   ggplot(aes(x = offensive_rating, y = defensive_rating)) +
   geom_point(alpha = 0.6) +
   ggrepel::geom_label_repel(
-    aes(
-      x = offensive_rating,
-      y = defensive_rating,
-      label = team_name),
-    data = annot) +
-  geom_hline(yintercept = mean(season_summary$defensive_rating, na.rm = TRUE), linetype = "dashed") +
-  geom_vline(xintercept = mean(season_summary$offensive_rating, na.rm = TRUE), linetype = "dashed") +
-  labs(
-    title = "Offensive vs Defensive Efficiency",
-    x = "Offensive Rating",
-    y = "Defensive Rating"
+    aes(label = team_name),
+    data = annot,
+    size = 3
   ) +
-    theme_minimal()
+  geom_hline(
+    yintercept = mean(season_summary$defensive_rating, na.rm = TRUE),
+    linetype = "dashed"
+  ) +
+  geom_vline(
+    xintercept = mean(season_summary$offensive_rating, na.rm = TRUE),
+    linetype = "dashed"
+  ) +
+  scale_y_reverse() +
+  labs(
+    x = "Offensive Rating",
+    y = "Defensive Rating (Lower is Better)"
+  ) +
+  theme_minimal()
+```
+
+Teams in the top-right quadrant combine elite offense and defense, while others specialize on one side of the ball. Teams with the top-ten net ranking are named.
+
+```{r}
+season_summary %>%
+  select(
+    season,
+    team_name,
+    offensive_rating,
+    defensive_rating,
+    net_rating
+  ) %>%
+  arrange(desc(net_rating)) %>%
+  slice_head(n = 10) %>%
+  ungroup() %>%
+  knitr::kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
 ```
 
 ## Not All Possessions Are Equal
 
+> Teams with consistent possession of the ball have more opportunities to score.
+
 ```{r}
 season_summary %>%
-  ggplot(aes(x = total_possessions, y = total_points_scored / games)) +
+  filter((total_possessions / games) < 250) %>%
+  ggplot(aes(x = total_possessions / games, y = total_points_scored / games)) +
   geom_point(alpha = 0.6) +
-  labs(
-    title = "Possessions vs Points per Game",
-    x = "Possessions",
-    y = "Points per Game"
-  )
-```
-
-## Efficiency Separates Teams
-
-```{r}
-combined_games %>%
-  ggplot(aes(x = tov_pct, y = offensive_rating)) +
-  geom_point(alpha = 0.4) +
   geom_smooth(method = "lm", se = FALSE) +
-  labs() +
+  labs(
+    x = "Possessions per Game",
+    y = "Points per Game"
+  ) +
   theme_minimal()
 ```
 
-## Turnovers Are a Clear Limiter
+While there is a positive relationship between possessions per game and scoring, the spread in the data shows that volume alone does not determine offensive success. Some teams score efficiently with relatively fewer possessions, while others play at a faster pace but do not convert those opportunities into points as effectively.
+
+This suggests that **efficiency per possession is more important than sheer volume**, reinforcing the importance of possession-based metrics over traditional box score totals.
+
+## Efficiency Separates Teams
+
+> Turnovers are associated with worse offense.
 
 ```{r}
 combined_games %>%
+  filter(tov_pct > 0, tov_pct < 1) %>%
   ggplot(aes(x = tov_pct, y = offensive_rating)) +
   geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Turnover Percentage Per Possession (%)", y = "Offensive Rating") +
   theme_minimal()
 ```
 
+Teams with higher turnover rates consistently show lower offensive efficiency. This relationship is both strong and linear, suggesting that avoiding empty possessions is one of the most reliable ways to improve offensive performance.
+
 ## Offensive Rebounding Creates Second Chances
+
+> Offensive rebounding provides teams with additional scoring opportunities by extending possessions.
 
 ```{r}
 combined_games %>%
+  filter(orb_rate < 1) %>%
   ggplot(aes(x = orb_rate, y = offensive_rating)) +
   geom_point(alpha = 0.4) +
   geom_smooth(method = "lm", se = FALSE) +
@@ -114,33 +176,168 @@ combined_games %>%
   theme_minimal()
 ```
 
+Unlike turnovers, which immediately end a possession, offensive rebounds allow teams to recover from missed shots and generate second-chance points. The relationship between offensive rebounding rate and offensive efficiency is positive, but noticeably weaker than the turnover relationship. This suggests that while offensive rebounding can boost
+
 ## Free Throws Reflect Play Style
+
+> Getting to the line helps, but it's not a defining trait of elite offenses.
 
 ```{r}
 combined_games %>%
   ggplot(aes(x = ft_rate, y = offensive_rating)) +
   geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Free Throw Rate (%)", y = "Offensive Rating") +
   theme_minimal()
 ```
 
+Free throw rate shows a modest positive relationship with offensive efficiency, but the effect is noticeably weaker and more variable than other factors like turnovers. Teams that generate more free throw opportunities tend to have slightly higher offensive ratings, likely reflecting aggressive play styles that create contact near the basket.
+
+However, the wide spread in offensive ratings at nearly every level of free throw rate suggests that getting to the line alone is not sufficient for elite offense. Some teams achieve high efficiency with relatively low free throw rates, indicating that alternative strategies—such as strong shooting or ball control—can be equally or more important.
+
+Overall, free throw rate appears to capture an element of offensive style rather than serving as a primary driver of performance.
+
 ## Multiple Paths to Success
 
+> The best offenses either protect the ball or win it back — and the elite ones do both.
+
 ```{r}
-#combined_season %>%
-#  ggplot(aes(x = tov_pct, y = orb_rate, color = net_rating)) +
-#  geom_point() +
-#  scale_color_viridis_c()
+combined_season <- combined_games %>%
+  group_by(season, season_type, team_id, team_name) %>%
+  summarise(
+    games = n(),
+    
+    total_possessions = sum(possessions, na.rm = TRUE),
+    total_possessions_defended = sum(possessions_defended, na.rm = TRUE),
+    
+    total_points_scored = sum(points_scored, na.rm = TRUE),
+    total_points_allowed = sum(points_allowed, na.rm = TRUE),
+    
+    total_turnovers = sum(turnovers, na.rm = TRUE),
+    total_offensive_rebounds = sum(offensive_rebounds, na.rm = TRUE),
+    total_free_throw_possessions = sum(free_throw_possessions, na.rm = TRUE),
+    
+    .groups = "drop"
+  ) %>%
+  mutate(
+    offensive_rating = 100 * total_points_scored / total_possessions,
+    defensive_rating = 100 * total_points_allowed / total_possessions_defended,
+    net_rating = offensive_rating - defensive_rating,
+    
+    tov_pct = total_turnovers / total_possessions,
+    orb_rate = total_offensive_rebounds / total_possessions,
+    ft_rate = total_free_throw_possessions / total_possessions,
+    
+    pace = total_possessions / games,
+    
+    points_per_game = total_points_scored / games
+  )
+
+combined_season %>%
+  ggplot(aes(x = tov_pct, y = orb_rate, color = offensive_rating)) +
+  geom_point(alpha = 0.8) +
+  scale_color_viridis_c() +
+  labs(
+    title = "Multiple Paths to Efficient Offense",
+    x = "Turnover Rate",
+    y = "Offensive Rebound Rate",
+    color = "Offensive Rating"
+  ) +
+  theme_minimal()
 ```
+
+This visual highlights the trade-offs teams make between ball security and second-chance opportunities. In general, teams with lower turnover rates tend to cluster toward higher offensive efficiency, reinforcing the importance of avoiding empty possessions.
+
+However, there is no single path to success. Some teams with higher turnover rates still achieve strong offensive ratings by compensating with elevated offensive rebounding, creating additional opportunities within the same possession. Conversely, teams that limit turnovers but fail to generate second chances may not reach elite efficiency.
+
+The gradient of offensive rating suggests that while minimizing turnovers is the most consistent path to efficient offense, offensive rebounding can partially offset mistakes. Overall, efficient teams tend to strike a balance—protecting the ball while still creating additional scoring opportunities when shots are missed.
 
 ## Efficiency Wins Overall
 
-```{r}
+> More possessions create more chances—but not necessarily better outcomes.
 
+```{r}
+season_summary %>%
+  filter((total_possessions / games) < 250) %>%
+  ggplot(aes(x = total_possessions / games, y = net_rating)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Possessions per Game",
+    y = "Net Rating"
+  ) +
+  theme_minimal()
+```
+
+There is little evidence that playing at a faster pace leads to better overall performance. While teams with moderate possession counts tend to cluster around average or slightly above-average net ratings, the relationship quickly flattens and even turns slightly negative at higher tempos.
+
+This suggests that simply increasing the number of possessions does not create an advantage. Faster teams may generate more opportunities, but they also introduce more variability and potential inefficiency. In contrast, many of the highest-performing teams operate at a more controlled pace, emphasizing execution over volume.
+
+Overall, this reinforces a key theme of the analysis: **efficiency, not tempo, is the primary driver of success**.
+
+## Best vs. Worst
+
+> The best...and the worst.
+
+```{r}
+bind_rows(
+  season_summary %>%
+    slice_max(net_rating, n = 5) %>%
+    mutate(group = "Top Teams"),
+  
+  season_summary %>%
+    slice_min(net_rating, n = 5) %>%
+    mutate(group = "Bottom Teams")
+) %>%
+  select(group, team_name, offensive_rating, defensive_rating, net_rating) %>%
+  knitr::kable() %>%
+  kable_styling()
 ```
 
 ## Teams That Break the Pattern
 
 ```{r}
+mod <- lm(offensive_rating ~ tov_pct + orb_rate + ft_rate, data = combined_games)
 
+combined_games_resid <- combined_games %>%
+  mutate(off_rating_resid = resid(mod))
+
+team_outliers <- combined_games_resid %>%
+  group_by(season, team_id, team_name) %>%
+  summarise(
+    avg_resid = mean(off_rating_resid, na.rm = TRUE),
+    offensive_rating = mean(offensive_rating, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+top_outliers <- team_outliers %>%
+  slice_max(avg_resid, n = 10)
+
+ggplot(team_outliers, aes(x = avg_resid, y = offensive_rating)) +
+  geom_point(alpha = 0.4) +
+  ggrepel::geom_label_repel(
+    data = top_outliers,
+    aes(label = paste(team_name, season))
+  ) +
+  labs(
+    title = "Teams That Outperform the Model",
+    x = "Residual (Above Expected Offense)",
+    y = "Offensive Rating"
+  ) +
+  theme_minimal()
 ```
+
+```{r}
+team_outliers %>%
+  slice_max(avg_resid, n = 10) %>%
+  select(season, team_name, offensive_rating, avg_resid) %>%
+  knitr::kable() %>%
+  kable_styling()
+```
+
+## Limitations
+
+This analysis relies on possession-level approximations derived from play-by-play data. In particular, shooting efficiency is approximated using points per possession rather than 
+true field goal percentages. While this does not affect the overall structure of the analysis, it likely understates the role of shooting in offensive performance.
+
+Future work could incorporate more detailed shot classification to better align with traditional Four Factors metrics.
