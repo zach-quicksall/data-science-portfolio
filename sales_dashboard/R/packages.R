@@ -4,6 +4,7 @@ library(shiny)
 library(shinydashboard)
 library(conflicted)
 library(shiny)
+library(plotly)
 library(tidyverse)
 
 conflicts_prefer(dplyr::select)

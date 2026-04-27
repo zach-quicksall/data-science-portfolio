@@ -1,4 +1,3 @@
-# app.R
 # Global Superstore Sales Dashboard
 # Packages ---------------------------------------------------------------
 
@@ -6,17 +5,17 @@ library(shiny)
 library(shinydashboard)
 library(tidyverse)
 library(lubridate)
+library(conflicted)
+library(targets)
+library(tarchetypes)
 library(plotly)
 library(DT)
 library(scales)
 
 conflicts_prefer(shinydashboard::box)
+conflicts_prefer(plotly::layout)
 
 # Data -------------------------------------------------------------------
-# Replace with your actual file path
-# Example:
-# superstore <- read_csv("data/global_superstore.csv")
-
 tar_load(data_clean)
 superstore <- data_clean
 
@@ -135,7 +134,7 @@ ui <- dashboardPage(
             status = "success",
             solidHeader = TRUE,
             width = 12,
-            plotlyOutput("country_sales", height = 400)
+            plotOutput("country_sales", height = 400)
           )
         )
       ),
@@ -262,7 +261,7 @@ server <- function(input, output, session) {
       labs(x = NULL, y = "Sales", title = NULL) +
       theme_minimal(base_size = 13)
     
-    ggplotly(p, tooltip = c("x", "y"))
+    plotly::ggplotly(p, tooltip = c("x", "y"))
   })
   
   # Category sales --------------------------------------------------------
@@ -341,37 +340,31 @@ output$discount_scatter <- renderPlotly({
 })
   
   # Country sales ---------------------------------------------------------
-  output$country_sales <- renderPlotly({
+output$country_sales <- renderPlot({
+
   df <- filtered_data() %>%
-    group_by(country) %>%
-    summarise(
+    dplyr::group_by(country) %>%
+    dplyr::summarise(
       sales = sum(sales, na.rm = TRUE),
       profit = sum(profit, na.rm = TRUE),
-      orders = n_distinct(order_id),
+      orders = dplyr::n_distinct(order_id),
       .groups = "drop"
     ) %>%
-    arrange(sales) %>%
-    mutate(country = factor(country, levels = country))
+    dplyr::arrange(dplyr::desc(sales)) %>%
+    dplyr::slice_head(n = 15) %>%
+    dplyr::arrange(sales) %>%
+    dplyr::mutate(country = factor(country, levels = country))
 
-  plot_ly(
-    data = df,
-    x = ~sales,
-    y = ~country,
-    type = "bar",
-    orientation = "h",
-    text = ~paste0(
-      "Country: ", country,
-      "<br>Sales: ", dollar(sales),
-      "<br>Profit: ", dollar(profit),
-      "<br>Orders: ", comma(orders)
-    ),
-    hoverinfo = "text"
-  ) %>%
-    layout(
-      xaxis = list(title = "Sales", tickprefix = "$"),
-      yaxis = list(title = ""),
-      margin = list(l = 120)
-    )
+  ggplot2::ggplot(df, ggplot2::aes(x = country, y = sales)) +
+    ggplot2::geom_col(fill = "steelblue") +
+    ggplot2::coord_flip() +
+    ggplot2::scale_y_continuous(labels = scales::dollar_format()) +
+    ggplot2::labs(
+      x = NULL,
+      y = "Sales",
+      title = "Top 15 Countries by Sales"
+    ) +
+    ggplot2::theme_minimal(base_size = 13)
 })
   
   # Orders table ----------------------------------------------------------

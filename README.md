@@ -174,7 +174,19 @@ This project explores single-cell and single-nucleus RNA sequencing data to iden
 
 It emphasizes reproducible workflows and biological interpretation of clusters through downstream analyses such as cell-type annotation and network exploration.
 
-**Key themes:**  
+**Key themes:**   
 `scRNA-seq` · `snRNA-seq` · `gene expression` · `clustering` · `dimensionality reduction` · `marker genes` · `bioinformatics`
+
+---
+
+### Learning Representations in Histology Images with Autoencoders
+**Directory:** `medmnist`
+
+This project explores how different autoencoder architectures learn compressed representations of biomedical images using the MedMNIST dataset. The analysis focuses on comparing a traditional convolutional autoencoder (AE), a variational autoencoder (VAE), and a U-Net autoencoder to understand the tradeoff between reconstruction quality and latent space structure.
+
+The workflow includes model development, training, and evaluation through reconstruction comparison and dimensionality reduction of latent representations using PCA. The project highlights how architectural choices influence what information is preserved, showing that VAEs learn smoother, more structured latent spaces, while U-Net models prioritize reconstruction fidelity at the expense of meaningful compression.
+
+**Key themes:**. 
+`deep learning` · `autoencoders` · `VAE` · `U-Net` · `representation learning` · `dimensionality reduction` · `PCA` · `computer vision` · `biomedical imaging`
 
 ---
